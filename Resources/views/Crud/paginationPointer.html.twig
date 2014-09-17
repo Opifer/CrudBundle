@@ -1,0 +1,10 @@
+{% if pagination.getCurrentPage == 1 %}
+    {% set start = 1 %}
+{% else %}
+    {% set start = 1 + (pagination.getMaxPerPage * (pagination.getCurrentPage - 1)) %}
+{% endif %}
+{% set end = start + pagination.getMaxPerPage - 1 %}
+
+<div class="pagination-pointer">
+    <strong>{{ start }} - {{ end > pagination.getTotalResults ? pagination.getTotalResults : end }}</strong> {{ 'pagination.of'|trans }} <strong>{{ pagination.getTotalResults }}</strong>
+</div>

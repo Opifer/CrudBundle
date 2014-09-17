@@ -1,0 +1,8 @@
+
+opifer.crud:
+    resource: "@OpiferCrudBundle/Controller/CrudController.php"
+    type:     annotation
+
+opifer.filter:
+    resource: "@OpiferCrudBundle/Controller/FilterController.php"
+    type:     annotation

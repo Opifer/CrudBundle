@@ -1,0 +1,37 @@
+{% if pagination.getTotalPages > 1 %}
+    {% set current = pagination.currentPage %}
+
+    <ul class="pagination">
+        {#{% if first_label is defined and first is defined and current != first %}
+            <li><a href="{{ path('opifer.crud.index', query|merge({'page': first})) }}">{{ first_label|raw }}</a></li>
+        {% elseif last_label is defined %}
+            <li class="disabled"><span>{{ first_label|raw }}</span></li>
+        {% endif %}#}
+
+        {% if pagination.hasPreviousPage %}
+            <li><a href="{{ path('opifer.crud.index', query|merge({'page': pagination.previousPage})) }}">&laquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+
+        {% for page in 1..pagination.totalPages %}
+            {% if page != current %}
+                <li><a href="{{ path('opifer.crud.index', query|merge({'page': page})) }}">{{ page }}</a></li>
+            {% else %}
+                <li class="active"><span>{{ page }}</span></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if pagination.hasNextPage %}
+            <li><a href="{{ path('opifer.crud.index', query|merge({'page': pagination.nextPage})) }}">&raquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+
+        {#{% if last_label is defined and pagination.getTotalPages is defined and current != pagination.getTotalPages %}
+            <li><a href="{{ path('opifer.crud.index', query|merge({'page': pagination.getTotalPages})) }}">{{ last_label|raw }}</a></li>
+        {% elseif last_label is defined %}
+            <li class="disabled"><span>{{ last_label|raw }}</span></li>
+        {% endif %}#}
+    </ul>
+{% endif %}

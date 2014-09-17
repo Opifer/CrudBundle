@@ -1,0 +1,45 @@
+# Filters
+filter:
+    row:
+        dropdown:
+            label: filters
+            new: create new filter
+    column:
+        dropdown:
+            label: columns
+            new: modify columns
+
+# Crud
+crud:
+    list:
+        title: %slug% list
+        empty: no rows were found for "%slug%"
+    new:
+        title: create new %slug%
+        success: "The item was created successfully!"
+    edit:
+        success: "The item was updated successfully!"
+    delete:
+        success: "The item was deleted successfully!"
+
+# Datagrid
+datagrid:
+    search:
+        placeholder: filter any field
+        submit: search
+    filters:
+        button: filters
+        existing: stored filters
+        new: new filter
+    columns:
+        button: columns
+        existing: stored column settings
+        new: new view
+
+# Pagination
+pagination:
+    of: of
+
+# Buttons
+button:
+    add: add new

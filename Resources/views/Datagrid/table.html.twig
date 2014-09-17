@@ -1,0 +1,34 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th width="25"><input type="checkbox" id="checkbox-all" /></th>
+            {% for column in grid.columns %}
+                {{ include('OpiferCrudBundle:DataGrid:th.html.twig') }}
+            {% endfor %}
+            {% if grid.options['actions'] %}
+                <th class="actions">&nbsp;</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, row in grid.rows %}
+            <tr>
+                <td><input type="checkbox" name="item[]" value="{{ key }}" /></td>
+                    {% for data in row %}
+                        {% if data['options']['template'] is defined %}
+                            {{ include(data['options']['template']) }}
+                        {% else %}
+                            {{ include('OpiferCrudBundle:DataGrid:td.html.twig') }}
+                        {% endif %}
+                    {% endfor %}
+                <td class="actions">
+                    {% for action in grid.options['actions'] %}
+                        <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : key}) }}"{{ (action=="delete") ? ' class=danger' }}>
+                            {{ action|capitalize }}
+                        </a>&nbsp;
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,12 @@
+{% extends extend_template %}
+
+{% block body %}
+    <div class="page-header">
+        <h1 class="pull-left">
+            <span class="iconl icon-{{ slug }}"></span>{{ 'crud.new.title'|trans({'%slug%': slug})|capitalize }}
+        </h1>
+    </div>
+    <section class="page-section">
+        {{ form(form, { 'style': 'horizontal', 'attr': {'novalidate':'novalidate'} }) }}
+    </section>
+{% endblock %}

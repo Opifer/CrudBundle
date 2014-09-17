@@ -1,0 +1,23 @@
+{% if data is not null %}
+<td>
+    {% if data.value is iterable %}
+        {% for value in data.value %}
+            {% if data.property in ['roles'] %}
+                {{ label_info(value|plainrolename) }}
+            {% else %}
+                {{ value }}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% if data.property in ['title', 'name', 'username'] %}
+            <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': data.id}) }}">
+                {{ data.value }}
+            </a>
+        {% elseif data.property in ['email'] %}
+            <a href="mailto:{{ data.value }}">{{ data.value }}</a>
+        {% else %}
+            {{ data.value }}
+        {% endif %}
+    {% endif %}
+</td>
+{% endif %}

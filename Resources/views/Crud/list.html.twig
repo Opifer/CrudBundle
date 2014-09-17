@@ -1,0 +1,31 @@
+{% extends extend_template %}
+
+{% block body %}
+    <div class="page-header">
+        <h1 class="pull-left">
+            <span class="iconl icon-{{ slug }}"></span>{{ 'crud.list.title'|trans({'%slug%': slug})|capitalize }}
+        </h1>
+        <a href="{{ path('opifer.crud.new', {'slug': slug}) }}" class="btn btn-default pull-right">
+            {{ 'button.add'|trans|capitalize }}
+        </a>
+    </div>
+
+    {% if grid.rows %}
+        <section class="list-controls">
+            {{ include('OpiferCrudBundle:Crud:paginationPointer.html.twig', {'pagination': grid.pagination}) }}
+
+            {{ include('OpiferCrudBundle:Datagrid:filters.html.twig') }}
+            
+            {{ include('OpiferCrudBundle:Crud:pagination.html.twig', {'pagination': grid.pagination, 'query': query}) }}
+        </section>
+
+        <section class="panel-section">
+            {{ include('OpiferCrudBundle:Datagrid:table.html.twig') }}
+        </section>
+    {% else %}
+        <div class="alert alert-warning">
+            {{ 'crud.list.empty'|trans({'%slug%': slug}) }}
+        </div>
+    {% endif %}
+    </section>
+{% endblock %}

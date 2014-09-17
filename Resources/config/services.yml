@@ -1,0 +1,65 @@
+parameters:
+#    opifer_crud.example.class: Opifer\CrudBundle\Example
+
+services:
+    # Router
+    opifer.crud.crud_router:
+        class: Opifer\CrudBundle\Router\CrudRouter
+        arguments: [@service_container, %opifer_crud.route_prefix%]
+
+    # Datagrid
+    opifer.crud.datagrid:
+        class: Opifer\CrudBundle\Datagrid\Datagrid
+        arguments: [@request_stack, @doctrine.orm.entity_manager, @opifer.crud.filter_builder]
+
+    # FilterBuilder
+    opifer.crud.filter_builder:
+        class: Opifer\CrudBundle\Datagrid\FilterBuilder
+        arguments: [@doctrine.orm.entity_manager, @opifer.crud.entity_helper]
+
+    # Form Types
+    opifer.crud.crud_form:
+        class: Opifer\CrudBundle\Form\CrudForm
+        arguments: [@opifer.crud.entity_helper, @opifer.crud.form_annotation_reader]
+        tags:
+            - { name: form.type, alias: crud_form }
+
+    # Helpers
+    opifer.crud.entity_helper:
+        class: Opifer\CrudBundle\Doctrine\EntityHelper
+        arguments: [@doctrine.orm.entity_manager]
+
+    # Managers
+    opifer.crud.filter_manager:
+        class: Opifer\CrudBundle\Manager\FilterManager
+        arguments: [@doctrine.orm.entity_manager]
+
+    # Transformers
+    opifer.crud.slug_to_entity_transformer:
+        class: Opifer\CrudBundle\Transformer\SlugToEntityTransformer
+        arguments: [%opifer_crud.routes%]
+
+    # Twig
+    opifer.crud.templating.twig_extension:
+        class: Opifer\CrudBundle\Templating\TwigExtension
+        tags:
+            - { name: twig.extension }
+
+    # AnnotationReader
+    opifer.crud.form_annotation_reader:
+        class: Opifer\CrudBundle\Annotation\FormAnnotationReader
+
+    # JMS Serializer
+    jms_serializer.naming_strategy:
+      class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor
+        public: false
+
+    # RulesEngine Provider
+    opifer.rulesengine.provider.crud:
+        class: Opifer\CrudBundle\RulesEngine\RulesProvider
+        arguments: [@opifer.crud.entity_helper]
+        tags:
+            - { name: opifer.rulesengine.provider, alias: crud }

@@ -1,0 +1,34 @@
+{
+    "name": "opifer/crud-bundle",
+    "description": "Opifer CRUD Bundle",
+    "homepage": "https://github.com/Opifer/CrudBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Opifer",
+            "homepage": "http://www.opifer.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "~2.5",
+        "doctrine/orm": "~2.4",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "sensio/framework-extra-bundle": "~3.0",
+        
+        "gedmo/doctrine-extensions": "dev-master",
+        "genemu/form-bundle": "2.2.*",
+        "jms/serializer": "dev-master",
+        "pagerfanta/pagerfanta": "dev-master",
+
+        "opifer/rulesengine-bundle": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.2.0"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\CrudBundle\\": "."}
+    }
+}

@@ -1,0 +1,45 @@
+# Filters
+filter:
+    row:
+        dropdown:
+            label: filters
+            new: nieuwe filter toevoegen
+    column:
+        dropdown:
+            label: kolommen
+            new: bewerk kolommen
+
+# Crud
+crud:
+    list:
+        title: %slug% overzicht
+        empty: er zijn geen resultaten gevonden voor "%slug%"
+    new:
+        title: nieuwe %slug% toevoegen
+        success: "Het item was succesvol aangemaakt"
+    edit:
+        success: "Het item was succesvol bijgewerkt"
+    delete:
+        success: "Het item was succesvol verwijderd"
+
+# Datagrid
+datagrid:
+    search:
+        placeholder: filter op alle velden
+        submit: zoeken
+    filters:
+        button: filters
+        existing: opgeslagen filters
+        new: nieuwe filter
+    columns:
+        button: kolommen
+        existing: opgeslagen kolom instellingen
+        new: nieuw kolom overzicht
+
+# Pagination
+pagination:
+    of: van
+
+# Buttons
+button:
+    add: nieuwe toevoegen
