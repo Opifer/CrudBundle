@@ -25,7 +25,6 @@ class CrudController extends Controller
      */
     public function indexAction(Request $request, $entity, $slug, $rowfilter = 'default', $columnfilter = 'default')
     {
-        $filterBuilder = $this->get('opifer.crud.filter_builder');
         $page = ($request->get('page')) ? $request->get('page') : 1;
 
         $datagrid = $this->get('opifer.crud.datagrid')

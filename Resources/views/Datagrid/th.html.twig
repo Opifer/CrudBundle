@@ -1,4 +1,11 @@
 <th>
-    {{ column['label'] }}
-    {#{{ knp_pagination_sortable(grid.pagination, column['label'], 'a.' ~ column['property']) }}#}
+    {% if query['direction'] is defined and query['direction'] == 'asc' %}
+        {% set direction = 'desc' %}
+    {% else %}
+        {% set direction = 'asc' %}
+    {% endif %}
+    <a href="{{ path('opifer.crud.index', query|merge({'sort': 'a.' ~ column['property'], 'direction': direction})) }}">
+        {{ column['label'] }}
+        <span class="fa fa-caret-{{ (direction == 'desc') ? 'down' : 'up' }}"></span>
+    </a>
 </th>

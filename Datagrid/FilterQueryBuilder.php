@@ -66,10 +66,10 @@ class FilterQueryBuilder
              ->where($filter['where'])
              //->orderBy($filter['orderBy'])
              ->setParameters()
-             ->setLimit($filter['limit']);
+             ->setLimit($filter['limit'])
+        ;
 
         return $this->qb;
-        //return $this->qb->getQuery();
     }
 
     public function getResults($filter)

@@ -117,7 +117,7 @@ class Datagrid
 
         if ($filter == 'default') {
             if (count($this->columnfilters)) {
-                $columns = json_decode(array_pop($this->columnfilters)->getFilter(), true);
+                $columns = json_decode(array_pop($this->columnfilters)->getColumns(), true);
             } else {
                 $columns = $this->fb->allColumns($this->entity);
             }
@@ -153,10 +153,37 @@ class Datagrid
             $rows = $entityRepository->createQueryBuilder('a');
         }
 
+        $rows = $this->sortRows($rows);
+
         $pagination = new Paginator($rows, $limit, $page);
         $this->pagination = $pagination;
 
         return $pagination;
+    }
+
+    /**
+     * Sort rows
+     *
+     * If a specific sort parameter is given, order the results by that parameter
+     * and the given direction.
+     *
+     * @param  QueryBuilder $rowQuery
+     *
+     * @return QueryBuilder
+     */
+    public function sortRows($rowQuery)
+    {
+        $query = $this->request->query;
+        if (null !== $query->get('sort')) {
+            if (null !== $query->get('direction')) {
+                $direction = $query->get('direction');
+            } else {
+                $direction = 'asc';
+            }
+            $rowQuery->orderBy($query->get('sort'), $direction);
+        }
+
+        return $rowQuery;
     }
 
     /**
@@ -176,8 +203,8 @@ class Datagrid
                 $label = ucfirst(trim(preg_replace(
                     // (1) Replace special chars by spaces
                     // (2) Insert spaces between lower-case and upper-case
-                    array('/[_\W]+/', '/([a-z])([A-Z])/'),
-                    array(' ', '$1 $2'),
+                    ['/[_\W]+/', '/([a-z])([A-Z])/'],
+                    [' ', '$1 $2'],
                     $column['property']
                 )));
             }
