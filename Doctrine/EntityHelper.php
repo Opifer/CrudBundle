@@ -63,8 +63,9 @@ class EntityHelper
      */
     public function getMetaData($entity)
     {
-        if (is_object($entity))
+        if (is_object($entity)) {
             $entity = get_class($entity);
+        }
 
         return $this->em->getClassMetadata($entity);
     }
