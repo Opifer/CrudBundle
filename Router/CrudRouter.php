@@ -4,44 +4,20 @@ namespace Opifer\CrudBundle\Router;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 
-class CrudRouter implements RouterInterface
+class CrudRouter extends AbstractRouter implements RouterInterface
 {
-    /**
-     * @var \Symfony\Component\Routing\RequestContext
-     */
-    protected $context;
-
-    /**
-     * @var \Symfony\Component\Routing\RouteCollection
-     */
-    protected $routeCollection;
-
-    /**
-     * @var \Symfony\Component\Routing\Generator\UrlGenerator
-     */
-    protected $urlGenerator;
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
     /**
      * The constructor for this service
      *
      * @param ContainerInterface $container
      */
-    public function __construct($container, $prefix = '')
+    public function __construct(ContainerInterface $container, $prefix = '')
     {
-        $this->container = $container;
-        $this->routeCollection = new RouteCollection();
+        parent::__construct($container);
         $this->defineRoutes($prefix);
     }
 
@@ -54,27 +30,33 @@ class CrudRouter implements RouterInterface
      */
     public function defineRoutes($prefix = '')
     {
-        $this->routeCollection->add('opifer.crud.index', new Route($prefix.'/{slug}', [
-            '_controller' => 'OpiferCrudBundle:Crud:index'
-        ]));
+        $routes = array();
 
-        $this->routeCollection->add('opifer.crud.filter', new Route($prefix.'/{slug}/rows/{rowfilter}/columns/{columnfilter}', [
+        $routes['opifer.crud.index'] = new Route($prefix.'/{slug}', [
+            '_controller' => 'OpiferCrudBundle:Crud:index'
+        ]);
+
+        $routes['opifer.crud.filter'] = new Route($prefix.'/{slug}/rows/{rowfilter}/columns/{columnfilter}', [
             '_controller'  => 'OpiferCrudBundle:Crud:index',
             'rowfilter'    => 'default',
             'columnfilter' => 'default'
-        ]));
+        ]);
 
-        $this->routeCollection->add('opifer.crud.new', new Route($prefix.'/{slug}/new', [
+        $routes['opifer.crud.new'] = new Route($prefix.'/{slug}/new', [
             '_controller' => 'OpiferCrudBundle:Crud:new'
-        ]));
+        ]);
 
-        $this->routeCollection->add('opifer.crud.edit', new Route($prefix.'/{slug}/edit/{id}', [
+        $routes['opifer.crud.edit'] = new Route($prefix.'/{slug}/edit/{id}', [
             '_controller' => 'OpiferCrudBundle:Crud:edit'
-        ]));
+        ]);
 
-        $this->routeCollection->add('opifer.crud.delete', new Route($prefix.'/{slug}/delete/{id}', [
+        $routes['opifer.crud.delete'] = new Route($prefix.'/{slug}/delete/{id}', [
             '_controller' => 'OpiferCrudBundle:Crud:delete'
-        ]));
+        ]);
+
+        foreach ($routes as $key => $route) {
+            $this->routeCollection->add($key, $route);
+        }
     }
 
     /**
@@ -107,57 +89,5 @@ class CrudRouter implements RouterInterface
         }
 
         return $result;
-    }
-    /**
-     * Generate an url for a supplied route
-     *
-     * @param string $name       The path
-     * @param array  $parameters The route parameters
-     * @param bool   $absolute   Absolute url or not
-     *
-     * @return null|string
-     */
-    public function generate($name, $parameters = array(), $absolute = false)
-    {
-        $this->urlGenerator = new UrlGenerator($this->routeCollection, $this->context);
-
-        return $this->urlGenerator->generate($name, $parameters, $absolute);
-    }
-
-    /**
-     * Sets the request context.
-     *
-     * @param RequestContext $context The context
-     */
-    public function setContext(RequestContext $context)
-    {
-        $this->context = $context;
-    }
-
-    /**
-     * Gets the request context.
-     *
-     * @return RequestContext The context
-     */
-    public function getContext()
-    {
-        if (!isset($this->context)) {
-            $request = $this->container->get('request');
-
-            $this->context = new RequestContext();
-            $this->context->fromRequest($request);
-        }
-
-        return $this->context;
-    }
-
-    /**
-     * Getter for routeCollection
-     *
-     * @return \Symfony\Component\Routing\RouteCollection
-     */
-    public function getRouteCollection()
-    {
-        return $this->routeCollection;
     }
 }

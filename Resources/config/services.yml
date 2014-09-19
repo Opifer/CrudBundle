@@ -7,6 +7,10 @@ services:
         class: Opifer\CrudBundle\Router\CrudRouter
         arguments: [@service_container, %opifer_crud.route_prefix%]
 
+    opifer.crud.api_router:
+        class: Opifer\CrudBundle\Router\ApiRouter
+        arguments: [@service_container]
+
     # Datagrid
     opifer.crud.datagrid:
         class: Opifer\CrudBundle\Datagrid\Datagrid
