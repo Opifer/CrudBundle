@@ -49,34 +49,30 @@ class CrudForm extends AbstractType
                 continue;
             }
 
-            $excludedProperties = ['id', 'slug', 'password', 'salt', 'createdAt', 'updatedAt', 'deletedAt'];
-
-            if (!in_array($property['fieldName'], $excludedProperties)) {
-                if ($propertyType = $this->annotationReader->getPropertyType($options['data'], $property['fieldName'])) {
-                    $builder->add($property['fieldName'], $propertyType);
-                } elseif ($property['type'] == 'json_array') {
-                    $builder->add(
-                        $builder->create($property['fieldName'], 'textarea')
-                            ->addModelTransformer(new ArrayToJsonTransformer()
-                        )
-                    );
-                } elseif ($property['type'] == 'simple_array') {
-                    $builder->add(
-                        $builder
-                            ->create($property['fieldName'],
-                            'bootstrap_collection',
-                            array(
-                                'allow_add'          => true,
-                                'allow_delete'       => true,
-                                'add_button_text'    => 'Add',
-                                'delete_button_text' => 'Delete',
-                                'sub_widget_col'     => 8,
-                                'button_col'         => 4
-                            ))
-                    );
-                } else {
-                    $builder->add($property['fieldName'], $transformer->transform($property['type']));
-                }
+            if ($propertyType = $this->annotationReader->getPropertyType($options['data'], $property['fieldName'])) {
+                $builder->add($property['fieldName'], $propertyType);
+            } elseif ($property['type'] == 'json_array') {
+                $builder->add(
+                    $builder->create($property['fieldName'], 'textarea')
+                        ->addModelTransformer(new ArrayToJsonTransformer()
+                    )
+                );
+            } elseif ($property['type'] == 'simple_array') {
+                $builder->add(
+                    $builder
+                        ->create($property['fieldName'],
+                        'bootstrap_collection',
+                        array(
+                            'allow_add'          => true,
+                            'allow_delete'       => true,
+                            'add_button_text'    => 'Add',
+                            'delete_button_text' => 'Delete',
+                            'sub_widget_col'     => 8,
+                            'button_col'         => 4
+                        ))
+                );
+            } else {
+                $builder->add($property['fieldName'], $transformer->transform($property['type']));
             }
         }
 
