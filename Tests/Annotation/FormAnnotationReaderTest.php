@@ -2,11 +2,10 @@
 
 namespace Opifer\CrudBundle\Tests\Annotation;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Opifer\CrudBundle\Annotation\FormAnnotationReader;
-use Opifer\CrudBundle\Annotation as Opifer;
+use Opifer\CrudBundle\Tests\TestData\User;
 
-class FormAnnotationReaderTest extends WebTestCase
+class FormAnnotationReaderTest extends \PHPUnit_Framework_TestCase
 {
     private $annotationReader;
 
@@ -17,16 +16,16 @@ class FormAnnotationReaderTest extends WebTestCase
 
     public function testGet()
     {
-        $expected = array('description');
-        $actual = $this->annotationReader->get(new FakeFormEntity(), 'editable');
+        $expected = array('email');
+        $actual = $this->annotationReader->get(new User(), 'editable');
 
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetEditableProperties()
     {
-        $expected = array('description');
-        $actual = $this->annotationReader->getEditableProperties(new FakeFormEntity());
+        $expected = array('email');
+        $actual = $this->annotationReader->getEditableProperties(new User());
 
         $this->assertEquals($expected, $actual);
     }
@@ -34,7 +33,7 @@ class FormAnnotationReaderTest extends WebTestCase
     public function testIs()
     {
         $expected = true;
-        $actual = $this->annotationReader->is(new FakeFormEntity(), 'description', 'editable');
+        $actual = $this->annotationReader->is(new User(), 'email', 'editable');
 
         $this->assertEquals($expected, $actual);
     }
@@ -42,27 +41,8 @@ class FormAnnotationReaderTest extends WebTestCase
     public function testIsEditable()
     {
         $expected = true;
-        $actual = $this->annotationReader->isEditable(new FakeFormEntity(), 'description');
+        $actual = $this->annotationReader->isEditable(new User(), 'email');
 
         $this->assertEquals($expected, $actual);
     }
-}
-
-class FakeFormEntity
-{
-    /**
-     * @var integer
-     */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var text
-     * @Opifer\Form(editable=true)
-     */
-    protected $description;
 }

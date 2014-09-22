@@ -2,11 +2,10 @@
 
 namespace Opifer\CrudBundle\Tests\Annotation;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Opifer\CrudBundle\Annotation\GridAnnotationReader;
-use Opifer\CrudBundle\Annotation as Opifer;
+use Opifer\CrudBundle\Tests\TestData\User;
 
-class GridAnnotationReaderTest extends WebTestCase
+class GridAnnotationReaderTest extends \PHPUnit_Framework_TestCase
 {
     private $annotationReader;
 
@@ -17,16 +16,16 @@ class GridAnnotationReaderTest extends WebTestCase
 
     public function testGet()
     {
-        $expected = array('id', 'title');
-        $actual = $this->annotationReader->get(new FakeGridEntity(), 'listable');
+        $expected = array('name', 'email');
+        $actual = $this->annotationReader->get(new User(), 'listable');
 
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetListableProperties()
     {
-        $expected = array('id', 'title');
-        $actual = $this->annotationReader->getListableProperties(new FakeGridEntity());
+        $expected = array('name', 'email');
+        $actual = $this->annotationReader->getListableProperties(new User());
 
         $this->assertEquals($expected, $actual);
     }
@@ -34,30 +33,8 @@ class GridAnnotationReaderTest extends WebTestCase
     public function testIs()
     {
         $expected = true;
-        $actual = $this->annotationReader->is(new FakeGridEntity(), 'title', 'listable');
+        $actual = $this->annotationReader->is(new User(), 'name', 'listable');
 
         $this->assertEquals($expected, $actual);
     }
-}
-
-class FakeGridEntity
-{
-    /**
-     * @var integer
-     *
-     * @Opifer\Grid(listable=true)
-     */
-    protected $id;
-
-    /**
-     * @var string
-     *
-     * @Opifer\Grid(listable=true)
-     */
-    protected $title;
-
-    /**
-     * @var text
-     */
-    protected $description;
 }

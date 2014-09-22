@@ -2,10 +2,9 @@
 
 namespace Opifer\CrudBundle\Tests\Annotation;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Opifer\CrudBundle\Annotation\Grid as GridAnnotation;
 
-class GridTest extends WebTestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     protected $annotationClass;
 

@@ -2,10 +2,9 @@
 
 namespace Opifer\CrudBundle\Tests\Annotation;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Opifer\CrudBundle\Annotation\Form as FormAnnotation;
 
-class FormTest extends WebTestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     protected $annotationClass;
 
