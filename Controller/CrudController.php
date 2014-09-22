@@ -79,7 +79,11 @@ class CrudController extends Controller
             return $this->redirect($this->generateUrl('opifer.crud.index', ['slug' => $slug]));
         }
 
-        return $this->render('OpiferCrudBundle:Crud:new.html.twig', [
+        $template = (method_exists($entity, 'getEditTemplate')) ?
+            $entity->getEditTemplate() :
+            'OpiferCrudBundle:Crud:edit.html.twig';
+
+        return $this->render($template, [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
             'form' => $form->createView(),
             'slug' => $slug
@@ -145,10 +149,16 @@ class CrudController extends Controller
 
             $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('crud.edit.success'));
 
-            return $this->redirect($this->generateUrl('opifer.crud.index', ['slug' => $slug]));
+            return $this->redirect($this->generateUrl('opifer.crud.index', [
+                'slug' => $slug
+            ]));
         }
 
-        return $this->render('OpiferCrudBundle:Crud:new.html.twig', [
+        $template = (method_exists($entity, 'getEditTemplate')) ?
+            $entity->getEditTemplate() :
+            'OpiferCrudBundle:Crud:edit.html.twig';
+
+        return $this->render($template, [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
             'form' => $form->createView(),
             'slug' => $slug
