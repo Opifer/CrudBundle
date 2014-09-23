@@ -24,7 +24,7 @@
 
                 {% for option in grid.rowfilters %}
                     <li>
-                        <a href="{{ path('opifer.crud.filter', {'slug': slug, 'rowfilter': option.slug, 'columnfilter': grid.selectedColumns }) }}">
+                        <a href="{{ path('opifer.crud.filter', {'slug': slug, 'rowfilter': option.slug, 'columnfilter': grid.selectedColumnFilter }) }}">
                             {{ option.name }}
                         </a>
                         <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id':option.id}) }}" class="dropdown-inline-btn">
@@ -52,7 +52,7 @@
                 </li>
                 {% for option in grid.columnfilters %}
                     <li>
-                        <a href="{{ path('opifer.crud.filter', {'slug': slug, 'columnfilter': option.slug, 'rowfilter': grid.selectedRows }) }}">
+                        <a href="{{ path('opifer.crud.filter', {'slug': slug, 'columnfilter': option.slug, 'rowfilter': grid.selectedRowFilter }) }}">
                             {{ option.name }}
                         </a>
                         <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id': option.id}) }}" class="dropdown-inline-btn">

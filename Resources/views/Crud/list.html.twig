@@ -11,21 +11,22 @@
     </div>
 
     {% if grid.rows %}
-        <section class="list-controls">
-            {{ include('OpiferCrudBundle:Crud:paginationPointer.html.twig', {'pagination': grid.pagination}) }}
+        <section class="row list-controls">
+            {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
 
             {{ include('OpiferCrudBundle:Datagrid:filters.html.twig') }}
-            
-            {{ include('OpiferCrudBundle:Crud:pagination.html.twig', {'pagination': grid.pagination, 'query': query}) }}
+
+            {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
         </section>
 
-        <section class="panel-section">
-            {{ include('OpiferCrudBundle:Datagrid:table.html.twig') }}
+        <section class="row list-table">
+            <div class="col-xs-12">
+                {{ include('OpiferCrudBundle:Datagrid:table.html.twig') }}
+            </div>
         </section>
     {% else %}
         <div class="alert alert-warning">
             {{ 'crud.list.empty'|trans({'%slug%': slug}) }}
         </div>
     {% endif %}
-    </section>
 {% endblock %}

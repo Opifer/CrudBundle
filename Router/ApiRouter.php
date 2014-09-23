@@ -25,7 +25,7 @@ class ApiRouter extends AbstractRouter implements RouterInterface
     /**
      * Define all routes in this router
      *
-     * @param  string $prefix
+     * @param string $prefix
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class ApiRouter extends AbstractRouter implements RouterInterface
             '_controller' => 'OpiferCrudBundle:Api:create'
         ]);
         $routes['opifer.crud.api.create']->setMethods(['POST']);
-        
+
         // View
         $routes['opifer.crud.api.view'] = new Route('/api/{slug}/{id}', [
             '_controller' => 'OpiferCrudBundle:Api:view'

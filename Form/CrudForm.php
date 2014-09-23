@@ -59,17 +59,14 @@ class CrudForm extends AbstractType
                 );
             } elseif ($property['type'] == 'simple_array') {
                 $builder->add(
-                    $builder
-                        ->create($property['fieldName'],
-                        'bootstrap_collection',
-                        array(
-                            'allow_add'          => true,
-                            'allow_delete'       => true,
-                            'add_button_text'    => 'Add',
-                            'delete_button_text' => 'Delete',
-                            'sub_widget_col'     => 8,
-                            'button_col'         => 4
-                        ))
+                    $builder->create($property['fieldName'], 'bootstrap_collection', [
+                        'allow_add'          => true,
+                        'allow_delete'       => true,
+                        'add_button_text'    => 'Add',
+                        'delete_button_text' => 'Delete',
+                        'sub_widget_col'     => 8,
+                        'button_col'         => 4
+                    ])
                 );
             } else {
                 $builder->add($property['fieldName'], $transformer->transform($property['type']));
@@ -83,11 +80,6 @@ class CrudForm extends AbstractType
             }
 
             if ($relation['isOwningSide'] === false) {
-                // add poly collection if entity is polymorphic
-                $discriminatorMap = $this->entityHelper->getDiscriminatorMap($relation['targetEntity']);
-                $polyTypes = array_keys($discriminatorMap);
-                array_walk($polyTypes, function (&$item, $key) { $item = 'eav_'.$item.'_type'; });
-
                 $builder->add($relation['fieldName'], 'bootstrap_collection', [
                     'allow_add'    => true,
                     'allow_delete' => true,

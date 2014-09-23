@@ -4,8 +4,8 @@
     {% else %}
         {% set direction = 'asc' %}
     {% endif %}
-    <a href="{{ path('opifer.crud.index', query|merge({'sort': 'a.' ~ column['property'], 'direction': direction})) }}">
-        {{ column['label'] }}
+    <a href="{{ path('opifer.crud.index', query|merge({'sort': 'a.' ~ column.property, 'direction': direction})) }}">
+        {{ column.label }}
         <span class="fa fa-caret-{{ (direction == 'desc') ? 'down' : 'up' }}"></span>
     </a>
 </th>

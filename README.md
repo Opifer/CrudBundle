@@ -92,6 +92,84 @@ class User
 }
 ```
 
+Note: An alternative way is using the standalone `datagrid_builder` in your custom
+controller to define the columns in your list view, like explained in the next
+chapter.
+
+Using the Datagrid Builder
+--------------------------
+
+When using the datagrid builder in your own custom controller, it could look like
+something like the following
+
+```php
+namespace Acme\DemoBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+use Acme\DemoBundle\Entity\User;
+
+class UserController extends Controller
+{
+    /**
+     * Index
+     *
+     * @Route(
+     *     "/users",
+     *     name="admin.users"
+     * )
+     *
+     * @param  Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction(Request $request)
+    {
+        $datagrid = $this->get('opifer.crud.datagrid_builder')->create(new User)
+            ->addColumn('username', 'text', ['label' => 'User name'])
+            ->addColumn('email', 'text', ['label' => 'Email address'])
+            ->build()
+        ;
+
+        $query = array_merge($request->query->all(), ['slug' => 'users']);
+
+        return $this->render('AcmeDemoBundle:User:index.html.twig', [
+            'grid'  => $datagrid,
+            'query' => $query
+        ]);
+    }
+}
+```
+
+Then, your `index.html.twig` could look something like this:
+
+```twig
+{% extends 'AcmeDemoBundle::base.html.twig' %}
+
+{% block body %}
+
+    {% if grid.rows %}
+        <section class="row">
+            {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+            
+            {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+        </section>
+
+        <section class="row">
+            <div class="col-xs-12">
+                {{ include('OpiferCrudBundle:Datagrid:table.html.twig') }}
+            </div>
+        </section>
+    {% else %}
+        <div class="alert alert-warning">No results found</div>
+    {% endif %}
+
+{% endblock %}
+```
+
 Restricting form fields in edit views
 -------------------------------------
 
@@ -131,29 +209,5 @@ class User
      * @CRUD\Form(editable=true, type="acme_type")
      */
     protected $username;
-}
-```
-
-Creating a custom edit view for an entity
------------------------------------------
-
-The edit views are rendered by the `OpiferCrudBundle:Crud:edit.html.twig` view
-out of the box. It simply calls Twig's `{{ form(form) }}` function, which lists
-all (specified) form fields.
-
-Sometimes however, you want to create custom edit views for a certain entity.
-You can easily do this by adding a `getEditTemplate` method to your entity.
-
-```php
-namespace Acme\DemoBundle\Entity\User;
-
-use Opifer\CrudBundle\Annotation as CRUD;
-
-class User
-{
-    public function getEditTemplate()
-    {
-        return 'AcmeDemoBundle:User:edit.html.twig';
-    }
 }
 ```

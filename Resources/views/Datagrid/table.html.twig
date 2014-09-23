@@ -5,6 +5,7 @@
             {% for column in grid.columns %}
                 {{ include('OpiferCrudBundle:DataGrid:th.html.twig') }}
             {% endfor %}
+
             {% if grid.options['actions'] %}
                 <th class="actions">&nbsp;</th>
             {% endif %}
@@ -14,7 +15,7 @@
         {% for key, row in grid.rows %}
             <tr>
                 <td><input type="checkbox" name="item[]" value="{{ key }}" /></td>
-                    {% for data in row %}
+                    {% for data in row.cells %}
                         {% if data['options']['template'] is defined %}
                             {{ include(data['options']['template']) }}
                         {% else %}

@@ -166,8 +166,9 @@ class FilterQueryBuilder
      */
     public function setParameters()
     {
-        if ($this->parameters)
+        if ($this->parameters) {
             $this->qb->setParameters($this->parameters);
+        }
 
         return $this;
     }

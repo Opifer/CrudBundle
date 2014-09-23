@@ -36,10 +36,6 @@ class FilterBuilder
      */
     public function getRowQuery($conditions, $entity)
     {
-       // var_dump($conditions);
-       // var_dump($entity);
-       // die();
-
         // waarom passen we condities niet gewoon op een repository toe? maak
         // de repository dat ie implements environment met de get operator en de
         // condities kunnen door middel van evaluate() rechtstreeks de Env aanpassen

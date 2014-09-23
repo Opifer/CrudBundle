@@ -12,8 +12,8 @@ filter:
 # Crud
 crud:
     list:
-        title: %slug% list
-        empty: no rows were found for "%slug%"
+        title: %slug%
+        empty: no results were found for "%slug%"
     new:
         title: create new %slug%
         success: "The item was created successfully!"

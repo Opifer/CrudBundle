@@ -11,8 +11,8 @@ class ApiController extends Controller
     /**
      * Index
      *
-     * @param  Request $request
-     * @param  object  $entity
+     * @param Request $request
+     * @param object  $entity
      *
      * @return Response
      */
@@ -23,15 +23,15 @@ class ApiController extends Controller
             ->findAll();
 
         $data = $this->get('jms_serializer')->serialize($collection, 'json');
-        
+
         return new Response($data, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
      * View
      *
-     * @param  Request  $request
-     * @param  object   $entity
+     * @param Request $request
+     * @param object  $entity
      *
      * @return Response
      */
@@ -45,8 +45,8 @@ class ApiController extends Controller
     /**
      * Create
      *
-     * @param  Request  $request
-     * @param  object   $entity
+     * @param Request $request
+     * @param object  $entity
      *
      * @return Response
      */
@@ -58,8 +58,8 @@ class ApiController extends Controller
     /**
      * Update
      *
-     * @param  Request  $request
-     * @param  object   $entity
+     * @param Request $request
+     * @param object  $entity
      *
      * @return Response
      */
@@ -71,8 +71,8 @@ class ApiController extends Controller
     /**
      * Store
      *
-     * @param  Request $request
-     * @param  object  $entity
+     * @param Request $request
+     * @param object  $entity
      *
      * @return Response
      */
@@ -100,8 +100,8 @@ class ApiController extends Controller
     /**
      * Delete
      *
-     * @param  Request  $request
-     * @param  object   $entity
+     * @param Request $request
+     * @param object  $entity
      *
      * @return Response
      */

@@ -24,7 +24,7 @@ class CrudRouter extends AbstractRouter implements RouterInterface
     /**
      * Define all routes in this router
      *
-     * @param  string $prefix
+     * @param string $prefix
      *
      * @return void
      */

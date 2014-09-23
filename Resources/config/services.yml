@@ -12,9 +12,9 @@ services:
         arguments: [@service_container]
 
     # Datagrid
-    opifer.crud.datagrid:
-        class: Opifer\CrudBundle\Datagrid\Datagrid
-        arguments: [@request_stack, @doctrine.orm.entity_manager, @opifer.crud.filter_builder]
+    opifer.crud.datagrid_builder:
+        class: Opifer\CrudBundle\Datagrid\DatagridBuilder
+        arguments: [@service_container]
 
     # FilterBuilder
     opifer.crud.filter_builder:

@@ -10,7 +10,7 @@
         {% endfor %}
     {% else %}
         {% if data.property in ['title', 'name', 'username'] %}
-            <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': data.id}) }}">
+            <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
                 {{ data.value }}
             </a>
         {% elseif data.property in ['email'] %}

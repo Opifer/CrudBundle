@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Opifer\CrudBundle\Datagrid\Datagrid;
-use Opifer\CrudBundle\Datagrid\FilterBuilder;
 
 class CrudController extends Controller
 {
@@ -16,10 +15,10 @@ class CrudController extends Controller
      * Render the entity index
      *
      * @param Request $request
-     * @param object $entity
-     * @param string $slug
-     * @param string $rowfilter
-     * @param string $columnfilter
+     * @param object  $entity
+     * @param string  $slug
+     * @param string  $rowfilter
+     * @param string  $columnfilter
      *
      * @return Response
      */
@@ -27,11 +26,10 @@ class CrudController extends Controller
     {
         $page = ($request->get('page')) ? $request->get('page') : 1;
 
-        $datagrid = $this->get('opifer.crud.datagrid')
-            ->init($entity)
-            ->setFilterSelectors()
-            ->setColumns($columnfilter)
-            ->setRows($rowfilter, $page, 25)
+        $datagrid = $this->get('opifer.crud.datagrid_builder')->create($entity)
+            ->addColumnFilter($columnfilter)
+            ->addRowFilter($rowfilter)
+            ->build()
         ;
 
         $query = array_merge($request->query->all(), ['slug' => $slug]);

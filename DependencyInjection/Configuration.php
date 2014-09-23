@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
 
                 // Defines what entities should listen to what route
                 ->arrayNode('routes')
-                    ->defaultValue(array())
+                    ->treatNullLike(array('id' => 'class'))
                     ->useAttributeAsKey('id')
                     ->prototype('scalar')->end()
                 ->end()
