@@ -2,21 +2,19 @@
 
 {% block body %}
     <div class="page-header clearfix">
-        <h1 class="pull-left">
-            <span class="iconl icon-{{ slug }}"></span>{{ 'crud.list.title'|trans({'%slug%': slug})|capitalize }}
-        </h1>
         <a href="{{ path('opifer.crud.new', {'slug': slug}) }}" class="btn btn-default pull-right">
             {{ 'button.add'|trans|capitalize }}
         </a>
+        <h1 class="">
+            <span class="iconl icon-{{ slug }}"></span>{{ 'crud.list.title'|trans({'%slug%': slug})|capitalize }}
+        </h1>
     </div>
 
     {% if grid.rows %}
         <section class="row list-controls">
-            {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
-
-            {{ include('OpiferCrudBundle:Datagrid:filters.html.twig') }}
-
-            {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+            <div class="col-xs-12">
+                {{ include('OpiferCrudBundle:Datagrid:filters.html.twig') }}
+            </div>
         </section>
 
         <section class="row list-table">
@@ -29,4 +27,16 @@
             {{ 'crud.list.empty'|trans({'%slug%': slug}) }}
         </div>
     {% endif %}
+
+    <div class="row">
+        <div class="col-xs-8">
+            {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+            {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+        </div>
+        <div class="col-xs-2">
+        </div>
+        <div class="col-xs-2">
+            {{ include('OpiferCrudBundle:Pagination:limit.html.twig', {'query': query}) }}
+        </div>
+    </div>
 {% endblock %}

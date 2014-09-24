@@ -12,9 +12,9 @@
         </tr>
     </thead>
     <tbody>
-        {% for key, row in grid.rows %}
+        {% for row in grid.rows %}
             <tr>
-                <td><input type="checkbox" name="item[]" value="{{ key }}" /></td>
+                <td><input type="checkbox" name="item[]" value="{{ row.id }}" /></td>
                     {% for data in row.cells %}
                         {% if data['options']['template'] is defined %}
                             {{ include(data['options']['template']) }}
@@ -24,7 +24,7 @@
                     {% endfor %}
                 <td class="actions">
                     {% for action in grid.options['actions'] %}
-                        <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : key}) }}"{{ (action=="delete") ? ' class=danger' }}>
+                        <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }}>
                             {{ action|capitalize }}
                         </a>&nbsp;
                     {% endfor %}
