@@ -24,12 +24,20 @@
                     {% endfor %}
                 <td class="actions">
                     {% for action in grid.options['actions'] %}
-                        <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }}>
-                            {{ action|capitalize }}
-                        </a>&nbsp;
+                        {% if action == 'delete' %}
+                            <a data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#myModal">
+                                {{ action|capitalize }}
+                            </a>&nbsp;
+                        {% else %}
+                            <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }} data-id="{{ row.id }}">
+                                {{ action|capitalize }}
+                            </a>&nbsp;
+                        {% endif %}
                     {% endfor %}
                 </td>
             </tr>
         {% endfor %}
+
+        {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
     </tbody>
 </table>

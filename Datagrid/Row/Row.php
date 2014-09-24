@@ -14,6 +14,9 @@ class Row
     /** @var integer */
     protected $id;
 
+    /** @var string */
+    protected $name;
+
     /** @var ArrayCollection */
     protected $cells;
 
@@ -45,6 +48,28 @@ class Row
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**

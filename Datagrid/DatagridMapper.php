@@ -69,9 +69,14 @@ class DatagridMapper
 
         foreach ($rows as $originalRow) {
             $row = new Row();
+            $row->setName($originalRow->getId());
 
             foreach ($columns as $column) {
                 $cell = new Cell();
+
+                if (in_array($column->getProperty(), ['username', 'name', 'title'])) {
+                    $row->setName($accessor->getValue($originalRow, $column->getProperty()));
+                }
 
                 // Handle the raw value
                 if ($column->getClosure() instanceof \Closure) {
