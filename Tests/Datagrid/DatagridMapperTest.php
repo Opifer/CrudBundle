@@ -78,6 +78,7 @@ class DatagridMapperTest extends \PHPUnit_Framework_TestCase
 
         $row = new Row();
         $row->setId(1);
+        $row->setName('some random name');
         $row->addCell($cell);
 
         $expected = new ArrayCollection();
