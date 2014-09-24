@@ -74,6 +74,7 @@ class DatagridMapper
             foreach ($columns as $column) {
                 $cell = new Cell();
 
+                // Set a row name value
                 if (in_array($column->getProperty(), ['username', 'name', 'title'])) {
                     $row->setName($accessor->getValue($originalRow, $column->getProperty()));
                 }

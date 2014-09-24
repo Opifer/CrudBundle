@@ -235,6 +235,9 @@ class DatagridBuilder
         $filterBuilder = $this->container->get('opifer.crud.filter_builder');
         if ($this->getRequest()->request->get('filterfields')) {
             $rows = $filterBuilder->any($source, $this->getRequest()->request->get('filterfields'));
+        } elseif (($postVars = $this->getRequest()->request->get('rowfilter')) && ($postVars['conditions'] != '')) {
+            $conditions = $this->container->get('jms_serializer')->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
+            $rows = $filterBuilder->getRowQuery($conditions, $source);
         } elseif ($filter !== 'default') {
             $filter = $this->getFilterRepository()->oneRowFilter($filter, $source);
 

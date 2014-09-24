@@ -67,3 +67,9 @@ services:
         arguments: [@opifer.crud.entity_helper]
         tags:
             - { name: opifer.rulesengine.provider, alias: crud }
+
+    opifer.rulesengine.provider.user:
+        class: Opifer\CrudBundle\RulesEngine\UserRuleProvider
+        arguments: [@opifer.crud.entity_helper]
+        tags:
+            - { name: opifer.rulesengine.provider, alias: user }

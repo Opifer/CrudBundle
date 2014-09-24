@@ -178,7 +178,7 @@ class FilterBuilder
             }
             $i++;
         }
-        $qb->setParameter('query', '%'.$term . '%');
+        $qb->setParameter('query', '%'.$term.'%');
 
         return $qb;
     }

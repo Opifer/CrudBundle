@@ -5,12 +5,12 @@ namespace Opifer\CrudBundle\RulesEngine;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\CrudBundle\Transformer\EntityTransformer;
 use Opifer\RulesEngine\Rule\Condition\Condition;
-use Opifer\RulesEngine\Rule\Condition\StringValueCondition;
+use Opifer\RulesEngine\Rule\Condition\StringCondition;
 use Opifer\RulesEngine\Rule\Condition\ConditionSet;
 use Opifer\RulesEngineBundle\Provider\AbstractProvider;
 use Opifer\RulesEngineBundle\Provider\ProviderInterface;
 
-class RulesProvider extends AbstractProvider implements ProviderInterface
+class UserRuleProvider extends AbstractProvider implements ProviderInterface
 {
     private $entityHelper;
     private $entityTransformer;
@@ -34,11 +34,11 @@ class RulesProvider extends AbstractProvider implements ProviderInterface
             $className = $this->entityHelper->getMetaData($entity)->getName();
             $className = (false === strpos($className, '\\')) ? $className : substr($className, strrpos($className, '\\') + 1);
 
-            $condition = new StringValueCondition();
+            $condition = new StringCondition();
             $condition
                 ->setName($className . ': ' . $property['fieldName'])
                 ->setEntity($entity)
-                ->setAttribute($property['fieldName'])
+                ->setAttribute('a.' . $property['fieldName'])
             ;
 
             switch ($property['type']) {

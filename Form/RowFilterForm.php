@@ -8,24 +8,44 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RowFilterForm extends AbstractType
 {
+    /** @var object $entity */
     protected $entity;
 
-    public function __construct($entity)
+    protected $action;
+
+    /**
+     * Constructor
+     *
+     * @param object $entity
+     */
+    public function __construct($entity, $action = null)
     {
         $this->entity = $entity;
+        $this->action = $action;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
             ->add('conditions', 'ruleeditor', [
-                'provider' => 'crud',
+                'label' => 'Filters',
+                'provider' => $this->entity->getRuleProvider(),
                 'context' => $this->entity,
             ])
-            ->add('Save filter', 'submit');
+            ->add('Apply', 'submit')
+        ;
+
+        // if (null !== $this->action) {
+        //     $builder->setAction($this->action);
+        // }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -33,6 +53,9 @@ class RowFilterForm extends AbstractType
         ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'rowfilter';

@@ -1,54 +1,11 @@
-<form class="form-inline" role="form" action="" method="POST">
-    <div class="form-group">
-        <input name="filterfields" type="search" class="form-control" id="filterfields" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}">
-        <button type="submit" class="btn btn-default">
-            {{ 'datagrid.search.submit'|trans|capitalize }}
-        </button>
-    </div>
-
-    <div class="form-group">
+    {# <div class="form-group">
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                {{ 'datagrid.filters.button'|trans|capitalize }} <span class="caret"></span>
+                Default view   <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="{{ path('opifer.crud.filter.row.new', {'slug': slug}) }}">
-                        {{ 'datagrid.filters.new'|trans|capitalize }}
-                    </a>
-                </li>
                 <li class="divider"></li>
                 <li role="presentation" class="dropdown-header">
-                    {{ 'datagrid.filters.existing'|trans|capitalize }}
-                </li>
-
-                {% for option in grid.rowfilters %}
-                    <li>
-                        <a href="{{ path('opifer.crud.filter', {'slug': slug, 'rowfilter': option.slug, 'columnfilter': grid.selectedColumnFilter }) }}">
-                            {{ option.name }}
-                        </a>
-                        <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id':option.id}) }}" class="dropdown-inline-btn">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                {{ 'datagrid.columns.button'|trans|capitalize }} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="{{ path('opifer.crud.filter.column.new', {'slug': slug}) }}">
-                        {{ 'datagrid.columns.new'|trans|capitalize }}
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li role="presentation" class="dropdown-header">
-                    {{ 'datagrid.columns.existing'|trans|capitalize }}
                 </li>
                 {% for option in grid.columnfilters %}
                     <li>
@@ -62,5 +19,71 @@
                 {% endfor %}
             </ul>
         </div>
+    </div> #}
+    {# {{ 'datagrid.columns.button'|trans|capitalize }} #}
+    {# <li>
+        <a href="{{ path('opifer.crud.filter.column.new', {'slug': slug}) }}">
+            {{ 'datagrid.columns.new'|trans|capitalize }}
+        </a>
+    </li> #}
+    {# {{ 'datagrid.columns.existing'|trans|capitalize }} #}
+<div class="row">
+    <div class="col-xs-8">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#filters">Filters</button>
+        </div>
     </div>
-</form>
+    <div class="col-xs-4">
+        <form class="pull-right" role="form" action="#" method="POST">
+            <div class="form-group">
+                <div class="input-group">
+                    <input name="filterfields" id="filterfields" type="search" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}" class="form-control"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row collapse" id="filters">
+    <div class="col-xs-12">
+        {{ form_start(filter_form) }}
+            <div class="form-group">
+                <div class="btn-group">
+                    {{ form_widget(filter_form.conditions) }}
+                    {#{{ form_end(filter_form) }}#}
+                    {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        {{ 'datagrid.filters.button'|trans|capitalize }} <span class="caret"></span>
+                    </button>#}
+                    {#<ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{{ path('opifer.crud.filter.row.new', {'slug': slug}) }}">
+                                {{ 'datagrid.filters.new'|trans|capitalize }}
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li role="presentation" class="dropdown-header">
+                            {{ 'datagrid.filters.existing'|trans|capitalize }}
+                        </li>
+
+                        {% for option in grid.rowfilters %}
+                            <li>
+                                <a href="{{ path('opifer.crud.filter', {'slug': slug, 'rowfilter': option.slug, 'columnfilter': grid.selectedColumnFilter }) }}">
+                                    {{ option.name }}
+                                </a>
+                                <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id':option.id}) }}" class="dropdown-inline-btn">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>#}
+                </div>
+                {# <div class="btn-group">
+                    <button type="button" class="btn btn-default">{{ 'datagrid.columns.button'|trans|capitalize }}</button>
+                </div> #}
+            </div>
+        {{ form_end(filter_form) }}
+    </div>
+</div>

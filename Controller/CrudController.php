@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Opifer\CrudBundle\Datagrid\Datagrid;
+use Opifer\CrudBundle\Entity\RowFilter;
+use Opifer\CrudBundle\Form\RowFilterForm;
 
 class CrudController extends Controller
 {
@@ -31,14 +33,26 @@ class CrudController extends Controller
             ->addRowFilter($rowfilter)
             ->build()
         ;
+        
+        $postVars = $request->request->get('rowfilter');
 
         $query = array_merge($request->query->all(), ['slug' => $slug]);
 
+        $rowFilter = new RowFilter();
+        $rowFilter->setEntity(get_class($entity));
+        if (isset($postVars['conditions'])) {
+            $rowFilter->setConditions($postVars['conditions']);
+        }
+        
+        $filterForm = $this->createForm(new RowFilterForm(get_class($entity), $this->generateUrl('opifer.crud.filter.row.new', ['slug' => $slug])), $rowFilter);
+
         return $this->render($datagrid->getTemplate($request->getMethod()), [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
-            'slug'  => $slug,
-            'grid'  => $datagrid,
-            'query' => $query
+            'filter_form'     => $filterForm->createView(),
+            'slug'            => $slug,
+            'grid'            => $datagrid,
+            'query'           => $query,
+            'conditions'      => ($postVars['conditions']) ? $postVars['conditions'] : ''
         ]);
     }
 
