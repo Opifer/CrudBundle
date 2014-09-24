@@ -72,9 +72,15 @@ class DatagridMapper
 
             foreach ($columns as $column) {
                 $cell = new Cell();
-                // in case of one-to-many or many-to-many relations, show
-                // the count of related rows
-                if (substr($column->getProperty(), -strlen('.count')) === '.count') {
+
+                // Handle the raw value
+                if ($column->getClosure() instanceof \Closure) {
+                    $closure = $column->getClosure();
+                    $value = $accessor->getValue($originalRow, $column->getProperty());
+                    $value = $closure($value);
+                } elseif (substr($column->getProperty(), -strlen('.count')) === '.count') {
+                    // in case of one-to-many or many-to-many relations, show
+                    // the count of related rows
                     $explode = explode('.', $column->getProperty());
                     $explode[0] = 'get' . ucfirst($explode[0]);
                     $value = $originalRow->$explode[0]()->$explode[1]();
@@ -86,6 +92,7 @@ class DatagridMapper
                     }
                 }
 
+                // Handle the generated value
                 if ($value instanceof \DateTime) {
                     $value = $value->format('d-m-Y');
                 } elseif (is_array($value)) {

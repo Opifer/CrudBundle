@@ -11,8 +11,7 @@ use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\RulesEngine\Environment\DoctrineEnvironment;
 
 /**
- * @todo Find a better name for this class and maybe also devide the methods into
- * two separate classes, which makes more sense.
+ * 
  */
 class FilterBuilder
 {

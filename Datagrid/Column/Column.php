@@ -2,14 +2,30 @@
 
 namespace Opifer\CrudBundle\Datagrid\Column;
 
+/**
+ * Column
+ *
+ * Represents a column in a grid view
+ */
 class Column
 {
+    /** @var string */
     protected $property;
 
+    /** @var label */
     protected $label;
 
+    /** @var type */
     protected $type;
 
+    /** @var \Closure */
+    protected $closure;
+
+    /**
+     * Set property
+     *
+     * @param string $property
+     */
     public function setProperty($property)
     {
         $this->property = $property;
@@ -17,11 +33,21 @@ class Column
         return $this;
     }
 
+    /**
+     * Get property
+     *
+     * @return string
+     */
     public function getProperty()
     {
         return $this->property;
     }
 
+    /**
+     * Set label
+     *
+     * @param string $label
+     */
     public function setLabel($label)
     {
         $this->label = $label;
@@ -29,11 +55,21 @@ class Column
         return $this;
     }
 
+    /**
+     * Get label
+     *
+     * @return string
+     */
     public function getLabel()
     {
         return $this->label;
     }
 
+    /**
+     * Set type
+     *
+     * @param string $type
+     */
     public function setType($type)
     {
         $this->type = $type;
@@ -41,8 +77,35 @@ class Column
         return $this;
     }
 
+    /**
+     * Get type
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set closure
+     *
+     * @param \Closure $closure
+     */
+    public function setClosure(\Closure $closure)
+    {
+        $this->closure = $closure;
+
+        return $this;
+    }
+
+    /**
+     * Get closure
+     *
+     * @return \Closure
+     */
+    public function getClosure()
+    {
+        return $this->closure;
     }
 }

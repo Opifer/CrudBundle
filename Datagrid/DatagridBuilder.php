@@ -69,16 +69,18 @@ class DatagridBuilder
         $column = new Column();
         $column->setProperty($property);
         $column->setType($type);
-        $column->setLabel($options['label']);
+
+        if (isset($options['label'])) {
+            $column->setLabel($options['label']);
+        }
+
+        if (isset($options['function']) && $options['function'] instanceof \Closure) {
+            $column->setClosure($options['function']);
+        }
 
         $this->columns->add($column);
 
         return $this;
-    }
-
-    public function addRow($id)
-    {
-        // @todo
     }
 
     /**
@@ -112,6 +114,7 @@ class DatagridBuilder
      */
     public function build()
     {
+        // Handle columns
         if (null !== $this->datagrid->getSelectedColumnFilter()) {
             $filter = $this->datagrid->getSelectedColumnFilter();
         } else {
@@ -122,6 +125,7 @@ class DatagridBuilder
         $columns = $this->mapper->mapColumns($columns);
         $this->datagrid->setColumns($columns);
 
+        // Handle rows
         if (null !== $this->datagrid->getSelectedRowFilter()) {
             $filter = $this->datagrid->getSelectedRowFilter();
         } else {
@@ -157,8 +161,8 @@ class DatagridBuilder
      */
     public function getLimit()
     {
-        if ($this->container->get('request')->get('limit')) {
-            return $this->container->get('request')->get('limit');
+        if ($this->getRequest()->get('limit')) {
+            return $this->getRequest()->get('limit');
         }
 
         return $this->limit;
@@ -182,8 +186,8 @@ class DatagridBuilder
      */
     public function getPage()
     {
-        if ($this->container->get('request')->get('page')) {
-            return $this->container->get('request')->get('page');
+        if ($this->getRequest()->get('page')) {
+            return $this->getRequest()->get('page');
         }
 
         return $this->page;
@@ -229,8 +233,8 @@ class DatagridBuilder
         $source = $this->datagrid->getSource();
 
         $filterBuilder = $this->container->get('opifer.crud.filter_builder');
-        if ($this->container->get('request')->request->get('filterfields')) {
-            $rows = $filterBuilder->any($source, $this->container->get('request')->request->get('filterfields'));
+        if ($this->getRequest()->request->get('filterfields')) {
+            $rows = $filterBuilder->any($source, $this->getRequest()->request->get('filterfields'));
         } elseif ($filter !== 'default') {
             $filter = $this->getFilterRepository()->oneRowFilter($filter, $source);
 
@@ -256,7 +260,7 @@ class DatagridBuilder
      */
     public function sortRows($rowQuery)
     {
-        $query = $this->container->get('request')->query;
+        $query = $this->getRequest()->query;
         if (null !== $query->get('sort')) {
             if (null !== $query->get('direction')) {
                 $direction = $query->get('direction');
@@ -267,6 +271,16 @@ class DatagridBuilder
         }
 
         return $rowQuery;
+    }
+
+    /**
+     * Get the current request
+     *
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    public function getRequest()
+    {
+        return $this->container->get('request');
     }
 
     /**
