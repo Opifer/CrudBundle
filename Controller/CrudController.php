@@ -44,7 +44,7 @@ class CrudController extends Controller
             $rowFilter->setConditions($postVars['conditions']);
         }
         
-        $filterForm = $this->createForm(new RowFilterForm(get_class($entity), $this->generateUrl('opifer.crud.filter.row.new', ['slug' => $slug])), $rowFilter);
+        $filterForm = $this->createForm(new RowFilterForm($entity, $this->generateUrl('opifer.crud.filter.row.new', ['slug' => $slug])), $rowFilter);
 
         return $this->render($datagrid->getTemplate($request->getMethod()), [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),

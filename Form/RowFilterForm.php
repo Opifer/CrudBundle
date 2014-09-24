@@ -33,7 +33,7 @@ class RowFilterForm extends AbstractType
             ->add('conditions', 'ruleeditor', [
                 'label' => 'Filters',
                 'provider' => $this->entity->getRuleProvider(),
-                'context' => $this->entity,
+                'context' => get_class($this->entity),
             ])
             ->add('Apply', 'submit')
         ;

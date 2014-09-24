@@ -70,7 +70,7 @@ class FilterController extends Controller
         $rowFilter = new RowFilter();
         $rowFilter->setEntity(get_class($entity));
 
-        $form = $this->createForm(new RowFilterForm(get_class($entity)), $rowFilter);
+        $form = $this->createForm(new RowFilterForm($entity), $rowFilter);
 
         $form->handleRequest($request);
 
