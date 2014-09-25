@@ -1,12 +1,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th width="25"><input type="checkbox" id="checkbox-all" /></th>
+            {#<th width="25"><input type="checkbox" id="checkbox-all" /></th>#}
             {% for column in grid.columns %}
                 {{ include('OpiferCrudBundle:DataGrid:th.html.twig') }}
             {% endfor %}
 
-            {% if grid.options['actions'] %}
+            {% if grid.options['actions'] is defined %}
                 <th class="actions">&nbsp;</th>
             {% endif %}
         </tr>
@@ -14,27 +14,29 @@
     <tbody>
         {% for row in grid.rows %}
             <tr>
-                <td><input type="checkbox" name="item[]" value="{{ row.id }}" /></td>
-                    {% for data in row.cells %}
-                        {% if data['options']['template'] is defined %}
-                            {{ include(data['options']['template']) }}
-                        {% else %}
-                            {{ include('OpiferCrudBundle:DataGrid:td.html.twig') }}
-                        {% endif %}
-                    {% endfor %}
-                <td class="actions">
-                    {% for action in grid.options['actions'] %}
-                        {% if action == 'delete' %}
-                            <a data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#myModal">
-                                {{ action|capitalize }}
-                            </a>&nbsp;
-                        {% else %}
-                            <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }} data-id="{{ row.id }}">
-                                {{ action|capitalize }}
-                            </a>&nbsp;
-                        {% endif %}
-                    {% endfor %}
-                </td>
+                {#<td><input type="checkbox" name="item[]" value="{{ row.id }}" /></td>#}
+                {% for data in row.cells %}
+                    {% if data['options']['template'] is defined %}
+                        {{ include(data['options']['template']) }}
+                    {% else %}
+                        {{ include('OpiferCrudBundle:DataGrid:td.html.twig') }}
+                    {% endif %}
+                {% endfor %}
+                {% if grid.options['actions'] is defined %}
+                    <td class="actions">
+                        {% for action in grid.options['actions'] %}
+                            {% if action == 'delete' %}
+                                <a data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#myModal">
+                                    {{ action|capitalize }}
+                                </a>&nbsp;
+                            {% else %}
+                                <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }} data-id="{{ row.id }}">
+                                    {{ action|capitalize }}
+                                </a>&nbsp;
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
 

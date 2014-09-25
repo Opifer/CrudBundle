@@ -46,46 +46,47 @@
         </form>
     </div>
 </div>
+{% if filter_form.conditions is defined %}
+    <div class="row collapse" id="filters">
+        <div class="col-xs-12">
+            {{ form_start(filter_form) }}
+                <div class="form-group">
+                    <div class="btn-group">
+                        
+                        {{ form_widget(filter_form.conditions) }}
 
-<div class="row collapse" id="filters">
-    <div class="col-xs-12">
-        {{ form_start(filter_form) }}
-            <div class="form-group">
-                <div class="btn-group">
-                    {% if filter_form.conditions is defined %}
-                    {{ form_widget(filter_form.conditions) }}
-                    {% endif %}
-                    {#{{ form_end(filter_form) }}#}
-                    {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        {{ 'datagrid.filters.button'|trans|capitalize }} <span class="caret"></span>
-                    </button>#}
-                    {#<ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="{{ path('opifer.crud.filter.row.new', {'slug': slug}) }}">
-                                {{ 'datagrid.filters.new'|trans|capitalize }}
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li role="presentation" class="dropdown-header">
-                            {{ 'datagrid.filters.existing'|trans|capitalize }}
-                        </li>
-
-                        {% for option in grid.rowfilters %}
+                        {#{{ form_end(filter_form) }}#}
+                        {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            {{ 'datagrid.filters.button'|trans|capitalize }} <span class="caret"></span>
+                        </button>#}
+                        {#<ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="{{ path('opifer.crud.filter', {'slug': slug, 'rowfilter': option.slug, 'columnfilter': grid.selectedColumnFilter }) }}">
-                                    {{ option.name }}
-                                </a>
-                                <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id':option.id}) }}" class="dropdown-inline-btn">
-                                    <i class="glyphicon glyphicon-remove"></i>
+                                <a href="{{ path('opifer.crud.filter.row.new', {'slug': slug}) }}">
+                                    {{ 'datagrid.filters.new'|trans|capitalize }}
                                 </a>
                             </li>
-                        {% endfor %}
-                    </ul>#}
+                            <li class="divider"></li>
+                            <li role="presentation" class="dropdown-header">
+                                {{ 'datagrid.filters.existing'|trans|capitalize }}
+                            </li>
+
+                            {% for option in grid.rowfilters %}
+                                <li>
+                                    <a href="{{ path('opifer.crud.filter', {'slug': slug, 'rowfilter': option.slug, 'columnfilter': grid.selectedColumnFilter }) }}">
+                                        {{ option.name }}
+                                    </a>
+                                    <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id':option.id}) }}" class="dropdown-inline-btn">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>#}
+                    </div>
+                    {# <div class="btn-group">
+                        <button type="button" class="btn btn-default">{{ 'datagrid.columns.button'|trans|capitalize }}</button>
+                    </div> #}
                 </div>
-                {# <div class="btn-group">
-                    <button type="button" class="btn btn-default">{{ 'datagrid.columns.button'|trans|capitalize }}</button>
-                </div> #}
-            </div>
-        {{ form_end(filter_form) }}
+            {{ form_end(filter_form) }}
+        </div>
     </div>
-</div>
+{% endif %}

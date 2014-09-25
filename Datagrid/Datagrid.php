@@ -166,16 +166,6 @@ class Datagrid
     }
 
     /**
-     * Get all datagrid-global options
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * Set available column filters
      *
      * @param ArrayCollection $filters
@@ -283,5 +273,27 @@ class Datagrid
     public function getSelectedRowFilter()
     {
         return $this->selectedRowFilter;
+    }
+
+    /**
+     * Set options
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get all datagrid-global options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

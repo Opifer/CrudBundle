@@ -15,8 +15,14 @@ class DatagridBuilder
     /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
     protected $container;
 
+    /** @var \Opifer\CrudBundle\Datagrid\DatagridMapper */
+    protected $mapper;
+
     /** @var \Opifer\CrudBundle\Datagrid\Datagrid */
     protected $datagrid;
+
+    /** @var \Doctrine\Common\Collections\ArrayCollection */
+    protected $columns;
 
     /** @var integer */
     protected $page = 1;
@@ -24,9 +30,11 @@ class DatagridBuilder
     /** @var integer */
     protected $limit = 25;
 
-    protected $columns;
+    /** @var array */
+    protected $wheres;
 
-    protected $mapper;
+    /** @var array */
+    protected $parameters;
 
     /**
      * Constructor
@@ -38,6 +46,8 @@ class DatagridBuilder
         $this->container = $container;
         $this->columns = new ArrayCollection();
         $this->mapper = new DatagridMapper();
+        $this->wheres = array();
+        $this->parameters = array();
     }
 
     /**
@@ -103,6 +113,32 @@ class DatagridBuilder
     public function addRowFilter($filter)
     {
         $this->datagrid->setSelectedRowFilter($filter);
+
+        return $this;
+    }
+
+    public function where($where)
+    {
+        $this->wheres[] = $where;
+
+        return $this;
+    }
+
+    public function setParameter($parameter, $value)
+    {
+        $this->parameters[$parameter] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set options
+     *
+     * @param array $options
+     */
+    public function setOptions($options = array())
+    {
+        $this->datagrid->setOptions($options);
 
         return $this;
     }
@@ -234,21 +270,29 @@ class DatagridBuilder
 
         $filterBuilder = $this->container->get('opifer.crud.filter_builder');
         if ($this->getRequest()->request->get('filterfields')) {
-            $rows = $filterBuilder->any($source, $this->getRequest()->request->get('filterfields'));
+            $qb = $filterBuilder->any($source, $this->getRequest()->request->get('filterfields'));
         } elseif (($postVars = $this->getRequest()->request->get('rowfilter')) && ($postVars['conditions'] != '')) {
             $conditions = $this->container->get('jms_serializer')->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
-            $rows = $filterBuilder->getRowQuery($conditions, $source);
+            $qb = $filterBuilder->getRowQuery($conditions, $source);
         } elseif ($filter !== 'default') {
             $filter = $this->getFilterRepository()->oneRowFilter($filter, $source);
 
-            $rows = $filterBuilder->getRowQuery($filter->getConditions(), $source);
+            $qb = $filterBuilder->getRowQuery($filter->getConditions(), $source);
         } else {
             $sourceRepository = $this->container->get('doctrine')->getRepository(get_class($source));
 
-            $rows = $sourceRepository->createQueryBuilder('a');
+            $qb = $sourceRepository->createQueryBuilder('a');
         }
 
-        return $this->sortRows($rows);
+        foreach ($this->wheres as $where) {
+            $qb->andWhere($where);
+        }
+
+        foreach ($this->parameters as $parameter => $value) {
+            $qb->setParameter($parameter, $value);
+        }
+
+        return $this->sortRows($qb);
     }
 
     /**
