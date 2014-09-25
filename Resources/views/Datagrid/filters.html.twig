@@ -52,7 +52,9 @@
         {{ form_start(filter_form) }}
             <div class="form-group">
                 <div class="btn-group">
+                    {% if filter_form.conditions is defined %}
                     {{ form_widget(filter_form.conditions) }}
+                    {% endif %}
                     {#{{ form_end(filter_form) }}#}
                     {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         {{ 'datagrid.filters.button'|trans|capitalize }} <span class="caret"></span>

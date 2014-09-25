@@ -29,14 +29,17 @@ class RowFilterForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('conditions', 'ruleeditor', [
-                'label' => 'Filters',
-                'provider' => $this->entity->getRuleProvider(),
-                'context' => get_class($this->entity),
-            ])
-            ->add('Apply', 'submit')
-        ;
+        if (method_exists($this->entity, 'getRuleProvider')) {
+            $builder
+                ->add('conditions', 'ruleeditor', [
+                    'label' => 'Filters',
+                    'provider' => $this->entity->getRuleProvider(),
+                    'context' => get_class($this->entity),
+                ])
+                ->add('Apply', 'submit')
+            ;
+        }
+        
 
         // if (null !== $this->action) {
         //     $builder->setAction($this->action);
