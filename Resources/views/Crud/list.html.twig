@@ -11,16 +11,14 @@
     </div>
 
     {% if grid.rows %}
-        <section class="row list-controls">
-            <div class="col-xs-12">
+        <section class="list-controls">
+            <div class="row">
                 {{ include('OpiferCrudBundle:Datagrid:filters.html.twig') }}
             </div>
         </section>
 
-        <section class="row list-table">
-            <div class="col-xs-12">
-                {{ include('OpiferCrudBundle:Datagrid:table.html.twig') }}
-            </div>
+        <section class="list-table">
+            {{ include('OpiferCrudBundle:Datagrid:table.html.twig') }}
         </section>
     {% else %}
         <div class="alert alert-warning">
@@ -28,14 +26,14 @@
         </div>
     {% endif %}
 
-    <div class="row">
-        <div class="col-xs-8">
+    <div class="clearfix">
+        <div class="col-xs-8 pagination-col">
             {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
             {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
         </div>
         <div class="col-xs-2">
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-2 pagination-size">
             {{ include('OpiferCrudBundle:Pagination:limit.html.twig', {'query': query}) }}
         </div>
     </div>

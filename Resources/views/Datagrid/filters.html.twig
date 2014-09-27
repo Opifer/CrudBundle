@@ -27,16 +27,16 @@
         </a>
     </li> #}
     {# {{ 'datagrid.columns.existing'|trans|capitalize }} #}
-<div class="row">
+<div class="clearfix">
     <div class="col-xs-8">
         <div class="btn-group">
             <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#filters">Filters</button>
         </div>
     </div>
     <div class="col-xs-4">
-        <form class="pull-right" role="form" action="#" method="POST">
+        <form class="pull-right" role="form" action="#" method="POST" style="max-width: 250px;">
             <div class="form-group">
-                <div class="input-group">
+                <div class="input-group search-group">
                     <input name="filterfields" id="filterfields" type="search" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}" class="form-control"/>
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
