@@ -170,6 +170,26 @@ Then, your `index.html.twig` could look something like this:
 {% endblock %}
 ```
 
+Passing a closure to generate custom list cell data
+---------------------------------------------------
+
+In case you want to change the default behaviour of a row cell value, you could
+pass a closure to the `addColumn`'s options array like explained below:
+
+```php
+$datagrid = $this->get('opifer.crud.datagrid_builder')->create(new User)
+    ->addColumn('username', 'text', [
+        'label'    => 'User name',
+        'function' => function($value) {
+            // The passed $value is the value returned by the getter, matching the
+            // first addColumn() parameter. In this case getUsername().
+            return strtoupper($value);
+        }
+    ])
+    ->build()
+;
+```
+
 Restricting form fields in edit views
 -------------------------------------
 
