@@ -12,10 +12,10 @@ filter:
 # Crud
 crud:
     list:
-        title: %slug% overzicht
+        title: %slug%
         empty: er zijn geen resultaten gevonden voor "%slug%"
     new:
-        title: nieuwe %slug% toevoegen
+        title: %slug%
         success: "Het item was succesvol aangemaakt"
     edit:
         success: "Het item was succesvol bijgewerkt"
