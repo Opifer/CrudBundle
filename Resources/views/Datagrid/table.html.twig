@@ -3,7 +3,7 @@
         <tr>
             {#<th width="25"><input type="checkbox" id="checkbox-all" /></th>#}
             {% for column in grid.columns %}
-                {{ include('OpiferCrudBundle:DataGrid:th.html.twig') }}
+                {{ include('OpiferCrudBundle:Datagrid:th.html.twig') }}
             {% endfor %}
 
             {% if grid.options['actions'] is defined %}
@@ -19,14 +19,14 @@
                     {% if data['options']['template'] is defined %}
                         {{ include(data['options']['template']) }}
                     {% else %}
-                        {{ include('OpiferCrudBundle:DataGrid:td.html.twig') }}
+                        {{ include('OpiferCrudBundle:Datagrid:td.html.twig') }}
                     {% endif %}
                 {% endfor %}
                 {% if grid.options['actions'] is defined %}
                     <td class="actions">
                         {% for action in grid.options['actions'] %}
                             {% if action == 'delete' %}
-                                <a href="#" data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#myModal">
+                                <a href="#" data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#modalDelete">
                                     {{ action|capitalize }}
                                 </a>&nbsp;
                             {% else %}
