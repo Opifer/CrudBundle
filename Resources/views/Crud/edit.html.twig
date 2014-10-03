@@ -12,7 +12,7 @@
                 {% if entity.name is defined %}
                     {{ entity.name|capitalize }}
                 {% else %}
-                    Update {{ title|replace({''})}}
+                    Update {{ title }}
                 {% endif %}
             {% else %}
                 {{ 'crud.new.title'|trans({'%slug%': title})|capitalize }}
@@ -22,9 +22,18 @@
     {% endblock edit_header %}
     
     {% block edit_form %}
-
-    <section class="page-section">
-        {{ form(form, { 'style': 'horizontal', 'attr': {'novalidate':'novalidate'} }) }}
-    </section>
+        <section class="page-section">
+            {{ form_start(form, { 'style': 'horizontal', 'attr': {'novalidate':'novalidate'} })}}
+                {% set submit = form_widget(form.save) %}
+                {{ form_rest(form) }}
+                
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        {{ submit|raw }}
+                        <a class="btn btn-link" role="button" href="{{ path('opifer.crud.index', { 'slug': slug }) }}">Cancel</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </section>
     {% endblock %}
 {% endblock %}
