@@ -15,7 +15,7 @@ crud:
         title: %slug%
         empty: no results were found for "%slug%"
     new:
-        title: create new %slug%
+        title: %slug%
         success: "The item was created successfully!"
     edit:
         success: "The item was updated successfully!"
