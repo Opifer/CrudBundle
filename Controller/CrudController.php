@@ -95,8 +95,9 @@ class CrudController extends Controller
 
         return $this->render($template, [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
-            'form' => $form->createView(),
-            'slug' => $slug
+            'form'            => $form->createView(),
+            'slug'            => $slug,
+            'entity'          => $entity
         ]);
     }
 
@@ -170,8 +171,9 @@ class CrudController extends Controller
 
         return $this->render($template, [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
-            'form' => $form->createView(),
-            'slug' => $slug
+            'form'            => $form->createView(),
+            'slug'            => $slug,
+            'entity'          => $entity
         ]);
     }
 

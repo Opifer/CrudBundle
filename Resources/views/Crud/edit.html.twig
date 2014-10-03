@@ -3,7 +3,19 @@
 {% block body %}
     <div class="page-header clearfix">
         <h1 class="pull-left">
-            <span class="iconl icon-{{ slug }}"></span>{{ 'crud.new.title'|trans({'%slug%': slug})|capitalize }}
+            {% if slug ends with 's' %}
+                {% set title = slug[1:] %}
+            {% endif %}
+            <span class="iconl icon-{{ slug }}"></span>
+            {% if entity.id is defined %}
+                {% if entity.name is defined %}
+                    {{ entity.name|capitalize }}
+                {% else %}
+                    Update {{ title|replace({''})}}
+                {% endif %}
+            {% else %}
+                {{ 'crud.new.title'|trans({'%slug%': title})|capitalize }}
+            {% endif %}
         </h1>
     </div>
     <section class="page-section">
