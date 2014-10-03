@@ -1,6 +1,7 @@
 {% extends extend_template %}
 
 {% block body %}
+    {% block edit_header %}
     <div class="page-header clearfix">
         <h1 class="pull-left">
             {% if slug ends with 's' %}
@@ -18,7 +19,12 @@
             {% endif %}
         </h1>
     </div>
+    {% endblock edit_header %}
+    
+    {% block edit_form %}
+
     <section class="page-section">
         {{ form(form, { 'style': 'horizontal', 'attr': {'novalidate':'novalidate'} }) }}
     </section>
+    {% endblock %}
 {% endblock %}
