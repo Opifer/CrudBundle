@@ -1,12 +1,12 @@
 <?php
 
-namespace Opifer\CrudBundle\Form;
+namespace Opifer\CrudBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RowFilterForm extends AbstractType
+class RowFilterType extends AbstractType
 {
     /** @var object $entity */
     protected $entity;
@@ -39,11 +39,6 @@ class RowFilterForm extends AbstractType
                 ->add('Apply', 'submit')
             ;
         }
-        
-
-        // if (null !== $this->action) {
-        //     $builder->setAction($this->action);
-        // }
     }
 
     /**

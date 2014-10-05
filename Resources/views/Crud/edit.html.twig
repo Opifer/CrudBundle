@@ -2,32 +2,36 @@
 
 {% block body %}
     {% block edit_header %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">
-            <span class="iconl icon-{{ slug }}"></span>
-            {% if entity.id is defined %}
-                {% if entity.name is defined %}
-                    {{ entity.name|capitalize }}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">
+                <span class="iconl icon-{{ slug }}"></span>
+                {% if entity.id is defined %}
+                    {% if entity.name is defined %}
+                        {{ entity.name|capitalize }}
+                    {% else %}
+                        {{ slug|capitalize }}
+                    {% endif %}
                 {% else %}
-                    {{ slug|capitalize }}
+                    {{ 'crud.new.title'|trans({'%slug%': slug})|capitalize }}
                 {% endif %}
-            {% else %}
-                {{ 'crud.new.title'|trans({'%slug%': slug})|capitalize }}
-            {% endif %}
-        </h1>
-    </div>
+            </h1>
+        </div>
     {% endblock edit_header %}
-    
+
     {% block edit_form %}
         <section class="page-section">
             {{ form_start(form, { 'style': 'horizontal', 'attr': {'novalidate':'novalidate'} })}}
                 {% set submit = form_widget(form.save) %}
                 {{ form_rest(form) }}
-                
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        {{ submit|raw }}
-                        <a class="btn btn-link" role="button" href="{{ path('opifer.crud.index', { 'slug': slug }) }}">Cancel</a>
+                        {% block edit_buttons %}
+                            {{ submit|raw }}
+                            <a class="btn btn-link" role="button" href="{{ path('opifer.crud.index', { 'slug': slug }) }}">
+                                Cancel
+                            </a>
+                        {% endblock %}
                     </div>
                 </div>
             {{ form_end(form) }}

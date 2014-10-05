@@ -22,8 +22,8 @@ services:
         arguments: [@doctrine.orm.entity_manager, @opifer.crud.entity_helper]
 
     # Form Types
-    opifer.crud.crud_form:
-        class: Opifer\CrudBundle\Form\CrudForm
+    opifer.crud.crud_type:
+        class: Opifer\CrudBundle\Form\Type\CrudType
         arguments: [@opifer.crud.entity_helper, @opifer.crud.form_annotation_reader]
         tags:
             - { name: form.type, alias: crud_form }

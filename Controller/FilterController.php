@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Opifer\CrudBundle\Entity\CrudFilter;
 use Opifer\CrudBundle\Entity\ColumnFilter;
 use Opifer\CrudBundle\Entity\RowFilter;
-use Opifer\CrudBundle\Form\ColumnFilterForm;
-use Opifer\CrudBundle\Form\RowFilterForm;
+use Opifer\CrudBundle\Form\Type\ColumnFilterType;
+use Opifer\CrudBundle\Form\Type\RowFilterType;
 
 class FilterController extends Controller
 {
@@ -28,13 +28,12 @@ class FilterController extends Controller
      */
     public function newColumnFilterAction(Request $request, $slug)
     {
-        $filterBuilder = $this->container->get('opifer.crud.filter_builder');
         $entity = $this->get('opifer.crud.slug_to_entity_transformer')->transform($slug);
 
         $properties = $this->get('opifer.crud.entity_helper')->getAllProperties($entity);
-        $form = $this->createForm(new ColumnFilterForm($properties), new ColumnFilter());
-
+        $form = $this->createForm(new ColumnFilterType($properties), new ColumnFilter());
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             $filter = $this->get('opifer.crud.filter_manager')->handleForm($entity, $form->getData());
 
@@ -64,13 +63,12 @@ class FilterController extends Controller
      */
     public function newRowFilterAction(Request $request, $slug)
     {
-        $entityHelper = $this->get('opifer.crud.entity_helper');
         $entity = $this->get('opifer.crud.slug_to_entity_transformer')->transform($slug);
 
         $rowFilter = new RowFilter();
         $rowFilter->setEntity(get_class($entity));
 
-        $form = $this->createForm(new RowFilterForm($entity), $rowFilter);
+        $form = $this->createForm(new RowFilterType($entity), $rowFilter);
 
         $form->handleRequest($request);
 

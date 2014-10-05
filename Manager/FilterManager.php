@@ -8,15 +8,24 @@ use Opifer\CrudBundle\Entity\ColumnFilter;
 
 class FilterManager
 {
+    /** @param EntityManager $em */
     protected $em;
 
+    /**
+     * Constructor
+     *
+     * @param EntityManager $em
+     */
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
     }
 
     /**
-     * @param array $formdata
+     * Handle the filter form
+     *
+     * @param object $entity
+     * @param object $formdata
      *
      * @return GridFilter
      */

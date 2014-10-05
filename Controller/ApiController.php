@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Opifer\CrudBundle\Handler\RequestHandler;
+
 class ApiController extends Controller
 {
     /**
@@ -78,7 +80,7 @@ class ApiController extends Controller
      */
     public function storeAction(Request $request, $entity)
     {
-        $handler = new \Opifer\CrudBundle\Handler\RequestHandler();
+        $handler = new RequestHandler();
         $handler->handleRequest($request, $entity);
 
         $validator = $this->get('validator');

@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Opifer\CrudBundle\Datagrid\Datagrid;
 use Opifer\CrudBundle\Entity\RowFilter;
-use Opifer\CrudBundle\Form\RowFilterForm;
+use Opifer\CrudBundle\Form\Type\RowFilterType;
 
 class CrudController extends Controller
 {
@@ -31,7 +31,7 @@ class CrudController extends Controller
             ->addRowFilter($rowfilter)
             ->build()
         ;
-        
+
         $postVars = $request->request->get('rowfilter');
 
         $query = array_merge($request->query->all(), ['slug' => $slug]);
@@ -41,8 +41,8 @@ class CrudController extends Controller
         if (isset($postVars['conditions'])) {
             $rowFilter->setConditions($postVars['conditions']);
         }
-        
-        $filterForm = $this->createForm(new RowFilterForm($entity, $this->generateUrl('opifer.crud.filter.row.new', ['slug' => $slug])), $rowFilter);
+
+        $filterForm = $this->createForm(new RowFilterType($entity, $this->generateUrl('opifer.crud.filter.row.new', ['slug' => $slug])), $rowFilter);
 
         return $this->render($datagrid->getTemplate($request->getMethod()), [
             'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),

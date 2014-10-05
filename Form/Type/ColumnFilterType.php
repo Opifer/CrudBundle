@@ -1,20 +1,29 @@
 <?php
 
-namespace Opifer\CrudBundle\Form;
+namespace Opifer\CrudBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ColumnFilterForm extends AbstractType
+class ColumnFilterType extends AbstractType
 {
+    /** @var array */
     protected $columns;
 
-    public function __construct($columns)
+    /**
+     * Constructor
+     *
+     * @param array $columns
+     */
+    public function __construct(array $columns)
     {
         $this->columns = $columns;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $columns = [];
@@ -25,6 +34,7 @@ class ColumnFilterForm extends AbstractType
             }
             $columns[$column['fieldName']] = $column['fieldName'];
         }
+
         $builder
             ->add('name')
             ->add('columns', 'choice', [
@@ -33,9 +43,13 @@ class ColumnFilterForm extends AbstractType
                 'expanded' => true,
                 'required' => true
             ])
-            ->add('Save filter', 'submit');
+            ->add('Save filter', 'submit')
+        ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -43,6 +57,9 @@ class ColumnFilterForm extends AbstractType
         ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'columnfilter';

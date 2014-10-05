@@ -11,7 +11,7 @@ use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\RulesEngine\Environment\DoctrineEnvironment;
 
 /**
- * 
+ *
  */
 class FilterBuilder
 {
@@ -126,7 +126,6 @@ class FilterBuilder
             }
         }
 
-        $relations = [];
         foreach ($this->entityHelper->getRelations($entity) as $relation) {
             if (count($allowedProperties)) {
                 foreach ($allowedProperties as $property) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CrudBundle\Form;
+namespace Opifer\CrudBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -8,19 +8,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\CrudBundle\Annotation\FormAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\CrudBundle\Form\Transformer\ArrayToJsonTransformer;
-use Opifer\CrudBundle\Form\Type\CrudRelationType;
 use Opifer\CrudBundle\Transformer\DoctrineTypeTransformer;
 
-class CrudForm extends AbstractType
+class CrudType extends AbstractType
 {
-    /**
-     * @var EntityHelper
-     */
+    /** @var EntityHelper */
     protected $entityHelper;
 
-    /**
-     * @var FormAnnotationReader
-     */
+    /** @var FormAnnotationReader */
     protected $annotationReader;
 
     /**

@@ -53,7 +53,6 @@ abstract class AbstractAnnotationReader
      */
     public function is($entity, $property, $annotation)
     {
-        $reflectionObj = new \ReflectionObject($entity);
         $reflectionProperty = new \ReflectionProperty($entity, $property);
         $propertyAnnotation = $this->reader->getPropertyAnnotation($reflectionProperty, $this->annotationClass);
 

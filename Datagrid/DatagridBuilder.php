@@ -2,6 +2,7 @@
 
 namespace Opifer\CrudBundle\Datagrid;
 
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -117,6 +118,11 @@ class DatagridBuilder
         return $this;
     }
 
+    /**
+     * Adds a where clause
+     *
+     * @param string $where
+     */
     public function where($where)
     {
         $this->wheres[] = $where;
@@ -305,7 +311,7 @@ class DatagridBuilder
      *
      * @return QueryBuilder
      */
-    public function sortRows($rowQuery)
+    public function sortRows(QueryBuilder $rowQuery)
     {
         $query = $this->getRequest()->query;
         if (null !== $query->get('sort')) {

@@ -2,18 +2,18 @@
 
 namespace Opifer\CrudBundle\RulesEngine;
 
-use Opifer\CrudBundle\Doctrine\EntityHelper;
-use Opifer\CrudBundle\Transformer\EntityTransformer;
-use Opifer\RulesEngine\Rule\Condition\Condition;
+use Opifer\RulesEngine\Rule\Condition\ConditionSet;
 use Opifer\RulesEngine\Rule\Condition\StringValueCondition;
 use Opifer\RulesEngine\Rule\Condition\ConditionSet;
+use Opifer\RulesEngine\Rule\RuleSet;
 use Opifer\RulesEngineBundle\Provider\AbstractProvider;
 use Opifer\RulesEngineBundle\Provider\ProviderInterface;
+
+use Opifer\CrudBundle\Doctrine\EntityHelper;
 
 class RulesProvider extends AbstractProvider implements ProviderInterface
 {
     private $entityHelper;
-    private $entityTransformer;
 
     public function __construct(EntityHelper $entityHelper)
     {
@@ -23,8 +23,8 @@ class RulesProvider extends AbstractProvider implements ProviderInterface
     public function buildRules()
     {
         $rules = array();
-        $rules[] = new \Opifer\RulesEngine\Rule\RuleSet();
-        $rules[] = new \Opifer\RulesEngine\Rule\Condition\ConditionSet();
+        $rules[] = new RuleSet();
+        $rules[] = new ConditionSet();
 
         // @todo Transform
         $entity = $this->context;
