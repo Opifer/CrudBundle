@@ -1,33 +1,3 @@
-
-    {# <div class="form-group">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                Default view   <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li class="divider"></li>
-                <li role="presentation" class="dropdown-header">
-                </li>
-                {% for option in grid.columnfilters %}
-                    <li>
-                        <a href="{{ path('opifer.crud.filter', {'slug': slug, 'columnfilter': option.slug, 'rowfilter': grid.selectedRowFilter }) }}">
-                            {{ option.name }}
-                        </a>
-                        <a href="{{ path('opifer.crud.filter.delete', {'slug': slug, 'id': option.id}) }}" class="dropdown-inline-btn">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div> #}
-    {# {{ 'datagrid.columns.button'|trans|capitalize }} #}
-    {# <li>
-        <a href="{{ path('opifer.crud.filter.column.new', {'slug': slug}) }}">
-            {{ 'datagrid.columns.new'|trans|capitalize }}
-        </a>
-    </li> #}
-    {# {{ 'datagrid.columns.existing'|trans|capitalize }} #}
 <div class="clearfix">
     <div class="col-xs-8">
         <form action="#">
@@ -50,7 +20,7 @@
     </div>
 </div>
 {% if filter_form.conditions is defined %}
-    <div class="row collapse" id="filter-panel">
+    <div class="collapse" id="filter-panel">
         <div class="col-xs-12">
             {{ form_start(filter_form) }}
                 <div class="form-group">
