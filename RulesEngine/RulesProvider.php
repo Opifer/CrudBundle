@@ -4,7 +4,6 @@ namespace Opifer\CrudBundle\RulesEngine;
 
 use Opifer\RulesEngine\Rule\Condition\ConditionSet;
 use Opifer\RulesEngine\Rule\Condition\StringValueCondition;
-use Opifer\RulesEngine\Rule\Condition\ConditionSet;
 use Opifer\RulesEngine\Rule\RuleSet;
 use Opifer\RulesEngineBundle\Provider\AbstractProvider;
 use Opifer\RulesEngineBundle\Provider\ProviderInterface;
