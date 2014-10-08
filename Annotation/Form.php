@@ -7,8 +7,8 @@ use Doctrine\Common\Annotations\Annotation;
 /**
  * The Opifer Form annotation.
  * Usage:
- * - add a use statement of this class to the entity (e.g. use Opifer\CrudBundle\Annotation as Opifer;)
- * - add the annotation to the properties. (e.g. @Opifer\Form(editable=true) )
+ * - add a use statement of this class to the entity (e.g. use Opifer\CrudBundle\Annotation\Form;)
+ * - add the annotation to the properties. (e.g. @Form(editable=true) )
  *
  * @Annotation
  * @Target({"PROPERTY"})
