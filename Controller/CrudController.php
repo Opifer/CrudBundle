@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Opifer\CrudBundle\Datagrid\Datagrid;
 use Opifer\CrudBundle\Entity\RowFilter;
 use Opifer\CrudBundle\Form\Type\RowFilterType;
 

@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Opifer\CrudBundle\Entity\CrudFilter;
 use Opifer\CrudBundle\Entity\ColumnFilter;
 use Opifer\CrudBundle\Entity\RowFilter;
 use Opifer\CrudBundle\Form\Type\ColumnFilterType;

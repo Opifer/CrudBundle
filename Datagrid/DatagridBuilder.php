@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
-use Opifer\CrudBundle\Datagrid\Row\Row;
 use Opifer\CrudBundle\Pagination\Paginator;
 
 class DatagridBuilder
