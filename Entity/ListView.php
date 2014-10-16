@@ -4,12 +4,11 @@ namespace Opifer\CrudBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Opifer\CrudBundle\Annotation as CRUD;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Filter
+ * List view
  *
  * @ORM\Table(name="list_view")
  * @ORM\Entity()
@@ -35,7 +34,6 @@ class ListView
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true)
      * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank()
      */
@@ -52,9 +50,7 @@ class ListView
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true, type="ruleeditor", options={"provider" : "crud"})
      * @ORM\Column(name="conditions", type="object", nullable=true)
-     *
      * @JMS\Type("Opifer\RulesEngine\Rule\Rule")
      */
     protected $conditions;
@@ -80,7 +76,6 @@ class ListView
      * Set entity
      *
      * @param  object|string $entity
-     * @return List
      */
     public function setEntity($entity)
     {
@@ -107,7 +102,6 @@ class ListView
      * Set name
      *
      * @param  string     $name
-     * @return CrudFilter
      */
     public function setName($name)
     {
@@ -130,7 +124,6 @@ class ListView
      * Set slug
      *
      * @param  string     $slug
-     * @return CrudFilter
      */
     public function setSlug($slug)
     {
@@ -153,7 +146,6 @@ class ListView
      * Set condition
      *
      * @param  string     $conditions
-     * @return CrudFilter
      */
     public function setConditions($conditions)
     {

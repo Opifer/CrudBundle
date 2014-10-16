@@ -55,11 +55,6 @@ opifer_crud:
     # Define a route prefix if necessary
     # Defaults to '/'
     route_prefix: /admin
-    
-    # The template to extend from if you want to use the full crud views.
-    # The template needs a 'body' block to successfully load the crud pages
-    # Defaults to "OpiferCrudBundle::base.html.twig"
-    extend_template: AcmeDemoBundle::base.html.twig
 
     # Note: Changing the key values will break the routes pointing to that entity.
     # Make sure to fix wherever you point to that route.

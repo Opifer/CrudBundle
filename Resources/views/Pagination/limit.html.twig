@@ -1,5 +1,5 @@
 <form action="" method="GET">
-    <select name="limit" class="form-control js-limit-select">
+    <select name="limit" class="form-control js-submit-on-change">
         <option value="25" {% if query.limit is defined and query.limit == 25 %}selected{% endif %}>25</option>
         <option value="50" {% if query.limit is defined and query.limit == 50 %}selected{% endif %}>50</option>
         <option value="100" {% if query.limit is defined and query.limit == 100 %}selected{% endif %}>100</option>

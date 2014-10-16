@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
 use Opifer\CrudBundle\Datagrid\Row\Row;
+use Opifer\CrudBundle\Entity\ListView;
 use Opifer\CrudBundle\Pagination\Paginator;
 
 /**
@@ -33,8 +34,8 @@ class Datagrid
     /** @var array */
     protected $views;
 
-    /** @var string */
-    protected $selectedView = 'default';
+    /** @var ListView */
+    protected $view;
 
     /**
      * Constructor
@@ -204,13 +205,13 @@ class Datagrid
     }
 
     /**
-     * Set selected list view
+     * Set list view
      *
-     * @param string $view
+     * @param ListView $view
      */
-    public function setSelectedView($view)
+    public function setView(ListView $view)
     {
-        $this->selectedView = $view;
+        $this->view = $view;
 
         return $this;
     }
@@ -218,11 +219,11 @@ class Datagrid
     /**
      * Get selected list view
      *
-     * @return string
+     * @return ListView
      */
-    public function getSelectedView()
+    public function getView()
     {
-        return $this->selectedView;
+        return $this->view;
     }
 
     /**

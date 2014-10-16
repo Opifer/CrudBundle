@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    $('.js-limit-select').change(function() {
-        $(this).closest('form').submit();
-    });
-
     $('.js-submit-on-change').change(function() {
         $(this).closest('form').submit();
     });

@@ -95,11 +95,17 @@ class DatagridBuilder
     /**
      * Add a view
      *
-     * @param string $view
+     * @param string $slug
      */
-    public function setView($view)
+    public function setView($slug = '')
     {
-        $this->datagrid->setSelectedView($view);
+        if ($slug !== '') {
+            $view = $this->getViewRepository()->findOneBy([
+                'slug'   => $slug,
+                'entity' => get_class($this->datagrid->getSource())
+            ]);
+            $this->datagrid->setView($view);
+        }
 
         return $this;
     }
@@ -214,26 +220,31 @@ class DatagridBuilder
      */
     public function getColumns()
     {
-        $view = $this->datagrid->getSelectedView();
-
         if (count($this->columns)) {
             $columns = $this->columns;
-        } elseif ($view == 'default') {
+        } elseif (null !== $view = $this->datagrid->getView()) {
+            $columns = json_decode($view->getColumns(), true);
+        } else {
             if (count($this->datagrid->getViews())) {
                 $columns = json_decode(array_pop($this->datagrid->getViews())->getColumns(), true);
             } else {
                 $columns = $this->container->get('opifer.crud.view_builder')->allColumns($this->datagrid->getSource());
             }
-        } else {
-            $view = $this->getViewRepository()->findOneBy([
-                'entity' => get_class($this->datagrid->getSource()),
-                'slug'   => $view
-            ]);
-
-            $columns = json_decode($view->getColumns(), true);
         }
 
         return $columns;
+    }
+
+    public function findAndSetView($view)
+    {
+        $view = $this->getViewRepository()->findOneBy([
+            'entity' => get_class($this->datagrid->getSource()),
+            'slug'   => $view
+        ]);
+
+        $this->datagrid->setView($view);
+
+        return $view;
     }
 
     /**
@@ -242,7 +253,6 @@ class DatagridBuilder
     public function getRowQuery()
     {
         $viewBuilder = $this->container->get('opifer.crud.view_builder');
-        $view = $this->datagrid->getSelectedView();
 
         $source = $this->datagrid->getSource();
 
@@ -253,12 +263,7 @@ class DatagridBuilder
                 ->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
 
             $qb = $viewBuilder->getRowQuery($conditions, $source);
-        } elseif ($view !== 'default') {
-            $view = $this->getViewRepository()->findOneBy([
-                'entity' => get_class($source),
-                'slug'   => $view
-            ]);
-
+        } elseif (null !== $view = $this->datagrid->getView()) {
             $qb = $viewBuilder->getRowQuery($view->getConditions(), $source);
         } else {
             $sourceRepository = $this->container->get('doctrine')->getRepository(get_class($source));
