@@ -41,7 +41,6 @@ class OpiferCrudExtension extends Extension
     {
         $params = [];
 
-        $params['opifer_crud.extend_template'] = $config['extend_template'];
         $params['opifer_crud.route_prefix'] = $config['route_prefix'];
 
         foreach ($config['routes'] as $id => $entity) {

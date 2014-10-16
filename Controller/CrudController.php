@@ -4,11 +4,12 @@ namespace Opifer\CrudBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\CrudBundle\Entity\RowFilter;
-use Opifer\CrudBundle\Form\Type\RowFilterType;
+use Opifer\CrudBundle\Entity\ListView;
+use Opifer\CrudBundle\Form\Type\ListViewType;
 
 class CrudController extends Controller
 {
@@ -18,34 +19,31 @@ class CrudController extends Controller
      * @param Request $request
      * @param object  $entity
      * @param string  $slug
-     * @param string  $rowfilter
-     * @param string  $columnfilter
      *
      * @return Response
      */
-    public function indexAction(Request $request, $entity, $slug, $rowfilter = 'default', $columnfilter = 'default')
+    public function indexAction(Request $request, $entity, $slug)
     {
         $datagrid = $this->get('opifer.crud.datagrid_builder')->create($entity)
-            ->addColumnFilter($columnfilter)
-            ->addRowFilter($rowfilter)
+            ->setView($request->get('view', 'default'))
             ->build()
         ;
 
-        $postVars = $request->request->get('rowfilter');
+        $postVars = $request->request->get('view');
 
         $query = array_merge($request->query->all(), ['slug' => $slug]);
 
-        $rowFilter = new RowFilter();
-        $rowFilter->setEntity(get_class($entity));
+        $view = new ListView();
+        $view->setEntity(get_class($entity));
         if (isset($postVars['conditions'])) {
-            $rowFilter->setConditions($postVars['conditions']);
+            $view->setConditions($postVars['conditions']);
         }
 
-        $filterForm = $this->createForm(new RowFilterType($entity, $this->generateUrl('opifer.crud.filter.row.new', ['slug' => $slug])), $rowFilter);
+        $properties = $this->get('opifer.crud.entity_helper')->getAllProperties($entity);
+        $viewForm = $this->createForm(new ListViewType($entity, $properties, $this->generateUrl('opifer.crud.listview.new', ['slug' => $slug])), $view);
 
         return $this->render($datagrid->getTemplate($request->getMethod()), [
-            'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
-            'filter_form'     => $filterForm->createView(),
+            'view_form'       => $viewForm->createView(),
             'slug'            => $slug,
             'grid'            => $datagrid,
             'query'           => $query,
@@ -88,15 +86,10 @@ class CrudController extends Controller
             return $this->redirect($this->generateUrl('opifer.crud.index', ['slug' => $slug]));
         }
 
-        $template = (method_exists($entity, 'getEditTemplate')) ?
-            $entity->getEditTemplate() :
-            'OpiferCrudBundle:Crud:edit.html.twig';
-
-        return $this->render($template, [
-            'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
-            'form'            => $form->createView(),
-            'slug'            => $slug,
-            'entity'          => $entity
+        return $this->render('OpiferCrudBundle:Crud:edit.html.twig', [
+            'form'   => $form->createView(),
+            'slug'   => $slug,
+            'entity' => $entity
         ]);
     }
 
@@ -164,15 +157,10 @@ class CrudController extends Controller
             ]));
         }
 
-        $template = (method_exists($entity, 'getEditTemplate')) ?
-            $entity->getEditTemplate() :
-            'OpiferCrudBundle:Crud:edit.html.twig';
-
-        return $this->render($template, [
-            'extend_template' => $this->container->getParameter('opifer_crud.extend_template'),
-            'form'            => $form->createView(),
-            'slug'            => $slug,
-            'entity'          => $entity
+        return $this->render('OpiferCrudBundle:Crud:edit.html.twig', [
+            'form'   => $form->createView(),
+            'slug'   => $slug,
+            'entity' => $entity
         ]);
     }
 

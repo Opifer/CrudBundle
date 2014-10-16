@@ -61,8 +61,7 @@ class DatagridBuilder
     {
         $this->datagrid = new Datagrid();
         $this->datagrid->setSource($source);
-        $this->datagrid->setColumnFilters($this->getFilterRepository()->columnFilters(get_class($source)));
-        $this->datagrid->setRowFilters($this->getFilterRepository()->rowFilters(get_class($source)));
+        $this->datagrid->setViews($this->getViewRepository()->findByEntity(get_class($source)));
 
         return $this;
     }
@@ -94,25 +93,13 @@ class DatagridBuilder
     }
 
     /**
-     * Add a column filter
+     * Add a view
      *
-     * @param string $filter
+     * @param string $view
      */
-    public function addColumnFilter($filter)
+    public function setView($view)
     {
-        $this->datagrid->setSelectedColumnFilter($filter);
-
-        return $this;
-    }
-
-    /**
-     * add a row filter
-     *
-     * @param string $filter
-     */
-    public function addRowFilter($filter)
-    {
-        $this->datagrid->setSelectedRowFilter($filter);
+        $this->datagrid->setSelectedView($view);
 
         return $this;
     }
@@ -155,25 +142,11 @@ class DatagridBuilder
      */
     public function build()
     {
-        // Handle columns
-        if (null !== $this->datagrid->getSelectedColumnFilter()) {
-            $filter = $this->datagrid->getSelectedColumnFilter();
-        } else {
-            $filter = 'default';
-        }
-
-        $columns = $this->getColumns($filter);
+        $columns = $this->getColumns();
         $columns = $this->mapper->mapColumns($columns);
         $this->datagrid->setColumns($columns);
 
-        // Handle rows
-        if (null !== $this->datagrid->getSelectedRowFilter()) {
-            $filter = $this->datagrid->getSelectedRowFilter();
-        } else {
-            $filter = 'default';
-        }
-
-        $rowQuery = $this->getRowQuery($filter);
+        $rowQuery = $this->getRowQuery();
 
         $paginator = new Paginator($rowQuery, $this->getLimit(), $this->getPage());
         $this->datagrid->setPaginator($paginator);
@@ -235,54 +208,58 @@ class DatagridBuilder
     }
 
     /**
-     * Determine which columns to use, based on the filter
+     * Determine which columns to use, based on the view
      *
-     * @param string
-     *
-     * @return Datagrid
+     * @return array
      */
-    public function getColumns($filter = 'default')
+    public function getColumns()
     {
-        $this->datagrid->setSelectedColumnFilter($filter);
+        $view = $this->datagrid->getSelectedView();
 
         if (count($this->columns)) {
             $columns = $this->columns;
-        } elseif ($filter == 'default') {
-            if (count($this->datagrid->getColumnFilters())) {
-                $columns = json_decode(array_pop($this->datagrid->getColumnFilters())->getColumns(), true);
+        } elseif ($view == 'default') {
+            if (count($this->datagrid->getViews())) {
+                $columns = json_decode(array_pop($this->datagrid->getViews())->getColumns(), true);
             } else {
-                $columns = $this->container->get('opifer.crud.filter_builder')->allColumns($this->datagrid->getSource());
+                $columns = $this->container->get('opifer.crud.view_builder')->allColumns($this->datagrid->getSource());
             }
         } else {
-            $filter = $this->getFilterRepository()->oneColumnFilter($filter, get_class($this->datagrid->getSource()));
+            $view = $this->getViewRepository()->findOneBy([
+                'entity' => get_class($this->datagrid->getSource()),
+                'slug'   => $view
+            ]);
 
-            $columns = json_decode($filter->getColumns(), true);
+            $columns = json_decode($view->getColumns(), true);
         }
 
         return $columns;
     }
 
     /**
-     * Determine which rows to use, based on the filter
-     *
-     * @param string $filter
+     * Determine which rows to use, based on the view
      */
-    public function getRowQuery($filter = 'default')
+    public function getRowQuery()
     {
-        $this->datagrid->setSelectedRowFilter($filter);
+        $viewBuilder = $this->container->get('opifer.crud.view_builder');
+        $view = $this->datagrid->getSelectedView();
 
         $source = $this->datagrid->getSource();
 
-        $filterBuilder = $this->container->get('opifer.crud.filter_builder');
-        if ($this->getRequest()->request->get('filterfields')) {
-            $qb = $filterBuilder->any($source, $this->getRequest()->request->get('filterfields'));
-        } elseif (($postVars = $this->getRequest()->request->get('rowfilter')) && ($postVars['conditions'] != '')) {
-            $conditions = $this->container->get('jms_serializer')->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
-            $qb = $filterBuilder->getRowQuery($conditions, $source);
-        } elseif ($filter !== 'default') {
-            $filter = $this->getFilterRepository()->oneRowFilter($filter, $source);
+        if ($filterfields = $this->getRequest()->request->get('filterfields')) {
+            $qb = $viewBuilder->any($source, $filterfields);
+        } elseif (($postVars = $this->getRequest()->request->get('listview')) && ($postVars['conditions'] != '')) {
+            $conditions = $this->container->get('jms_serializer')
+                ->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
 
-            $qb = $filterBuilder->getRowQuery($filter->getConditions(), $source);
+            $qb = $viewBuilder->getRowQuery($conditions, $source);
+        } elseif ($view !== 'default') {
+            $view = $this->getViewRepository()->findOneBy([
+                'entity' => get_class($source),
+                'slug'   => $view
+            ]);
+
+            $qb = $viewBuilder->getRowQuery($view->getConditions(), $source);
         } else {
             $sourceRepository = $this->container->get('doctrine')->getRepository(get_class($source));
 
@@ -336,12 +313,12 @@ class DatagridBuilder
     }
 
     /**
-     * Get the filter repository
+     * Get the view repository
      *
-     * @return EntityRepository
+     * @return ListViewRepository
      */
-    public function getFilterRepository()
+    public function getViewRepository()
     {
-        return $this->container->get('doctrine')->getRepository('Opifer\CrudBundle\Entity\CrudFilter');
+        return $this->container->get('doctrine')->getRepository('Opifer\CrudBundle\Entity\ListView');
     }
 }

@@ -36,12 +36,6 @@ class CrudRouter extends AbstractRouter implements RouterInterface
             '_controller' => 'OpiferCrudBundle:Crud:index'
         ]);
 
-        $routes['opifer.crud.filter'] = new Route($prefix.'/{slug}/rows/{rowfilter}/columns/{columnfilter}', [
-            '_controller'  => 'OpiferCrudBundle:Crud:index',
-            'rowfilter'    => 'default',
-            'columnfilter' => 'default'
-        ]);
-
         $routes['opifer.crud.new'] = new Route($prefix.'/{slug}/new', [
             '_controller' => 'OpiferCrudBundle:Crud:new'
         ]);

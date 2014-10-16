@@ -14,6 +14,11 @@ class RulesProvider extends AbstractProvider implements ProviderInterface
 {
     private $entityHelper;
 
+    /**
+     * Entity helper
+     *
+     * @param EntityHelper $entityHelper
+     */
     public function __construct(EntityHelper $entityHelper)
     {
         $this->entityHelper = $entityHelper;
@@ -25,7 +30,6 @@ class RulesProvider extends AbstractProvider implements ProviderInterface
         $rules[] = new RuleSet();
         $rules[] = new ConditionSet();
 
-        // @todo Transform
         $entity = $this->context;
 
         foreach ($this->entityHelper->getProperties($entity) as $property) {

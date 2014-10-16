@@ -23,11 +23,6 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                // Defines the template from which the grid has to extend
-                ->scalarNode('extend_template')
-                    ->defaultValue('OpiferCrudBundle::base.html.twig')
-                ->end()
-
                 ->scalarNode('route_prefix')
                     ->defaultValue('')
                 ->end()

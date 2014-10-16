@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CrudBundle\Form\Transformer;
+namespace Opifer\CrudBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 

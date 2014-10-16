@@ -2,7 +2,6 @@
 
 namespace Opifer\CrudBundle\Datagrid;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 
 use Opifer\CrudBundle\Annotation\GridAnnotationReader;
@@ -11,9 +10,9 @@ use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\RulesEngine\Environment\DoctrineEnvironment;
 
 /**
- *
+ * Builds the datagrid view
  */
-class FilterBuilder
+class ViewBuilder
 {
     protected $em;
     protected $entityHelper;

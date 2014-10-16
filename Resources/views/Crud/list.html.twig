@@ -1,6 +1,6 @@
-{% extends extend_template %}
+{% extends 'OpiferCrudBundle::base.html.twig' %}
 
-{% block body %}
+{% block opifer_crud_body %}
     {% block list_header %}
         <div class="page-header clearfix">
             <a href="{{ path('opifer.crud.new', {'slug': slug}) }}" class="btn btn-default pull-right">
@@ -43,4 +43,4 @@
             </div>
         </div>
     {% endblock %}
-{% endblock %}
+{% endblock opifer_crud_body %}

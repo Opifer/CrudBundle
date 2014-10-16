@@ -1,12 +1,10 @@
 <?php
 
-namespace Opifer\CrudBundle\Manager;
+namespace Opifer\CrudBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 
-use Opifer\CrudBundle\Entity\ColumnFilter;
-
-class FilterManager
+class ListViewManager
 {
     /** @param EntityManager $em */
     protected $em;
@@ -22,7 +20,7 @@ class FilterManager
     }
 
     /**
-     * Handle the filter form
+     * Handle the view form
      *
      * @param object $entity
      * @param object $formdata
@@ -31,9 +29,9 @@ class FilterManager
      */
     public function handleForm($entity, $formdata)
     {
-        $filter = new ColumnFilter();
-        $filter->setName($formdata->getName());
-        $filter->setEntity(get_class($entity));
+        $view = new ListView();
+        $view->setName($formdata->getName());
+        $view->setEntity(get_class($entity));
 
         // Transform column data to the correct format.
         $columns = [];
@@ -43,11 +41,11 @@ class FilterManager
                 'type' => 'string' // Change to get the right type
             ];
         }
-        $filter->setColumns(json_encode($columns));
+        $view->setColumns(json_encode($columns));
 
-        $this->em->persist($filter);
+        $this->em->persist($view);
         $this->em->flush();
 
-        return $filter;
+        return $view;
     }
 }

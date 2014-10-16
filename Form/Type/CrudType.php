@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Opifer\CrudBundle\Annotation\FormAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
-use Opifer\CrudBundle\Form\Transformer\ArrayToJsonTransformer;
+use Opifer\CrudBundle\Form\DataTransformer\ArrayToJsonTransformer;
 use Opifer\CrudBundle\Transformer\DoctrineTypeTransformer;
 
 class CrudType extends AbstractType

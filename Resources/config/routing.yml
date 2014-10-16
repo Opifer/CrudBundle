@@ -1,8 +1,3 @@
-
-opifer.crud:
-    resource: "@OpiferCrudBundle/Controller/CrudController.php"
-    type:     annotation
-
-opifer.filter:
-    resource: "@OpiferCrudBundle/Controller/FilterController.php"
-    type:     annotation
+opifer.crud.listview.delete:
+    path: "/{slug}/filter/delete/{id}"
+    defaults: { _controller: OpiferCrudBundle:ListView:delete }

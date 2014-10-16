@@ -1,34 +1,55 @@
-<div class="clearfix">
-    <div class="col-xs-8">
-        <form action="#">
-            <div class="btn-group">
-                <a href="#" class="btn btn-default" data-toggle="collapse" data-target="#filter-panel">Filters</a>
-            </div>
-        </form>
-    </div>
-    <div class="col-xs-4">
-        <form class="pull-right" role="form" action="#" method="POST" style="max-width: 250px;">
-            <div class="form-group">
-                <div class="input-group search-group">
-                    <input name="filterfields" id="filterfields" type="search" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}" class="form-control"/>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                    </span>
+{% if view_form.conditions is defined %}
+    {{ form_start(view_form) }}
+        <div class="clearfix">
+            <div class="col-xs-8">
+                <div class="btn-group">
+                    <select name="view" class="stored-filters form-control js-submit-on-change">
+                        <option value="">Select view</option>
+                        {% for item in grid.views %}
+                            <option value="{{ item.slug }}" {% if app.request.get('view') == item.slug %}selected{% endif %}>
+                                {{ item.name|capitalize }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <a href="#" class="btn btn-default" data-toggle="collapse" data-target="#filter-panel">
+                        Create custom view
+                    </a>
                 </div>
             </div>
-        </form>
-    </div>
-</div>
-{% if filter_form.conditions is defined %}
-    <div class="collapse" id="filter-panel">
-        <div class="col-xs-12">
-            {{ form_start(filter_form) }}
-                <div class="form-group">
-                    <div class="btn-group">
-                        {{ form_widget(filter_form.conditions) }}
+            
+            <div class="col-xs-4">
+                <div class="pull-right" style="max-width: 250px;">
+                    <div class="form-group">
+                        <div class="input-group search-group">
+                            <input name="filterfields" id="filterfields" type="search" value="{{ app.request.get('filterfields') }}" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            {{ form_end(filter_form) }}
+            </div>
         </div>
-    </div>
+
+        <div class="collapse" id="filter-panel">
+            <div class="col-xs-12">
+                <div class="listview-form">
+                    <div class="form-group">
+                        <div class="btn-group">
+                            {{ form_widget(view_form.conditions) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-group">
+                            {{ form_widget(view_form.apply) }}
+                            {{ form_widget(view_form.save) }}
+                            {{ form_widget(view_form.name, {'attr': {'class': 'listview-name'}}) }}
+                            {#<button type="submit" id="rowfilter_Apply" name="rowfilter[Apply]" class="btn btn-primary">Apply</button>
+                            <button class="btn btn-default">Save</button>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(view_form) }}
 {% endif %}

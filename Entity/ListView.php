@@ -6,17 +6,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Opifer\CrudBundle\Annotation as CRUD;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Filter
  *
- * @ORM\Table(name="crudfilter")
- * @ORM\Entity(repositoryClass="Opifer\CrudBundle\Repository\CrudFilterRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"row" = "RowFilter", "column" = "ColumnFilter"})
+ * @ORM\Table(name="list_view")
+ * @ORM\Entity()
  */
-class CrudFilter
+class ListView
 {
     /**
      * @var integer
@@ -52,6 +50,23 @@ class CrudFilter
     protected $slug;
 
     /**
+     * @var string
+     *
+     * @CRUD\Form(editable=true, type="ruleeditor", options={"provider" : "crud"})
+     * @ORM\Column(name="conditions", type="object", nullable=true)
+     *
+     * @JMS\Type("Opifer\RulesEngine\Rule\Rule")
+     */
+    protected $conditions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="columns", type="text", nullable=true)
+     */
+    protected $columns;
+
+    /**
      * Get id
      *
      * @return integer
@@ -64,11 +79,15 @@ class CrudFilter
     /**
      * Set entity
      *
-     * @param  string $entity
+     * @param  object|string $entity
      * @return List
      */
     public function setEntity($entity)
     {
+        if (is_object($entity)) {
+            $entity = get_class($entity);
+        }
+
         $this->entity = $entity;
 
         return $this;
@@ -128,5 +147,50 @@ class CrudFilter
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set condition
+     *
+     * @param  string     $conditions
+     * @return CrudFilter
+     */
+    public function setConditions($conditions)
+    {
+        $this->conditions = $conditions;
+
+        return $this;
+    }
+
+    /**
+     * Get conditions
+     *
+     * @return Conditions
+     */
+    public function getConditions()
+    {
+        return $this->conditions;
+    }
+
+    /**
+     * Get columns
+     *
+     * @return string
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * Set columns
+     *
+     * @param string $columns
+     */
+    public function setColumns($columns)
+    {
+        $this->columns = $columns;
+
+        return $this;
     }
 }

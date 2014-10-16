@@ -1,6 +1,6 @@
-{% extends extend_template %}
+{% extends 'OpiferCrudBundle::base.html.twig' %}
 
-{% block body %}
+{% block opifer_crud_body %}
     {% block edit_header %}
         <div class="page-header clearfix">
             <h1 class="pull-left">
@@ -37,4 +37,4 @@
             {{ form_end(form) }}
         </section>
     {% endblock %}
-{% endblock %}
+{% endblock opifer_crud_body %}

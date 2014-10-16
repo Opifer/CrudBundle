@@ -30,17 +30,11 @@ class Datagrid
     /** @var string */
     protected $template;
 
-    /** @var ArrayCollection */
-    protected $columnfilters;
-
-    /** @var ArrayCollection */
-    protected $rowfilters;
+    /** @var array */
+    protected $views;
 
     /** @var string */
-    protected $selectedRowFilter;
-
-    /** @var string */
-    protected $selectedColumnFilter;
+    protected $selectedView = 'default';
 
     /**
      * Constructor
@@ -166,47 +160,25 @@ class Datagrid
     }
 
     /**
-     * Set available column filters
+     * Set available views
      *
-     * @param ArrayCollection $filters
+     * @param array $views
      */
-    public function setColumnFilters($filters)
+    public function setViews(array $views)
     {
-        $this->columnfilters = $filters;
+        $this->views = $views;
 
         return $this;
     }
 
     /**
-     * Get all available column filters
+     * Get all available views
      *
      * @return ArrayCollection
      */
-    public function getColumnFilters()
+    public function getViews()
     {
-        return $this->columnfilters;
-    }
-
-    /**
-     * Set available row filters
-     *
-     * @param ArrayCollection $filters
-     */
-    public function setRowFilters($filters)
-    {
-        $this->rowfilters = $filters;
-
-        return $this;
-    }
-
-    /**
-     * Get all available row filters
-     *
-     * @return [type]
-     */
-    public function getRowFilters()
-    {
-        return $this->rowfilters;
+        return $this->views;
     }
 
     /**
@@ -232,47 +204,25 @@ class Datagrid
     }
 
     /**
-     * Set selected column filter
+     * Set selected list view
      *
-     * @param string $filter
+     * @param string $view
      */
-    public function setSelectedColumnFilter($filter)
+    public function setSelectedView($view)
     {
-        $this->selectedColumnFilter = $filter;
+        $this->selectedView = $view;
 
         return $this;
     }
 
     /**
-     * Get selected column filter
+     * Get selected list view
      *
      * @return string
      */
-    public function getSelectedColumnFilter()
+    public function getSelectedView()
     {
-        return $this->selectedColumnFilter;
-    }
-
-    /**
-     * Set selected row filter
-     *
-     * @param string $filter
-     */
-    public function setSelectedRowFilter($filter)
-    {
-        $this->selectedRowFilter = $filter;
-
-        return $this;
-    }
-
-    /**
-     * Get selected row filter
-     *
-     * @return string
-     */
-    public function getSelectedRowFilter()
-    {
-        return $this->selectedRowFilter;
+        return $this->selectedView;
     }
 
     /**
