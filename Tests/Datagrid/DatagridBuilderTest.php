@@ -17,25 +17,26 @@ class DatagridBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $filterRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+        $viewRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->setMethods(array('findByEntity'))
             ->disableOriginalConstructor()
             ->getMock();
-        $filterRepository->expects($this->any())
-            ->method('columnFilters')
-            ->will($this->returnValue(new ArrayCollection()));
+        $viewRepository->expects($this->any())
+            ->method('findByEntity')
+            ->will($this->returnValue([]));
 
-        $filterRepository->expects($this->any())
-            ->method('rowFilters')
-            ->will($this->returnValue(new ArrayCollection()));
+        $request = new \Symfony\Component\HttpFoundation\Request([], ['listview' => ['conditions' => '{}']]);
 
         $datagridBuilder = $this->getMockBuilder('Opifer\CrudBundle\Datagrid\DatagridBuilder')
-            ->setMethods(array('getFilterRepository'))
+            ->setMethods(array('getViewRepository', 'getRequest'))
             ->setConstructorArgs(array($this->container))
             ->getMock();
-
         $datagridBuilder->expects($this->any())
-            ->method('getFilterRepository')
-            ->will($this->returnValue($filterRepository));
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+        $datagridBuilder->expects($this->any())
+            ->method('getViewRepository')
+            ->will($this->returnValue($viewRepository));
 
         $actual = $datagridBuilder->create(new User());
 
@@ -44,26 +45,26 @@ class DatagridBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testAddColumn()
     {
-        $filterRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+        $viewRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->setMethods(array('findByEntity'))
             ->disableOriginalConstructor()
             ->getMock();
+        $viewRepository->expects($this->any())
+            ->method('findByEntity')
+            ->will($this->returnValue([]));
 
-        $filterRepository->expects($this->any())
-            ->method('columnFilters')
-            ->will($this->returnValue(new ArrayCollection()));
-
-        $filterRepository->expects($this->any())
-            ->method('rowFilters')
-            ->will($this->returnValue(new ArrayCollection()));
+        $request = new \Symfony\Component\HttpFoundation\Request([], ['listview' => ['conditions' => '{}']]);
 
         $datagridBuilder = $this->getMockBuilder('Opifer\CrudBundle\Datagrid\DatagridBuilder')
-            ->setMethods(array('getFilterRepository'))
+            ->setMethods(array('getViewRepository', 'getRequest'))
             ->setConstructorArgs(array($this->container))
             ->getMock();
-
         $datagridBuilder->expects($this->any())
-            ->method('getFilterRepository')
-            ->will($this->returnValue($filterRepository));
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+        $datagridBuilder->expects($this->any())
+            ->method('getViewRepository')
+            ->will($this->returnValue($viewRepository));
 
         $datagrid = $datagridBuilder->create(new User())
             ->addColumn('name', 'text', ['label' => 'Username'])

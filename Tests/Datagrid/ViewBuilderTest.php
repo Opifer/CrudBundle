@@ -2,9 +2,9 @@
 
 namespace Opifer\CrudBundle\Tests\Datagrid;
 
-use Opifer\CrudBundle\Datagrid\FilterBuilder;
+use Opifer\CrudBundle\Datagrid\ViewBuilder;
 
-class FilterBuilderTest extends \PHPUnit_Framework_TestCase
+class ViewBuilderTest extends \PHPUnit_Framework_TestCase
 {
     private $entityManager;
 
@@ -26,7 +26,7 @@ class FilterBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testWheres()
     {
-        $filterBuilder = new FilterBuilder($this->entityManager, $this->entityHelper);
+        $filterBuilder = new ViewBuilder($this->entityManager, $this->entityHelper);
 
         $input = array(
             array(
