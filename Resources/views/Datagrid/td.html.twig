@@ -2,11 +2,7 @@
 <td>
     {% if data.value is iterable %}
         {% for value in data.value %}
-            {% if data.property in ['roles'] %}
-                {{ label_info(value|plainrolename) }}
-            {% else %}
-                {{ value }}
-            {% endif %}
+            {{ value }}
         {% endfor %}
     {% else %}
         {% if data.property in ['title', 'name', 'username'] %}

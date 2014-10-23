@@ -23,7 +23,7 @@ class SlugToEntityTransformer
     /**
      * Transform the slug to its corresponding entity
      *
-     * @param  string $slug
+     * @param string $slug
      *
      * @return object
      */

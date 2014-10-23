@@ -75,7 +75,7 @@ class ListView
     /**
      * Set entity
      *
-     * @param  object|string $entity
+     * @param object|string $entity
      */
     public function setEntity($entity)
     {
@@ -101,7 +101,7 @@ class ListView
     /**
      * Set name
      *
-     * @param  string     $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -123,7 +123,7 @@ class ListView
     /**
      * Set slug
      *
-     * @param  string     $slug
+     * @param string $slug
      */
     public function setSlug($slug)
     {
@@ -145,7 +145,7 @@ class ListView
     /**
      * Set condition
      *
-     * @param  string     $conditions
+     * @param string $conditions
      */
     public function setConditions($conditions)
     {

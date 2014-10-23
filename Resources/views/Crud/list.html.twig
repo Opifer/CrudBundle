@@ -16,7 +16,7 @@
         {% if grid.rows %}
             <section class="list-controls">
                 <div class="row">
-                    {{ include('OpiferCrudBundle:Datagrid:filters.html.twig') }}
+                    {{ include('OpiferCrudBundle:Datagrid:filters.html.twig', {'form': grid.viewform}) }}
                 </div>
             </section>
 
@@ -39,7 +39,7 @@
             <div class="col-xs-2">
             </div>
             <div class="col-xs-2 pagination-size">
-                {{ include('OpiferCrudBundle:Pagination:limit.html.twig', {'query': query}) }}
+                {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
             </div>
         </div>
     {% endblock %}

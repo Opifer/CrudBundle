@@ -8,9 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\CrudBundle\Entity\ListView;
-use Opifer\CrudBundle\Form\Type\ListViewType;
-
 class CrudController extends Controller
 {
     /**
@@ -29,25 +26,10 @@ class CrudController extends Controller
             ->build()
         ;
 
-        $postVars = $request->request->get('view');
-
-        $query = array_merge($request->query->all(), ['slug' => $slug]);
-
-        $view = new ListView();
-        $view->setEntity(get_class($entity));
-        if (isset($postVars['conditions'])) {
-            $view->setConditions($postVars['conditions']);
-        }
-
-        $properties = $this->get('opifer.crud.entity_helper')->getAllProperties($entity);
-        $viewForm = $this->createForm(new ListViewType($entity, $properties, $this->generateUrl('opifer.crud.listview.new', ['slug' => $slug])), $view);
-
-        return $this->render($datagrid->getTemplate($request->getMethod()), [
-            'view_form'       => $viewForm->createView(),
-            'slug'            => $slug,
-            'grid'            => $datagrid,
-            'query'           => $query,
-            'conditions'      => ($postVars['conditions']) ? $postVars['conditions'] : ''
+        return $this->render('OpiferCrudBundle:Crud:list.html.twig', [
+            'slug'  => $slug,
+            'grid'  => $datagrid,
+            'query' => array_merge($request->query->all(), ['slug' => $slug]),
         ]);
     }
 

@@ -38,30 +38,28 @@ class ListViewType extends AbstractType
             $columns[$column['fieldName']] = $column['fieldName'];
         }
 
-        if (method_exists($this->entity, 'getRuleProvider')) {
-            $builder
-                ->add('name', 'text', [
-                    'required' => false,
-                    'attr' => [
-                        'placeholder' => 'View name'
-                    ]
-                ])
-                ->add('conditions', 'ruleeditor', [
-                    'label'    => 'Filters',
-                    'provider' => $this->entity->getRuleProvider(),
-                    'context'  => get_class($this->entity),
-                    'required' => false
-                ])
-                // ->add('columns', 'choice', [
-                //     'choices' => [$columns],
-                //     'multiple' => true,
-                //     'expanded' => true,
-                //     'required' => true
-                // ])
-                ->add('apply', 'submit', ['label' => 'Apply'])
-                ->add('save', 'submit', ['label' => 'Save'])
-            ;
-        }
+        $builder
+            ->add('name', 'text', [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Save view as'
+                ]
+            ])
+            ->add('conditions', 'ruleeditor', [
+                'label'    => 'Filters',
+                'provider' => (method_exists($this->entity, 'getRuleProvider')) ? $this->entity->getRuleProvider() : 'entity',
+                'context'  => get_class($this->entity),
+                'required' => false
+            ])
+            // ->add('columns', 'choice', [
+            //     'choices' => [$columns],
+            //     'multiple' => true,
+            //     'expanded' => true,
+            //     'required' => true
+            // ])
+            ->add('apply', 'submit', ['label' => 'Apply'])
+            ->add('save', 'submit', ['label' => 'Save'])
+        ;
     }
 
     /**

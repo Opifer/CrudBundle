@@ -45,7 +45,7 @@ class ListViewManager
         //     ];
         // }
         // $view->setColumns(json_encode($columns));
-        
+
         $this->em->persist($view);
         $this->em->flush();
 

@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Opifer\CrudBundle\Entity\ListView;
-use Opifer\CrudBundle\Form\Type\ListViewType;
 
 class ListViewController extends Controller
 {

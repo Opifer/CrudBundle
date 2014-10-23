@@ -9,6 +9,8 @@ use Opifer\CrudBundle\Datagrid\Row\Row;
 use Opifer\CrudBundle\Entity\ListView;
 use Opifer\CrudBundle\Pagination\Paginator;
 
+use Symfony\Component\Form\FormView;
+
 /**
  * Datagrid
  *
@@ -28,14 +30,14 @@ class Datagrid
     /** @var array */
     protected $options = [];
 
-    /** @var string */
-    protected $template;
-
     /** @var array */
     protected $views;
 
     /** @var ListView */
     protected $view;
+
+    /** @var FormView */
+    protected $viewForm;
 
     /**
      * Constructor
@@ -74,35 +76,6 @@ class Datagrid
     }
 
     /**
-     * Sets the template to be used for the list view
-     * Default value is listed as protected above.
-     *
-     * @param string $template
-     *
-     * @return Datagrid
-     */
-    public function setTemplate($template)
-    {
-        $this->template = $template;
-
-        return $this;
-    }
-
-    /**
-     * Get the grid template
-     *
-     * @return string
-     */
-    public function getTemplate()
-    {
-        if (!is_null($this->template)) {
-            return $this->template;
-        }
-
-        return 'OpiferCrudBundle:Crud:list.html.twig';
-    }
-
-    /**
      * Add a column
      *
      * @param Column $column
@@ -114,6 +87,11 @@ class Datagrid
         return $this;
     }
 
+    /**
+     * Set all columns at once
+     *
+     * @param ArrayCollection $columns
+     */
     public function setColumns(ArrayCollection $columns)
     {
         $this->columns = $columns;
@@ -180,6 +158,28 @@ class Datagrid
     public function getViews()
     {
         return $this->views;
+    }
+
+    /**
+     * Set view form
+     *
+     * @param FormView $viewForm
+     */
+    public function setViewForm(FormView $viewForm)
+    {
+        $this->viewForm = $viewForm;
+
+        return $this;
+    }
+
+    /**
+     * Get the view form
+     *
+     * @return FormView
+     */
+    public function getViewForm()
+    {
+        return $this->viewForm;
     }
 
     /**

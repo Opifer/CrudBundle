@@ -53,10 +53,3 @@ services:
     jms_serializer.object_constructor:
         alias: jms_serializer.doctrine_object_constructor
         public: false
-
-    # RulesEngine Provider
-    opifer.rulesengine.provider.crud:
-        class: Opifer\CrudBundle\RulesEngine\RulesProvider
-        arguments: [@opifer.crud.entity_helper]
-        tags:
-            - { name: opifer.rulesengine.provider, alias: crud }

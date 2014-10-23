@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
+use Opifer\CrudBundle\Entity\ListView;
+use Opifer\CrudBundle\Form\Type\ListViewType;
 use Opifer\CrudBundle\Pagination\Paginator;
 
 class DatagridBuilder
@@ -61,6 +63,7 @@ class DatagridBuilder
     {
         $this->datagrid = new Datagrid();
         $this->datagrid->setSource($source);
+        $this->datagrid->setView($this->createView($source));
         $this->datagrid->setViews($this->getViewRepository()->findByEntity(get_class($source)));
 
         return $this;
@@ -93,6 +96,25 @@ class DatagridBuilder
     }
 
     /**
+     * Create view
+     *
+     * @param string $source
+     *
+     * @return ListView
+     */
+    protected function createView($source)
+    {
+        $view = new ListView();
+        $view->setEntity($source);
+        $vars = $this->getRequest()->request->get('listview');
+        if (null !== $conditions = $vars['conditions']) {
+            $view->setConditions($conditions);
+        }
+
+        return $view;
+    }
+
+    /**
      * Add a view
      *
      * @param string $slug
@@ -122,6 +144,12 @@ class DatagridBuilder
         return $this;
     }
 
+    /**
+     * Set parameter
+     *
+     * @param string $parameter
+     * @param mixed  $value
+     */
     public function setParameter($parameter, $value)
     {
         $this->parameters[$parameter] = $value;
@@ -148,6 +176,10 @@ class DatagridBuilder
      */
     public function build()
     {
+        if (!$this->handleViewForm()) {
+            throw new \Exception('The view could not be solved because the form was invalid.');
+        }
+
         $columns = $this->getColumns();
         $columns = $this->mapper->mapColumns($columns);
         $this->datagrid->setColumns($columns);
@@ -159,6 +191,35 @@ class DatagridBuilder
         $this->datagrid->setRows($this->mapper->mapRows($paginator, $columns));
 
         return $this->datagrid;
+    }
+
+    /**
+     * Handle the viewform
+     *
+     * @return [type]
+     */
+    protected function handleViewForm()
+    {
+        $columns = $this->container->get('opifer.crud.entity_helper')->getAllProperties(
+            $this->datagrid->getView()->getEntity()
+        );
+
+        $viewForm = $this->container->get('form.factory')->create(new ListViewType($this->datagrid->getSource(), $columns), $this->datagrid->getView());
+        $viewForm->handleRequest($this->getRequest());
+
+        if ($viewForm->get('save')->isClicked()) {
+            if ($viewForm->isValid()) {
+                $this->container->get('opifer.crud.listview_manager')->handleForm($viewForm->getData());
+            } else {
+                return false;
+            }
+        }
+
+        $viewForm = $viewForm->createView();
+
+        $this->datagrid->setViewForm($viewForm);
+
+        return true;
     }
 
     /**
@@ -235,6 +296,13 @@ class DatagridBuilder
         return $columns;
     }
 
+    /**
+     * Find and set a view by its slug
+     *
+     * @param string $view
+     *
+     * @return ListView
+     */
     public function findAndSetView($view)
     {
         $view = $this->getViewRepository()->findOneBy([
@@ -248,7 +316,17 @@ class DatagridBuilder
     }
 
     /**
-     * Determine which rows to use, based on the view
+     * Get the view object
+     *
+     * @return ListView
+     */
+    public function getView()
+    {
+        return $this->datagrid->getView();
+    }
+
+    /**
+     * Determine what rows to use, based on the view
      */
     public function getRowQuery()
     {
@@ -263,8 +341,8 @@ class DatagridBuilder
                 ->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
 
             $qb = $viewBuilder->getRowQuery($conditions, $source);
-        } elseif (null !== $view = $this->datagrid->getView()) {
-            $qb = $viewBuilder->getRowQuery($view->getConditions(), $source);
+        } elseif (null !== $conditions = $this->datagrid->getView()->getConditions()) {
+            $qb = $viewBuilder->getRowQuery($conditions, $source);
         } else {
             $sourceRepository = $this->container->get('doctrine')->getRepository(get_class($source));
 

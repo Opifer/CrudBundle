@@ -1,8 +1,12 @@
 <form action="" method="GET">
+    {% for name, value in query if name not in ['slug', 'limit'] %}
+        <input type="hidden" name="{{ name }}" value="{{ value }}">
+    {% endfor %}
     <select name="limit" class="form-control js-submit-on-change">
-        <option value="25" {% if query.limit is defined and query.limit == 25 %}selected{% endif %}>25</option>
-        <option value="50" {% if query.limit is defined and query.limit == 50 %}selected{% endif %}>50</option>
-        <option value="100" {% if query.limit is defined and query.limit == 100 %}selected{% endif %}>100</option>
-        <option value="500" {% if query.limit is defined and query.limit == 500 %}selected{% endif %}>500</option>
+        {% set limit = app.request.get('limit') %}
+        <option value="25" {% if limit is defined and limit == 25 %}selected{% endif %}>25</option>
+        <option value="50" {% if limit is defined and limit == 50 %}selected{% endif %}>50</option>
+        <option value="100" {% if limit is defined and limit == 100 %}selected{% endif %}>100</option>
+        <option value="500" {% if limit is defined and limit == 500 %}selected{% endif %}>500</option>
     </select>
 </form>
