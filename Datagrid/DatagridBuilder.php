@@ -68,8 +68,6 @@ class DatagridBuilder
         } else {
             $this->datagrid->setView($this->createView($source));
         }
-        $views = $this->getViewRepository()->findByEntity(get_class($source));
-        $this->datagrid->setViews($views);
 
         return $this;
     }
@@ -189,6 +187,9 @@ class DatagridBuilder
             throw new \Exception('The view could not be solved because the form was invalid.');
         }
 
+        $views = $this->getViewRepository()->findByEntity(get_class($this->datagrid->getSource()));
+        $this->datagrid->setViews($views);
+
         return $this->datagrid;
     }
 
@@ -205,14 +206,15 @@ class DatagridBuilder
 
         // Clone the view, so the current view won't get changed by the empty view form
         $view = clone $this->datagrid->getView();
-
+        
         $type = new ListViewType($this->datagrid->getSource(), $columns);
         $viewForm = $this->container->get('form.factory')->create($type, $view);
         $viewForm->handleRequest($this->getRequest());
 
         if ($viewForm->get('save')->isClicked()) {
             if ($viewForm->isValid()) {
-                $this->container->get('opifer.crud.listview_manager')->handleForm($viewForm->getData());
+                $view = $this->container->get('opifer.crud.listview_manager')->handleForm($viewForm->getData());
+                $this->getRequest()->request->set('view', $view->getSlug());
             } else {
                 return false;
             }
