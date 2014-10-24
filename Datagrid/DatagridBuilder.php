@@ -63,8 +63,13 @@ class DatagridBuilder
     {
         $this->datagrid = new Datagrid();
         $this->datagrid->setSource($source);
-        $this->datagrid->setView($this->createView($source));
-        $this->datagrid->setViews($this->getViewRepository()->findByEntity(get_class($source)));
+        if ($this->getRequest()->get('view')) {
+            $this->findAndSetView($this->getRequest()->get('view'));
+        } else {
+            $this->datagrid->setView($this->createView($source));
+        }
+        $views = $this->getViewRepository()->findByEntity(get_class($source));
+        $this->datagrid->setViews($views);
 
         return $this;
     }
@@ -119,15 +124,9 @@ class DatagridBuilder
      *
      * @param string $slug
      */
-    public function setView($slug = '')
+    public function setView(ListView $view)
     {
-        if ($slug !== '') {
-            $view = $this->getViewRepository()->findOneBy([
-                'slug'   => $slug,
-                'entity' => get_class($this->datagrid->getSource())
-            ]);
-            $this->datagrid->setView($view);
-        }
+        $this->datagrid->setView($view);
 
         return $this;
     }
@@ -204,8 +203,11 @@ class DatagridBuilder
             $this->datagrid->getView()->getEntity()
         );
 
+        // Clone the view, so the current view won't get changed by the empty view form
+        $view = clone $this->datagrid->getView();
+
         $type = new ListViewType($this->datagrid->getSource(), $columns);
-        $viewForm = $this->container->get('form.factory')->create($type, $this->datagrid->getView());
+        $viewForm = $this->container->get('form.factory')->create($type, $view);
         $viewForm->handleRequest($this->getRequest());
 
         if ($viewForm->get('save')->isClicked()) {
@@ -336,8 +338,7 @@ class DatagridBuilder
         if ($filterfields = $this->getRequest()->request->get('filterfields')) {
             $qb = $viewBuilder->any($source, $filterfields);
         } elseif ($this->getRequest()->get('view')) {
-            $view = $this->findAndSetView($this->getRequest()->get('view'));
-            $qb = $viewBuilder->getRowQuery($view->getConditions(), $source);
+            $qb = $viewBuilder->getRowQuery($this->datagrid->getView()->getConditions(), $source);
         } elseif (($postVars = $this->getRequest()->request->get('listview')) && ($postVars['conditions'] != '')) {
             $conditions = $this->container->get('jms_serializer')
                 ->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
