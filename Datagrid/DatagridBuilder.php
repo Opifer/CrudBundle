@@ -176,10 +176,6 @@ class DatagridBuilder
      */
     public function build()
     {
-        if (!$this->handleViewForm()) {
-            throw new \Exception('The view could not be solved because the form was invalid.');
-        }
-
         $columns = $this->getColumns();
         $columns = $this->mapper->mapColumns($columns);
         $this->datagrid->setColumns($columns);
@@ -190,13 +186,17 @@ class DatagridBuilder
         $this->datagrid->setPaginator($paginator);
         $this->datagrid->setRows($this->mapper->mapRows($paginator, $columns));
 
+        if (!$this->handleViewForm()) {
+            throw new \Exception('The view could not be solved because the form was invalid.');
+        }
+
         return $this->datagrid;
     }
 
     /**
      * Handle the viewform
      *
-     * @return [type]
+     * @return boolean
      */
     protected function handleViewForm()
     {
@@ -204,7 +204,8 @@ class DatagridBuilder
             $this->datagrid->getView()->getEntity()
         );
 
-        $viewForm = $this->container->get('form.factory')->create(new ListViewType($this->datagrid->getSource(), $columns), $this->datagrid->getView());
+        $type = new ListViewType($this->datagrid->getSource(), $columns);
+        $viewForm = $this->container->get('form.factory')->create($type, $this->datagrid->getView());
         $viewForm->handleRequest($this->getRequest());
 
         if ($viewForm->get('save')->isClicked()) {
@@ -216,7 +217,6 @@ class DatagridBuilder
         }
 
         $viewForm = $viewForm->createView();
-
         $this->datagrid->setViewForm($viewForm);
 
         return true;
@@ -309,7 +309,6 @@ class DatagridBuilder
             'entity' => get_class($this->datagrid->getSource()),
             'slug'   => $view
         ]);
-
         $this->datagrid->setView($view);
 
         return $view;
@@ -336,12 +335,13 @@ class DatagridBuilder
 
         if ($filterfields = $this->getRequest()->request->get('filterfields')) {
             $qb = $viewBuilder->any($source, $filterfields);
+        } elseif ($this->getRequest()->get('view')) {
+            $view = $this->findAndSetView($this->getRequest()->get('view'));
+            $qb = $viewBuilder->getRowQuery($view->getConditions(), $source);
         } elseif (($postVars = $this->getRequest()->request->get('listview')) && ($postVars['conditions'] != '')) {
             $conditions = $this->container->get('jms_serializer')
                 ->deserialize($postVars['conditions'], 'Opifer\RulesEngine\Rule\Rule', 'json');
 
-            $qb = $viewBuilder->getRowQuery($conditions, $source);
-        } elseif (null !== $conditions = $this->datagrid->getView()->getConditions()) {
             $qb = $viewBuilder->getRowQuery($conditions, $source);
         } else {
             $sourceRepository = $this->container->get('doctrine')->getRepository(get_class($source));

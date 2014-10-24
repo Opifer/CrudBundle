@@ -46,10 +46,11 @@ class ListViewType extends AbstractType
                 ]
             ])
             ->add('conditions', 'ruleeditor', [
-                'label'    => 'Filters',
-                'provider' => (method_exists($this->entity, 'getRuleProvider')) ? $this->entity->getRuleProvider() : 'entity',
-                'context'  => get_class($this->entity),
-                'required' => false
+                'data_class' => (is_object($options['data']->getConditions())) ? get_class($options['data']->getConditions()) : null,
+                'provider'   => (method_exists($this->entity, 'getRuleProvider')) ? $this->entity->getRuleProvider() : 'entity',
+                'label'      => 'Filters',
+                'context'    => get_class($this->entity),
+                'required'   => false
             ])
             // ->add('columns', 'choice', [
             //     'choices' => [$columns],
