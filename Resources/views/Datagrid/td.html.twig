@@ -1,21 +1,5 @@
+{% use 'OpiferCrudBundle:Datagrid:cells.html.twig' %}
+
 {% if data is not null %}
-<td>
-    {% if data.value is iterable %}
-        {% for value in data.value %}
-            {{ value }}
-        {% endfor %}
-    {% else %}
-        {% if data.property in ['title', 'name', 'username'] %}
-            <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
-                {{ data.value }}
-            </a>
-        {% elseif data.property in ['email'] %}
-            <a href="mailto:{{ data.value }}">{{ data.value }}</a>
-        {% elseif data.type in ['label'] %}
-            <span class="label label-default">{{ data.value }}</span>
-        {% else %}
-            {{ data.value }}
-        {% endif %}
-    {% endif %}
-</td>
+    {{ block(data.type ~ '_cell') }}
 {% endif %}

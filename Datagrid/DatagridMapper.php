@@ -111,6 +111,10 @@ class DatagridMapper
 
                 $cell->setValue($value);
                 $cell->setProperty($column->getProperty());
+                
+                if ($column->getAttributes()) {
+                    $cell->setAttributes($column->getAttributes());
+                }
 
                 $row->addCell($cell);
             }

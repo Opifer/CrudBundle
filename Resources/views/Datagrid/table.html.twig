@@ -26,12 +26,12 @@
                     <td class="actions">
                         {% for action in grid.options['actions'] %}
                             {% if action == 'delete' %}
-                                <a href="#" data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#modalDelete">
-                                    {{ action|capitalize }}
+                                <a href="#" data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="text-danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#modalDelete">
+                                    {{- action|capitalize -}}
                                 </a>&nbsp;
                             {% else %}
                                 <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }} data-id="{{ row.id }}">
-                                    {{ action|capitalize }}
+                                    {{- action|capitalize -}}
                                 </a>&nbsp;
                             {% endif %}
                         {% endfor %}

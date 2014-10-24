@@ -18,6 +18,10 @@ class Cell
     /** @var string */
     protected $value;
 
+    /** @var Array */
+    protected $attributes;
+
+
     /**
      * Set property
      *
@@ -82,5 +86,27 @@ class Cell
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set attributes
+     *
+     * @param \Closure $attributes
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 }

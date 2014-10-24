@@ -1,0 +1,47 @@
+{# empty Twig template #}
+
+{% block icon_cell -%}
+    <td class="text-center">
+        {% if data.attributes.hashmap is defined %}
+            {% set iconclass = (attribute(data.attributes.hashmap, data.value) is defined) ? attribute(data.attributes.hashmap, data.value) : 'default' %}
+            <i class="{{ iconclass }}"></i>
+        {% else %}
+            <i class="{{ data.value }}"></i>
+        {% endif %}
+    </td>
+{% endblock icon_cell %}
+
+{% block datetime_cell -%}
+    {{- block('simple_cell') -}}
+{% endblock datetime_cell %}
+
+{% block text_cell -%}
+    {{- block('simple_cell') -}}
+{% endblock text_cell %}
+
+{% block label_cell -%}
+    <td>
+        {% set class = (data.attributes.colormap is defined) ? attribute(data.attributes.colormap, data.value) : 'default' %}
+        <span class="label label-{{ class }}">{{ data.value }}</span>
+    </td>
+{% endblock label_cell %}
+
+{% block simple_cell -%}
+    <td>
+        {% if data.value is iterable %}
+            {% for value in data.value %}
+                {{ value }}
+            {% endfor %}
+        {% else %}
+            {% if data.property in ['title', 'name', 'username'] %}
+                <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
+                    {{ data.value }}
+                </a>
+            {% elseif data.property in ['email'] %}
+                <a href="mailto:{{ data.value }}">{{ data.value }}</a>
+            {% else %}
+                {{ data.value }}
+            {% endif %}
+        {% endif %}
+    </td>
+{% endblock simple_cell %}

@@ -85,6 +85,10 @@ class DatagridBuilder
         $column->setProperty($property);
         $column->setType($type);
 
+        if (isset($options['attr'])) {
+            $column->setAttributes($options['attr']);
+        }
+        
         if (isset($options['label'])) {
             $column->setLabel($options['label']);
         }

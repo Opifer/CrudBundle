@@ -21,6 +21,9 @@ class Column
     /** @var \Closure */
     protected $closure;
 
+    /** @var Array */
+    protected $attributes;
+
     /**
      * Set property
      *
@@ -107,5 +110,27 @@ class Column
     public function getClosure()
     {
         return $this->closure;
+    }
+
+    /**
+     * Set attributes
+     *
+     * @param \Closure $attributes
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 }
