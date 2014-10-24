@@ -109,18 +109,20 @@ class ViewBuilder
         foreach ($this->entityHelper->getProperties($entity) as $column) {
             if (count($allowedProperties)) {
                 foreach ($allowedProperties as $property) {
-                    if ($column['fieldName'] != $property['property'])
+                    if ($column['fieldName'] != $property['property']) {
                         continue;
+                    }
 
-                    if (!isset($property['type']))
+                    if (!isset($property['type'])) {
                         $property['type'] = $column['fieldName'];
+                    }
 
                     $columns[] = $property;
                 }
             } else {
                 $columns[] = [
                     'property' => $column['fieldName'],
-                    'type' => $column['type']
+                    'type'     => $column['type']
                 ];
             }
         }
@@ -128,8 +130,9 @@ class ViewBuilder
         foreach ($this->entityHelper->getRelations($entity) as $relation) {
             if (count($allowedProperties)) {
                 foreach ($allowedProperties as $property) {
-                    if ($relation['fieldName'] != $property['property'])
+                    if ($relation['fieldName'] != $property['property']) {
                         continue;
+                    }
 
                     // When the relation is a one-to-many or many-to-many relation,
                     // only return the relation-count.

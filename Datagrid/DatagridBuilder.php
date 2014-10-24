@@ -287,7 +287,7 @@ class DatagridBuilder
     {
         if (count($this->columns)) {
             $columns = $this->columns;
-        } elseif (null !== $view = $this->datagrid->getView()) {
+        } elseif ($this->getRequest()->get('view')) {
             $columns = json_decode($view->getColumns(), true);
         } else {
             if (count($this->datagrid->getViews())) {

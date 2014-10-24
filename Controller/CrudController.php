@@ -22,7 +22,6 @@ class CrudController extends Controller
     public function indexAction(Request $request, $entity, $slug)
     {
         $datagrid = $this->get('opifer.crud.datagrid_builder')->create($entity)
-            ->setView($request->get('view', 'default'))
             ->build()
         ;
 
@@ -44,7 +43,7 @@ class CrudController extends Controller
      */
     public function newAction(Request $request, $entity, $slug)
     {
-        $form = $this->createForm($this->get('opifer.crud.crud_form'), $entity);
+        $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -102,7 +101,7 @@ class CrudController extends Controller
             }
         }
 
-        $form = $this->createForm($this->get('opifer.crud.crud_form'), $entity);
+        $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
