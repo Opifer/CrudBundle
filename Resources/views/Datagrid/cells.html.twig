@@ -11,6 +11,12 @@
     </td>
 {% endblock icon_cell %}
 
+{% block checkbox_cell -%}
+    <td>
+        <input type="checkbox" />
+    </td>
+{% endblock checkbox_cell %}
+
 {% block datetime_cell -%}
     {{- block('simple_cell') -}}
 {% endblock datetime_cell %}
@@ -21,8 +27,12 @@
 
 {% block label_cell -%}
     <td>
-        {% set class = (data.attributes.colormap is defined) ? attribute(data.attributes.colormap, data.value) : 'default' %}
-        <span class="label label-{{ class }}">{{ data.value }}</span>
+        {% if data.attributes.hashmap is defined %}
+            {% set class = (attribute(data.attributes.hashmap, data.value) is defined) ? attribute(data.attributes.hashmap, data.value) : 'default' %}
+            <span class="label label-{{ class }}">{{ data.value }}</span>
+        {% else %}
+            <span class="label label-default">{{ data.value }}</span>
+        {% endif %}
     </td>
 {% endblock label_cell %}
 
