@@ -10,7 +10,6 @@
             "homepage": "http://www.opifer.nl/"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
         "symfony/symfony": "~2.5",
@@ -19,13 +18,14 @@
         "twig/extensions": "~1.0",
         "sensio/framework-extra-bundle": "~3.0",
         
-        "gedmo/doctrine-extensions": "dev-master",
-        "genemu/form-bundle": "2.2.*",
-        "jms/serializer": "dev-master",
+        "gedmo/doctrine-extensions": "~2.3",
+        "genemu/form-bundle": "~2.2",
+        "jms/serializer": "~0.16",
         "jms/serializer-bundle": "~0.13",
-        "pagerfanta/pagerfanta": "dev-master",
+        "pagerfanta/pagerfanta": "~1.0.3",
 
-        "opifer/rulesengine-bundle": "dev-master"
+        "opifer/rulesengine-bundle": "@dev",
+        "opifer/rulesengine": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2.0"
