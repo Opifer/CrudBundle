@@ -23,21 +23,6 @@ class DatagridBuilder
     /** @var \Opifer\CrudBundle\Datagrid\Datagrid */
     protected $datagrid;
 
-    /** @var \Doctrine\Common\Collections\ArrayCollection */
-    protected $columns;
-
-    /** @var integer */
-    protected $page = 1;
-
-    /** @var integer */
-    protected $limit = 25;
-
-    /** @var array */
-    protected $wheres;
-
-    /** @var array */
-    protected $parameters;
-
     /**
      * Constructor
      *
@@ -46,10 +31,6 @@ class DatagridBuilder
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->columns = new ArrayCollection();
-        $this->mapper = new DatagridMapper();
-        $this->wheres = array();
-        $this->parameters = array();
     }
 
     /**
@@ -61,6 +42,7 @@ class DatagridBuilder
      */
     public function create($source)
     {
+        $this->mapper = new DatagridMapper();
         $this->datagrid = new Datagrid();
         $this->datagrid->setSource($source);
         if ($this->getRequest()->get('view')) {
@@ -96,8 +78,8 @@ class DatagridBuilder
         if (isset($options['function']) && $options['function'] instanceof \Closure) {
             $column->setClosure($options['function']);
         }
-
-        $this->columns->add($column);
+        
+        $this->mapper->addColumn($column);
 
         return $this;
     }
@@ -140,7 +122,7 @@ class DatagridBuilder
      */
     public function where($where)
     {
-        $this->wheres[] = $where;
+        $this->mapper->addWhere($where);
 
         return $this;
     }
@@ -153,7 +135,7 @@ class DatagridBuilder
      */
     public function setParameter($parameter, $value)
     {
-        $this->parameters[$parameter] = $value;
+        $this->mapper->addParameter($parameter, $value);
 
         return $this;
     }
@@ -183,7 +165,7 @@ class DatagridBuilder
 
         $rowQuery = $this->getRowQuery();
 
-        $paginator = new Paginator($rowQuery, $this->getLimit(), $this->getPage());
+        $paginator = new Paginator($rowQuery, $this->mapper->getLimit(), $this->mapper->getPage());
         $this->datagrid->setPaginator($paginator);
         $this->datagrid->setRows($this->mapper->mapRows($paginator, $columns));
 
@@ -237,7 +219,7 @@ class DatagridBuilder
      */
     public function setLimit($limit)
     {
-        $this->limit = $limit;
+        $this->mapper->setLimit($limit);
 
         return $this;
     }
@@ -254,7 +236,7 @@ class DatagridBuilder
             return $this->getRequest()->get('limit');
         }
 
-        return $this->limit;
+        return $this->mapper->getLimit();
     }
 
     /**
@@ -264,7 +246,9 @@ class DatagridBuilder
      */
     public function setPage($page)
     {
-        $this->page = $page;
+        $this->mapper->setPage($page);
+
+        return $this;
     }
 
     /**
@@ -279,7 +263,7 @@ class DatagridBuilder
             return $this->getRequest()->get('page');
         }
 
-        return $this->page;
+        return $this->mapper->getPage();
     }
 
     /**
@@ -289,8 +273,8 @@ class DatagridBuilder
      */
     public function getColumns()
     {
-        if (count($this->columns)) {
-            $columns = $this->columns;
+        if (count($this->mapper->getColumns())) {
+            $columns = $this->mapper->getColumns();
         } elseif ($this->getRequest()->get('view')) {
             $columns = json_decode($view->getColumns(), true);
         } else {
@@ -356,11 +340,11 @@ class DatagridBuilder
             $qb = $sourceRepository->createQueryBuilder('a');
         }
 
-        foreach ($this->wheres as $where) {
+        foreach ($this->mapper->getWheres() as $where) {
             $qb->andWhere($where);
         }
 
-        foreach ($this->parameters as $parameter => $value) {
+        foreach ($this->mapper->getParameters() as $parameter => $value) {
             $qb->setParameter($parameter, $value);
         }
 

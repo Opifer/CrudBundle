@@ -12,6 +12,142 @@ use Opifer\CrudBundle\Datagrid\Row\Row;
 
 class DatagridMapper
 {
+    /** @var \Doctrine\Common\Collections\ArrayCollection */
+    protected $columns;
+
+    /** @var integer */
+    protected $page = 1;
+
+    /** @var integer */
+    protected $limit = 25;
+
+    /** @var array */
+    protected $wheres;
+
+    /** @var array */
+    protected $parameters;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->columns = new ArrayCollection();
+        $this->wheres = [];
+        $this->parameters = [];
+    }
+
+    /**
+     * Add a column
+     *
+     * @param Column $column
+     */
+    public function addColumn(Column $column)
+    {
+        $this->columns[] = $column;
+
+        return $this;
+    }
+
+    /**
+     * Get columns
+     *
+     * @return ArrayCollection
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * Set page
+     *
+     * @param integer $page
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Get page
+     *
+     * @return integer
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * Set limit
+     *
+     * @param integer $limit
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
+     * Get limit
+     *
+     * @return integer
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Add where
+     *
+     * @param string $where
+     */
+    public function addWhere($where)
+    {
+        $this->wheres[] = $where;
+
+        return $this;
+    }
+
+    /**
+     * Get wheres
+     *
+     * @return array
+     */
+    public function getWheres()
+    {
+        return $this->wheres;
+    }
+
+    /**
+     * Add a parameter
+     *
+     * @param string $parameter
+     * @param string $value
+     */
+    public function addParameter($parameter, $value)
+    {
+        $this->parameters[$parameter] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
     /**
      * Transform the columns to be used within the grid
      *
