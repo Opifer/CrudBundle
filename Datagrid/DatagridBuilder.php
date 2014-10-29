@@ -3,7 +3,6 @@
 namespace Opifer\CrudBundle\Datagrid;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -289,10 +288,10 @@ class DatagridBuilder
     /**
      * Set rows
      * 
-     * @param ArrayCollection $rows
+     * @param \IteratorAggregate $rows
      * @return DatagridBuilder
      */
-    public function setRows(ArrayCollection $rows)
+    public function setRows(\IteratorAggregate $rows)
     {
         $this->mapper->setRows($rows);
         
@@ -302,7 +301,7 @@ class DatagridBuilder
     /**
      * Get rows
      * 
-     * @return ArrayCollection
+     * @return \IteratorAggregate
      */
     public function getRows()
     {
