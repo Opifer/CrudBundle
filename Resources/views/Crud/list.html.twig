@@ -31,16 +31,18 @@
     {% endblock %}
 
     {% block list_pagination %}
-        <div class="clearfix">
-            <div class="col-xs-8 pagination-col">
-                {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
-                {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+        {% if grid.paginator %}
+            <div class="clearfix">
+                <div class="col-xs-8 pagination-col">
+                    {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+                    {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+                </div>
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-2 pagination-size">
+                    {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
+                </div>
             </div>
-            <div class="col-xs-2">
-            </div>
-            <div class="col-xs-2 pagination-size">
-                {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
-            </div>
-        </div>
+        {% endif %}
     {% endblock %}
 {% endblock opifer_crud_body %}

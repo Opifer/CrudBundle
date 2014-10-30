@@ -3,7 +3,6 @@
 namespace Opifer\CrudBundle\Datagrid;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -163,11 +162,9 @@ class DatagridBuilder
         $columns = $this->mapper->mapColumns($columns);
         $this->datagrid->setColumns($columns);
 
-        $rowQuery = $this->getRowQuery();
-
-        $paginator = new Paginator($rowQuery, $this->mapper->getLimit(), $this->mapper->getPage());
-        $this->datagrid->setPaginator($paginator);
-        $this->datagrid->setRows($this->mapper->mapRows($paginator, $columns));
+        $rows = $this->getRows();
+        $rows = $this->mapper->mapRows($rows, $columns);
+        $this->datagrid->setRows($rows);
 
         if (!$this->handleViewForm()) {
             throw new \Exception('The view could not be solved because the form was invalid.');
@@ -287,6 +284,36 @@ class DatagridBuilder
 
         return $columns;
     }
+    
+    /**
+     * Set rows
+     * 
+     * @param \IteratorAggregate $rows
+     * @return DatagridBuilder
+     */
+    public function setRows(\IteratorAggregate $rows)
+    {
+        $this->mapper->setRows($rows);
+        
+        return $this;
+    }
+    
+    /**
+     * Get rows
+     * 
+     * @return \IteratorAggregate
+     */
+    public function getRows()
+    {
+        if ($this->mapper->getRows() === null) {
+            $paginator = new Paginator($this->getRowQuery(), $this->mapper->getLimit(), $this->mapper->getPage());
+            $this->mapper->setRows($paginator);
+            $this->datagrid->setPaginator($paginator);
+        }
+        
+        return $this->mapper->getRows();
+    }
+
 
     /**
      * Find and set a view by its slug

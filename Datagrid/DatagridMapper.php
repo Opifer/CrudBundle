@@ -14,6 +14,9 @@ class DatagridMapper
 {
     /** @var \Doctrine\Common\Collections\ArrayCollection */
     protected $columns;
+    
+    /** @var \IteratorAggregate */
+    protected $rows;
 
     /** @var integer */
     protected $page = 1;
@@ -57,6 +60,29 @@ class DatagridMapper
     public function getColumns()
     {
         return $this->columns;
+    }
+    
+    /**
+     * Set rows
+     *
+     * @param \IteratorAggregate $rows
+     * @return DatagridMapper
+     */
+    public function setRows(\IteratorAggregate $rows)
+    {
+        $this->rows = $rows;
+
+        return $this;
+    }
+
+    /**
+     * Get rows
+     *
+     * @return \IteratorAggregate
+     */
+    public function getRows()
+    {
+        return $this->rows;
     }
 
     /**
