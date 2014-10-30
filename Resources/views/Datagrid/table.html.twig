@@ -24,15 +24,11 @@
                 {% endfor %}
                 {% if grid.options['actions'] is defined %}
                     <td class="actions">
-                        {% for action in grid.options['actions'] %}
-                            {% if action == 'delete' %}
-                                <a href="#" data-href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}" class="text-danger js-delete-confirm" data-name="{{ row.name }}" data-toggle="modal" data-target="#modalDelete">
-                                    {{- action|capitalize -}}
-                                </a>&nbsp;
+                        {% for action, data in grid.options['actions'] %}
+                            {% if data.template is defined %}
+                                {{ include(data.template) }}&nbsp;
                             {% else %}
-                                <a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }} data-id="{{ row.id }}">
-                                    {{- action|capitalize -}}
-                                </a>&nbsp;
+                                {{ include('OpiferCrudBundle:Datagrid:action_'~action~'.html.twig') }}&nbsp;
                             {% endif %}
                         {% endfor %}
                     </td>

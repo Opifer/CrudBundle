@@ -47,7 +47,10 @@ class Datagrid
         $this->columns = new ArrayCollection();
         $this->rows = new ArrayCollection();
         $this->options = [
-            'actions' => ['edit', 'delete']
+            'actions' => [
+                'edit' => [],
+                'delete' => []
+            ]
         ];
     }
 

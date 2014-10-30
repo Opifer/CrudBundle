@@ -1,0 +1,3 @@
+<a href="{{ path('opifer.crud.' ~ action, {'slug' : slug, 'id' : row.id}) }}"{{ (action=="delete") ? ' class=danger' }} data-id="{{ row.id }}">
+    {{- action|capitalize -}}
+</a>
