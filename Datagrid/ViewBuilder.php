@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 
 use Opifer\CrudBundle\Annotation\GridAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
+use Opifer\CrudBundle\Transformer\DoctrineTypeTransformer;
 
 use Opifer\RulesEngine\Environment\DoctrineEnvironment;
 
@@ -107,6 +108,9 @@ class ViewBuilder
         $allowedProperties = $annotationReader->all($entity);
 
         foreach ($this->entityHelper->getProperties($entity) as $column) {
+            $typeTransformer = new DoctrineTypeTransformer();
+            $column['type'] =  $typeTransformer->transform($column['type']);
+
             if (count($allowedProperties)) {
                 foreach ($allowedProperties as $property) {
                     if ($column['fieldName'] != $property['property']) {
@@ -114,7 +118,7 @@ class ViewBuilder
                     }
 
                     if (!isset($property['type'])) {
-                        $property['type'] = $column['fieldName'];
+                        $property['type'] = $column['type'];
                     }
 
                     $columns[] = $property;
@@ -140,7 +144,7 @@ class ViewBuilder
                     if (in_array($relation['type'], array(4,8))) {
                         $columns[] = [
                             'property' => $relation['fieldName'] . '.count',
-                            'type' => $relation['type'] // This returns an integer, referencing the type of relation
+                            'type'     => $relation['type'] // This returns an integer, referencing the type of relation
                         ];
                         continue;
                     }
@@ -148,7 +152,7 @@ class ViewBuilder
                     foreach ($this->entityHelper->getProperties($relation['targetEntity']) as $relationfield) {
                         $columns[] = [
                             'property' => $relation['fieldName'].'.'.$relationfield['fieldName'],
-                            'type' => $relationfield['type']
+                            'type'     => $relationfield['type']
                         ];
                     }
                 }

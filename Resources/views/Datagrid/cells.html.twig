@@ -25,6 +25,10 @@
     {{- block('simple_cell') -}}
 {% endblock text_cell %}
 
+{% block integer_cell -%}
+    {{- block('simple_cell') -}}
+{% endblock integer_cell %}
+
 {% block label_cell -%}
     <td>
         {% if data.attributes.hashmap is defined %}
