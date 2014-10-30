@@ -91,7 +91,7 @@ class CrudType extends AbstractType
             }
         }
 
-        $builder->add('Save', 'submit');
+        $builder->add('save', 'submit', ['label' => 'Save']);
     }
 
     /**
