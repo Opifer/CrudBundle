@@ -29,8 +29,6 @@ class DoctrineTypeTransformer
             case 'datetime':
             case 'time':
                 return 'genemu_jquerydate';
-            case 'string':
-                return 'text';
             case 'array':
             case 'simple_array':
             case 'json_array':

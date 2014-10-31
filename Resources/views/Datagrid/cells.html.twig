@@ -25,13 +25,31 @@
     {{- block('simple_cell') -}}
 {% endblock text_cell %}
 
+{% block textarea_cell -%}
+    <td>
+        {{ data.value[:20] }}
+    </td>
+{% endblock textarea_cell %}
+
 {% block integer_cell -%}
     {{- block('simple_cell') -}}
 {% endblock integer_cell %}
 
 {% block count_cell -%}
     {{- block('simple_cell') -}}
-{% endblock %}
+{% endblock count_cell %}
+
+{% block bootstrap_collection_cell -%}
+    <td>
+        {% if data.value|length < 1 %}
+            {% for value in data.value %}
+                {{ value }}{% if loop.last == false %},{% endif %}
+            {% endfor %}
+        {% else %}
+            -
+        {% endif %}
+    </td>
+{% endblock bootstrap_collection_cell %}
 
 {% block label_cell -%}
     <td>
@@ -45,21 +63,29 @@
 {% endblock label_cell %}
 
 {% block simple_cell -%}
-    <td>
-        {% if data.value is iterable %}
-            {% for value in data.value %}
-                {{ value }}
-            {% endfor %}
-        {% else %}
-            {% if data.property in ['title', 'name', 'username'] %}
-                <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
-                    {{ data.value }}
-                </a>
-            {% elseif data.property in ['email'] %}
-                <a href="mailto:{{ data.value }}">{{ data.value }}</a>
+    {% if data.value != null %}
+        <td>
+            {% if data.value is iterable %}
+                {% for value in data.value %}
+                    {{ value }}
+                {% endfor %}
             {% else %}
-                {{ data.value }}
+                {% if data.property in ['title', 'name', 'username'] %}
+                    <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
+                        {{ data.value }}
+                    </a>
+                {% elseif data.property in ['email'] %}
+                    <a href="mailto:{{ data.value }}">{{ data.value }}</a>
+                {% else %}
+                    {{ data.value }}
+                {% endif %}
             {% endif %}
-        {% endif %}
-    </td>
+        </td>
+    {% else %}
+        {{ block('empty_cell') }}
+    {% endif %}
 {% endblock simple_cell %}
+
+{% block empty_cell -%}
+    <td>-</td>
+{% endblock %}
