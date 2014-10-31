@@ -10,6 +10,11 @@ use Opifer\CrudBundle\Datagrid\Column\Column;
 use Opifer\CrudBundle\Datagrid\Row\Cell;
 use Opifer\CrudBundle\Datagrid\Row\Row;
 
+/**
+ * Datagrid Mapper
+ *
+ * Holds all the datagrid settings during the datagrid building process.
+ */
 class DatagridMapper
 {
     /** @var \Doctrine\Common\Collections\ArrayCollection */
@@ -246,12 +251,11 @@ class DatagridMapper
                     $closure = $column->getClosure();
                     $value = $accessor->getValue($originalRow, $column->getProperty());
                     $value = $closure($value);
-                } elseif (substr($column->getProperty(), -strlen('.count')) === '.count') {
+                } elseif ($column->getType() == 'count') {
                     // in case of one-to-many or many-to-many relations, show
                     // the count of related rows
-                    $explode = explode('.', $column->getProperty());
-                    $explode[0] = 'get' . ucfirst($explode[0]);
-                    $value = $originalRow->$explode[0]()->$explode[1]();
+                    $getter = 'get' . ucfirst($column->getProperty());
+                    $value = $originalRow->$getter()->count();
                 } else {
                     try {
                         $value = $accessor->getValue($originalRow, $column->getProperty());

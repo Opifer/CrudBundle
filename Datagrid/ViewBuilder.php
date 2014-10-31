@@ -3,6 +3,7 @@
 namespace Opifer\CrudBundle\Datagrid;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 use Opifer\CrudBundle\Annotation\GridAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
@@ -110,7 +111,7 @@ class ViewBuilder
         foreach ($this->entityHelper->getProperties($entity) as $column) {
             $typeTransformer = new DoctrineTypeTransformer();
             $column['type'] =  $typeTransformer->transform($column['type']);
-
+            
             if (count($allowedProperties)) {
                 foreach ($allowedProperties as $property) {
                     if ($column['fieldName'] != $property['property']) {
@@ -140,11 +141,10 @@ class ViewBuilder
 
                     // When the relation is a one-to-many or many-to-many relation,
                     // only return the relation-count.
-                    // Obviously needs some refactoring
-                    if (in_array($relation['type'], array(4,8))) {
+                    if (in_array($relation['type'], [ClassMetadataInfo::ONE_TO_MANY, ClassMetadataInfo::MANY_TO_MANY])) {
                         $columns[] = [
-                            'property' => $relation['fieldName'] . '.count',
-                            'type'     => $relation['type'] // This returns an integer, referencing the type of relation
+                            'property' => $relation['fieldName'],
+                            'type'     => 'count'
                         ];
                         continue;
                     }
