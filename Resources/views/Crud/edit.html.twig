@@ -3,8 +3,7 @@
 {% block opifer_crud_body %}
     {% block edit_header %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">
-                <span class="iconl icon-{{ slug }}"></span>
+            <h1>
                 {% if entity.id is defined %}
                     {% if entity.name is defined %}
                         {{ entity.name|capitalize }}
