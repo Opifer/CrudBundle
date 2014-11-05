@@ -33,11 +33,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * Create the datagrid
-     *
-     * @param object $source
-     *
-     * @return DatagridBuilder
+     * {@inheritDoc}
      */
     public function create($source)
     {
@@ -54,11 +50,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * Add a column
-     *
-     * @param string $child
-     * @param string $type
-     * @param array  $options
+     * {@inheritDoc}
      */
     public function addColumn($property, $type = 'text', array $options = array())
     {
