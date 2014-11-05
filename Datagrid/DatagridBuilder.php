@@ -404,6 +404,16 @@ class DatagridBuilder
     }
 
     /**
+     * Get the mapper
+     *
+     * @return DatagridMapper
+     */
+    public function getMapper()
+    {
+        return $this->mapper;
+    }
+
+    /**
      * Get the current request
      *
      * @return \Symfony\Component\HttpFoundation\Request
