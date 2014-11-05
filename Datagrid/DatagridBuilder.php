@@ -11,7 +11,7 @@ use Opifer\CrudBundle\Entity\ListView;
 use Opifer\CrudBundle\Form\Type\ListViewType;
 use Opifer\CrudBundle\Pagination\Paginator;
 
-class DatagridBuilder
+class DatagridBuilder implements DatagridBuilderInterface
 {
     /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
     protected $container;
@@ -33,11 +33,7 @@ class DatagridBuilder
     }
 
     /**
-     * Create the datagrid
-     *
-     * @param object $source
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function create($source)
     {
@@ -54,11 +50,7 @@ class DatagridBuilder
     }
 
     /**
-     * Add a column
-     *
-     * @param string $child
-     * @param string $type
-     * @param array  $options
+     * {@inheritDoc}
      */
     public function addColumn($property, $type = 'text', array $options = array())
     {
@@ -401,6 +393,16 @@ class DatagridBuilder
         }
 
         return $rowQuery;
+    }
+
+    /**
+     * Get the mapper
+     *
+     * @return DatagridMapper
+     */
+    public function getMapper()
+    {
+        return $this->mapper;
     }
 
     /**
