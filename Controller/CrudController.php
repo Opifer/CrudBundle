@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Opifer\CrudBundle\Datagrid\Grid\SimpleGrid;
+
 class CrudController extends Controller
 {
     /**
@@ -21,9 +23,7 @@ class CrudController extends Controller
      */
     public function indexAction(Request $request, $entity, $slug)
     {
-        $datagrid = $this->get('opifer.crud.datagrid_builder')->create($entity)
-            ->build()
-        ;
+        $datagrid = $this->get('opifer.crud.datagrid_factory')->create(new SimpleGrid(), $entity);
 
         return $this->render('OpiferCrudBundle:Crud:list.html.twig', [
             'slug'  => $slug,

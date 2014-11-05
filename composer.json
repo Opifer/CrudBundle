@@ -28,7 +28,8 @@
         "opifer/rulesengine": "@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.2.0"
+        "phpunit/phpunit": "~4.2.0",
+        "mockery/mockery": "~0.9"
     },
     "autoload": {
         "psr-4": {"Opifer\\CrudBundle\\": "."}
