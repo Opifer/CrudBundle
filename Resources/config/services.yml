@@ -16,6 +16,10 @@ services:
         class: Opifer\CrudBundle\Datagrid\DatagridBuilder
         arguments: [@service_container]
 
+    opifer.crud.datagrid_factory:
+        class: Opifer\CrudBundle\Datagrid\DatagridFactory
+        arguments: [@opifer.crud.datagrid_builder]
+
     opifer.crud.view_builder:
         class: Opifer\CrudBundle\Datagrid\ViewBuilder
         arguments: [@doctrine.orm.entity_manager, @opifer.crud.entity_helper]
