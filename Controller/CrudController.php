@@ -104,7 +104,7 @@ class CrudController extends Controller
         $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             foreach ($relations as $key => $relation) {
