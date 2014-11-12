@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CrudBundle\Entity;
+namespace Opifer\CrudBundle\Model;
 
 use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
@@ -98,5 +98,15 @@ class ListViewManager
         $this->em->flush();
 
         return $view;
+    }
+
+    /**
+     * Get the repository
+     *
+     * @return EntityRepository
+     */
+    public function getRepository()
+    {
+        return $this->em->getRepository('Opifer\CrudBundle\Entity\ListView');
     }
 }

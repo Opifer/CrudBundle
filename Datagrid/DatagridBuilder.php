@@ -157,13 +157,25 @@ class DatagridBuilder implements DatagridBuilderInterface
         $rows = $this->mapper->mapRows($rows, $columns);
         $this->datagrid->setRows($rows);
 
-        $viewForm = $this->container->get('opifer.crud.listview_manager')->handleForm($this->getRequest(), $this->datagrid);
-        $this->datagrid->setViewForm($viewForm);
+        $this->handleViewForm();
 
         $views = $this->getViewRepository()->findByEntity(get_class($this->datagrid->getSource()));
         $this->datagrid->setViews($views);
 
         return $this->datagrid;
+    }
+
+    /**
+     * Handle the view form
+     *
+     * @return  DatagridBuilder
+     */
+    public function handleViewForm()
+    {
+        $viewForm = $this->container->get('opifer.crud.listview_manager')->handleForm($this->getRequest(), $this->datagrid);
+        $this->datagrid->setViewForm($viewForm);
+
+        return $this;
     }
 
     /**
@@ -387,6 +399,6 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function getViewRepository()
     {
-        return $this->container->get('doctrine')->getRepository('Opifer\CrudBundle\Entity\ListView');
+        return $this->container->get('opifer.crud.listview_manager')->getRepository();
     }
 }

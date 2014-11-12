@@ -38,7 +38,7 @@ services:
 
     # Managers
     opifer.crud.listview_manager:
-        class: Opifer\CrudBundle\Entity\ListViewManager
+        class: Opifer\CrudBundle\Model\ListViewManager
         arguments: [@doctrine.orm.entity_manager, @serializer, @opifer.crud.entity_helper, @form.factory]
 
     # Transformers
