@@ -7,6 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
+use Opifer\CrudBundle\Datagrid\Cell\Type\CellTypeInterface;
 use Opifer\CrudBundle\Entity\ListView;
 use Opifer\CrudBundle\Pagination\Paginator;
 
@@ -51,11 +52,11 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritDoc}
      */
-    public function addColumn($property, $type = 'text', array $options = array())
+    public function addColumn($property, CellTypeInterface $cell, array $options = array())
     {
         $column = new Column();
         $column->setProperty($property);
-        $column->setType($type);
+        $column->setCellType($cell);
 
         if (isset($options['attr'])) {
             $column->setAttributes($options['attr']);

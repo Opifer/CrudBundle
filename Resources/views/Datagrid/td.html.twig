@@ -1,5 +1,5 @@
 {% use 'OpiferCrudBundle:Datagrid:cells.html.twig' %}
 
 {% if data is not null %}
-    {{ block(data.type ~ '_cell') }}
+    {{ block(data.view ~ '_cell') }}
 {% endif %}
