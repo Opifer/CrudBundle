@@ -16,7 +16,11 @@
             <tr>
                 {#<td><input type="checkbox" name="item[]" value="{{ row.id }}" /></td>#}
                 {% for data in row.cells %}
-                    {{ include('OpiferCrudBundle:Datagrid:td.html.twig') }}
+                    {% if data['options']['template'] is defined %}
+                        {{ include(data['options']['template']) }}
+                    {% else %}
+                        {{ include('OpiferCrudBundle:Datagrid:td.html.twig') }}
+                    {% endif %}
                 {% endfor %}
                 {% if grid.options['actions'] is defined %}
                     <td class="actions">
