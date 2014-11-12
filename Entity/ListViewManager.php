@@ -4,13 +4,25 @@ namespace Opifer\CrudBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
+use Opifer\CrudBundle\Datagrid\Datagrid;
+use Opifer\CrudBundle\Form\Type\ListViewType;
+use Opifer\CrudBundle\Doctrine\EntityHelper;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class ListViewManager
 {
-    /** @param EntityManager $em */
+    /** @var EntityManager */
     protected $em;
 
+    /** @var Serializer */
     protected $serializer;
+
+    /** @var EntityHelper */
+    protected $entityHelper;
+
+    /** @var FormFactoryInterface */
+    protected $formFactory;
 
     /**
      * Constructor
@@ -18,20 +30,56 @@ class ListViewManager
      * @param EntityManager $em
      * @param Serializer    $serializer
      */
-    public function __construct(EntityManager $em, Serializer $serializer)
+    public function __construct(EntityManager $em, Serializer $serializer, EntityHelper $entityHelper, FormFactoryInterface $formFactory)
     {
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->entityHelper = $entityHelper;
+        $this->formFactory = $formFactory;
     }
 
     /**
-     * Handle the view form
+     * Handle a ListView form
      *
-     * @param object $formdata
+     * @param  Request  $request
+     * @param  Datagrid $datagrid
+     *
+     * @return \Symfony\Component\Form\FormView
+     */
+    public function handleForm(Request $request, Datagrid $datagrid)
+    {
+        // Clone the view, so the current view won't get changed by the empty view form
+        $view = clone $datagrid->getView();
+
+        $columns = $this->entityHelper->getAllProperties(
+            $view->getEntity()
+        );
+        
+        $type = new ListViewType($datagrid->getSource(), $columns);
+        $viewForm = $this->formFactory->create($type, $view);
+        $viewForm->handleRequest($request);
+
+        if ($viewForm->get('save')->isClicked()) {
+            if ($viewForm->isValid()) {
+                $this->save($view);
+                
+                $request->request->set('view', $view->getSlug());
+            } else {
+                throw new \Exception('The view could not be saved because the form was invalid.');
+            }
+        }
+
+        return $viewForm->createView();
+    }
+
+    /**
+     * Save a listview
+     *
+     * @param  ListView $view
      *
      * @return ListView
      */
-    public function handleForm(ListView $view)
+    public function save(ListView $view)
     {
         $data = $this->serializer->deserialize($view->getConditions(), 'Opifer\RulesEngine\Rule\Rule', 'json');
         $view->setConditions($data);
@@ -45,7 +93,7 @@ class ListViewManager
         //     ];
         // }
         // $view->setColumns(json_encode($columns));
-
+        
         $this->em->persist($view);
         $this->em->flush();
 

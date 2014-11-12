@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
 use Opifer\CrudBundle\Entity\ListView;
-use Opifer\CrudBundle\Form\Type\ListViewType;
 use Opifer\CrudBundle\Pagination\Paginator;
 
 class DatagridBuilder implements DatagridBuilderInterface
@@ -158,47 +157,13 @@ class DatagridBuilder implements DatagridBuilderInterface
         $rows = $this->mapper->mapRows($rows, $columns);
         $this->datagrid->setRows($rows);
 
-        if (!$this->handleViewForm()) {
-            throw new \Exception('The view could not be solved because the form was invalid.');
-        }
+        $viewForm = $this->container->get('opifer.crud.listview_manager')->handleForm($this->getRequest(), $this->datagrid);
+        $this->datagrid->setViewForm($viewForm);
 
         $views = $this->getViewRepository()->findByEntity(get_class($this->datagrid->getSource()));
         $this->datagrid->setViews($views);
 
         return $this->datagrid;
-    }
-
-    /**
-     * Handle the viewform
-     *
-     * @return boolean
-     */
-    protected function handleViewForm()
-    {
-        $columns = $this->container->get('opifer.crud.entity_helper')->getAllProperties(
-            $this->datagrid->getView()->getEntity()
-        );
-
-        // Clone the view, so the current view won't get changed by the empty view form
-        $view = clone $this->datagrid->getView();
-        
-        $type = new ListViewType($this->datagrid->getSource(), $columns);
-        $viewForm = $this->container->get('form.factory')->create($type, $view);
-        $viewForm->handleRequest($this->getRequest());
-
-        if ($viewForm->get('save')->isClicked()) {
-            if ($viewForm->isValid()) {
-                $view = $this->container->get('opifer.crud.listview_manager')->handleForm($viewForm->getData());
-                $this->getRequest()->request->set('view', $view->getSlug());
-            } else {
-                return false;
-            }
-        }
-
-        $viewForm = $viewForm->createView();
-        $this->datagrid->setViewForm($viewForm);
-
-        return true;
     }
 
     /**
