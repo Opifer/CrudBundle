@@ -3,6 +3,7 @@
 namespace Opifer\CrudBundle\Datagrid\Row;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\CrudBundle\Datagrid\Cell\Cell;
 
 /**
  * Row

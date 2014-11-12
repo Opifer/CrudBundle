@@ -29,19 +29,17 @@ class ViewBuilder
     }
 
     /**
-     * [build description]
+     * Get row query
+     * 
      * @param  Opifer\RulesEngine\Condition $conditions
      * @param  string                       $entity
-     * @return [type]
+     * 
+     * @return QueryBuilder
      */
     public function getRowQuery($conditions, $entity)
     {
-        // waarom passen we condities niet gewoon op een repository toe? maak
-        // de repository dat ie implements environment met de get operator en de
-        // condities kunnen door middel van evaluate() rechtstreeks de Env aanpassen
-
-        $repo = $this->em->getRepository(get_class($entity));
-        $qb = $repo->createQueryBuilder('a'); // use exotic alias because we use entity's own repository
+        $qb = $this->em->getRepository(get_class($entity))
+            ->createQueryBuilder('a'); // use exotic alias because we use entity's own repository
 
         $environment = new DoctrineEnvironment();
         $environment->queryBuilder = $qb;
@@ -51,7 +49,10 @@ class ViewBuilder
     }
 
     /**
+     * 
+     * 
      * @param  array $items
+     * 
      * @return array
      */
     public function wheres($items)
