@@ -2,8 +2,6 @@
 
 namespace Opifer\CrudBundle\Datagrid\Column;
 
-use Opifer\CrudBundle\Datagrid\Cell\Type\CellTypeInterface;
-
 /**
  * Column
  *
@@ -17,8 +15,8 @@ class Column
     /** @var label */
     protected $label;
 
-    /** @var cellType */
-    protected $cellType;
+    /** @var type */
+    protected $type;
 
     /** @var \Closure */
     protected $closure;
@@ -71,25 +69,25 @@ class Column
     }
 
     /**
-     * Set cellType
+     * Set type
      *
-     * @param string $cellType
+     * @param string $type
      */
-    public function setCellType(CellTypeInterface $cellType)
+    public function setType($type)
     {
-        $this->cellType = $cellType;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get cellType
+     * Get type
      *
      * @return string
      */
-    public function getCellType()
+    public function getType()
     {
-        return $this->cellType;
+        return $this->type;
     }
 
     /**
@@ -119,7 +117,7 @@ class Column
      *
      * @param \Closure $attributes
      */
-    public function setAttributes(array $attributes = [])
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
 

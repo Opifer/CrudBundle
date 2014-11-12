@@ -239,51 +239,50 @@ class DatagridMapper
             $row->setName($originalRow->getId());
 
             foreach ($columns as $column) {
-                $cellFactory = new \Opifer\CrudBundle\Datagrid\Cell\CellFactory();
-                $cell = $cellFactory->create($column, $originalRow);
-                $row->addCell($cell);
-                //$cell = new Cell();
+                $cell = new Cell();
 
                 // Set a row name value
-                // if (in_array($column->getProperty(), ['username', 'name', 'title'])) {
-                //     $row->setName($accessor->getValue($originalRow, $column->getProperty()));
-                // }
+                if (in_array($column->getProperty(), ['username', 'name', 'title'])) {
+                    $row->setName($accessor->getValue($originalRow, $column->getProperty()));
+                }
 
-                // // Handle the raw value
-                // if ($column->getClosure() instanceof \Closure) {
-                //     $closure = $column->getClosure();
-                //     $value = $accessor->getValue($originalRow, $column->getProperty());
-                //     $value = $closure($value);
-                // } elseif ($column->getType() == 'count') {
-                //     // in case of one-to-many or many-to-many relations, show
-                //     // the count of related rows
-                //     $getter = 'get' . ucfirst($column->getProperty());
-                //     $value = $originalRow->$getter()->count();
-                // } else {
-                //     try {
-                //         $value = $accessor->getValue($originalRow, $column->getProperty());
-                //     } catch (\Exception $e) {
-                //         $value = null;
-                //     }
-                // }
+                // Handle the raw value
+                if ($column->getClosure() instanceof \Closure) {
+                    $closure = $column->getClosure();
+                    $value = $accessor->getValue($originalRow, $column->getProperty());
+                    $value = $closure($value);
+                } elseif ($column->getType() == 'count') {
+                    // in case of one-to-many or many-to-many relations, show
+                    // the count of related rows
+                    $getter = 'get' . ucfirst($column->getProperty());
+                    $value = $originalRow->$getter()->count();
+                } else {
+                    try {
+                        $value = $accessor->getValue($originalRow, $column->getProperty());
+                    } catch (\Exception $e) {
+                        $value = null;
+                    }
+                }
 
-                // // Handle the generated value
-                // if ($value instanceof \DateTime) {
-                //     $value = $value->format('d-m-Y');
-                // } elseif (is_array($value)) {
-                //     $value = json_encode($value);
-                // }
+                // Handle the generated value
+                if ($value instanceof \DateTime) {
+                    $value = $value->format('d-m-Y');
+                } elseif (is_array($value)) {
+                    $value = json_encode($value);
+                }
 
-                // if (null !== $column->getType()) {
-                //     $cell->setType($column->getType());
-                // }
+                if (null !== $column->getType()) {
+                    $cell->setType($column->getType());
+                }
 
-                // $cell->setValue($value);
-                // $cell->setProperty($column->getProperty());
+                $cell->setValue($value);
+                $cell->setProperty($column->getProperty());
                 
-                // if ($column->getAttributes()) {
-                //     $cell->setAttributes($column->getAttributes());
-                // }
+                if ($column->getAttributes()) {
+                    $cell->setAttributes($column->getAttributes());
+                }
+
+                $row->addCell($cell);
             }
 
             $row->setId($originalRow->getId());
