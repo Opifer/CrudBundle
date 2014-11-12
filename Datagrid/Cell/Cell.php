@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CrudBundle\Datagrid\Row;
+namespace Opifer\CrudBundle\Datagrid\Cell;
 
 /**
  * Cell
@@ -16,11 +16,13 @@ class Cell
     protected $type;
 
     /** @var string */
+    protected $view;
+
+    /** @var string */
     protected $value;
 
     /** @var Array */
     protected $attributes;
-
 
     /**
      * Set property
@@ -67,6 +69,28 @@ class Cell
     }
 
     /**
+     * Set view
+     *
+     * @param string $view
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    /**
+     * Get view
+     *
+     * @return string
+     */
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    /**
      * Set value
      *
      * @param string $value
@@ -93,7 +117,7 @@ class Cell
      *
      * @param \Closure $attributes
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes = [])
     {
         $this->attributes = $attributes;
 
