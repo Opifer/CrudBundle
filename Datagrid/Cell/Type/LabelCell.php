@@ -4,16 +4,22 @@ namespace Opifer\CrudBundle\Datagrid\Cell\Type;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
 
-class LabelCell extends PropertyCell
+class LabelCell extends AbstractCell
 {
     /**
      * {@inheritDoc}
      */
-    public function getData($row, Column $column)
+    public function getData($row, Column $column, array $attributes)
     {
-        $value = parent::getData($row, $column);
+        $value = parent::getData($row, $column, $attributes);
 
-        return ($value == 1) ? 'Yes' : 'No';
+        if (isset($attributes['map']) && count($attributes)) {
+            $value = $attributes['map'][$value];
+        } else {
+            $value = ($value) ? 'true' : 'false';
+        }
+
+        return $value;
     }
 
     /**

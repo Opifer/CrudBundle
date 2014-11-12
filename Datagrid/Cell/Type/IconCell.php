@@ -4,15 +4,8 @@ namespace Opifer\CrudBundle\Datagrid\Cell\Type;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
 
-class DateTimeCell extends AbstractCell
+class LabelCell extends AbstractCell
 {
-    protected $format;
-
-    public function __construct($format = 'd-m-Y')
-    {
-        $this->format = $format;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -20,7 +13,13 @@ class DateTimeCell extends AbstractCell
     {
         $value = parent::getData($row, $column, $attributes);
 
-        return $value->format($this->format);
+        if (isset($attributes['map']) && count($attributes)) {
+            $value = $attributes['map'][$value];
+        } else {
+            $value = ($value) ? 'True' : 'False';
+        }
+
+        return $value;
     }
 
     /**
@@ -28,7 +27,7 @@ class DateTimeCell extends AbstractCell
      */
     public function getView()
     {
-        return 'text';
+        return 'label';
     }
 
     /**
@@ -36,6 +35,6 @@ class DateTimeCell extends AbstractCell
      */
     public function getName()
     {
-        return 'datetime';
+        return 'label';
     }
 }

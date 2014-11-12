@@ -54,7 +54,7 @@
 {% block label_cell -%}
     <td>
         {% if data.attributes.hashmap is defined %}
-            {% set class = (attribute(data.attributes.hashmap, data.value) is defined) ? attribute(data.attributes.hashmap, data.value) : 'default' %}
+            {% set class = (attribute(data.attributes.class, data.value) is defined) ? attribute(data.attributes.class, data.value) : 'default' %}
             <span class="label label-{{ class }}">{{ data.value }}</span>
         {% else %}
             <span class="label label-default">{{ data.value }}</span>

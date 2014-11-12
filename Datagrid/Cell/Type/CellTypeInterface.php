@@ -14,7 +14,7 @@ interface CellTypeInterface
      *
      * @return mixed
      */
-    public function getData($row, Column $column);
+    public function getData($row, Column $column, array $attributes);
 
     /**
      * Get the view name

@@ -135,4 +135,18 @@ class Column
     {
         return $this->attributes;
     }
+
+    /**
+     * Get cell attributes
+     *
+     * @return array
+     */
+    public function getCellAttributes()
+    {
+        $attributes = (isset($this->attributes['cell']))
+            ? $this->attributes['cell']
+            : [];
+        
+        return $attributes;
+    }
 }

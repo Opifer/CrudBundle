@@ -21,12 +21,10 @@ class CellFactory
         $cellType = $column->getCellType();
 
         $cell = new Cell();
-        $cell->setValue($cellType->getData($row, $column));
+        $cell->setValue($cellType->getData($row, $column, $column->getCellAttributes()));
+        $cell->setAttributes($column->getCellAttributes());
         $cell->setType($cellType->getName());
         $cell->setView($cellType->getView());
-        if (null !== $column->getAttributes()) {
-            $cell->setAttributes($column->getAttributes());
-        }
         $cell->setProperty($column->getProperty());
 
         return $cell;

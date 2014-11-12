@@ -5,12 +5,12 @@ namespace Opifer\CrudBundle\Datagrid\Cell\Type;
 use Opifer\CrudBundle\Datagrid\Column\Column;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class PropertyCell implements CellTypeInterface
+abstract class AbstractCell implements CellTypeInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function getData($row, Column $column)
+    public function getData($row, Column $column, array $attributes)
     {
         $accessor = PropertyAccess::getPropertyAccessor();
 
@@ -30,6 +30,6 @@ class PropertyCell implements CellTypeInterface
      */
     public function getName()
     {
-        return 'property';
+        return 'text';
     }
 }

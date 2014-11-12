@@ -57,17 +57,10 @@ class DatagridBuilder implements DatagridBuilderInterface
         $column = new Column();
         $column->setProperty($property);
         $column->setCellType($cell);
-
-        if (isset($options['attr'])) {
-            $column->setAttributes($options['attr']);
-        }
+        $column->setAttributes($options);
         
         if (isset($options['label'])) {
             $column->setLabel($options['label']);
-        }
-
-        if (isset($options['function']) && $options['function'] instanceof \Closure) {
-            $column->setClosure($options['function']);
         }
         
         $this->mapper->addColumn($column);

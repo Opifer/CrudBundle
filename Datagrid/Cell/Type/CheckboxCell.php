@@ -2,7 +2,7 @@
 
 namespace Opifer\CrudBundle\Datagrid\Cell\Type;
 
-class CheckboxCell extends PropertyCell
+class CheckboxCell extends AbstractCell
 {
     /**
      * {@inheritDoc}
