@@ -364,7 +364,14 @@ class DatagridBuilder implements DatagridBuilderInterface
             } else {
                 $direction = 'asc';
             }
-            $rowQuery->orderBy($query->get('sort'), $direction);
+
+            $sortParts = explode('.', $query->get('sort'));
+            $sort = ucwords(str_replace(array('-', '_'), ' ', $sortParts[1]));
+            $sort = str_replace(' ', '', $sort);
+            $sort = lcfirst($sort);
+            $sort = $sortParts[0] . '.' . $sort;
+
+            $rowQuery->orderBy($sort, $direction);
         }
 
         return $rowQuery;

@@ -20,6 +20,10 @@ class DateTimeCell extends AbstractCell
     {
         $value = parent::getData($row, $column, $attributes);
 
+        if (null === $value) {
+            return;
+        }
+        
         return $value->format($this->format);
     }
 
