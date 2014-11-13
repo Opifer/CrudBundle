@@ -25,7 +25,7 @@ class CountCell extends AbstractCell
      */
     public function getView()
     {
-        return 'label';
+        return 'text';
     }
 
     /**
@@ -33,6 +33,6 @@ class CountCell extends AbstractCell
      */
     public function getName()
     {
-        return 'label';
+        return 'count';
     }
 }
