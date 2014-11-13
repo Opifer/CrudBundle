@@ -19,10 +19,10 @@ interface DatagridBuilderInterface
      * Add a column
      *
      * @param string $child
-     * @param string $type
+     * @param mixed  $cell     string|CellTypeInterface 
      * @param array  $options
      */
-    public function addColumn($property, CellTypeInterface $cell, array $options = []);
+    public function addColumn($property, $cell, array $options = []);
 
     /**
      * Adds a where clause
