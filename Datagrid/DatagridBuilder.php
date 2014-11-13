@@ -273,7 +273,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     public function getRows()
     {
         if ($this->mapper->getRows() === null) {
-            $paginator = new Paginator($this->getRowQuery(), $this->mapper->getLimit(), $this->mapper->getPage());
+            $paginator = new Paginator($this->getRowQuery(), $this->getLimit(), $this->getPage());
             $this->mapper->setRows($paginator);
             $this->datagrid->setPaginator($paginator);
         }
