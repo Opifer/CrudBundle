@@ -30,8 +30,8 @@
             </div>
         </div>
     </div>
-
-    <div class="collapse {% if form.conditions.vars.value != '' and app.request.get('view') != true %}in{% endif %}" id="filter-panel">
+    
+    <div class="collapse {% if form.conditions.vars.value != '' and app.request.get('view') != true and app.request.get('filterfields') is not defined %}in{% endif %}" id="filter-panel">
         <div class="col-xs-12">
             <div class="listview-form">
                 <div class="form-group">
