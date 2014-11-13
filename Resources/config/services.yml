@@ -57,3 +57,7 @@ services:
     jms_serializer.object_constructor:
         alias: jms_serializer.doctrine_object_constructor
         public: false
+
+    # Cell types
+    opifer.crud.cell_registry:
+        class: Opifer\CrudBundle\Datagrid\Cell\CellRegistry

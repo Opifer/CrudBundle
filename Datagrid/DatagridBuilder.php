@@ -52,8 +52,12 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritDoc}
      */
-    public function addColumn($property, CellTypeInterface $cell, array $options = array())
+    public function addColumn($property, $cell, array $options = array())
     {
+        if (!$cell instanceof CellTypeInterface) {
+            $cell = $this->container->get('opifer.crud.cell_registry')->getCellType($cell);
+        }
+
         $column = new Column();
         $column->setProperty($property);
         $column->setCellType($cell);
