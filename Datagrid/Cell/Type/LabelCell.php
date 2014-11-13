@@ -15,8 +15,6 @@ class LabelCell extends AbstractCell
 
         if (isset($attributes['map']) && count($attributes)) {
             $value = $attributes['map'][$value];
-        } else {
-            $value = ($value) ? 'true' : 'false';
         }
 
         return $value;

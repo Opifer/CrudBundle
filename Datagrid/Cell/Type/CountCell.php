@@ -4,7 +4,7 @@ namespace Opifer\CrudBundle\Datagrid\Cell\Type;
 
 use Opifer\CrudBundle\Datagrid\Column\Column;
 
-class IconCell extends AbstractCell
+class CountCell extends AbstractCell
 {
     /**
      * {@inheritDoc}
@@ -13,13 +13,11 @@ class IconCell extends AbstractCell
     {
         $value = parent::getData($row, $column, $attributes);
 
-        if (isset($attributes['map']) && count($attributes)) {
-            if (isset($attributes['map'][$value])) {
-                $value = $attributes['map'][$value];
-            }
+        if (!is_array($value) && !$value instanceof \Countable) {
+            throw new \Exception('The value in a CountCell must be an array or an instance of \Countable');
         }
 
-        return $value;
+        return count($value);
     }
 
     /**
@@ -27,7 +25,7 @@ class IconCell extends AbstractCell
      */
     public function getView()
     {
-        return 'icon';
+        return 'label';
     }
 
     /**
@@ -35,6 +33,6 @@ class IconCell extends AbstractCell
      */
     public function getName()
     {
-        return 'icon';
+        return 'label';
     }
 }

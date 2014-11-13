@@ -4,6 +4,7 @@ namespace Opifer\CrudBundle\Tests\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CrudBundle\Tests\TestData\User;
+use Opifer\CrudBundle\Datagrid\Cell\Type\TextCell;
 use Opifer\CrudBundle\Datagrid\DatagridBuilder;
 
 class DatagridBuilderTest extends \PHPUnit_Framework_TestCase
@@ -67,7 +68,7 @@ class DatagridBuilderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($viewRepository));
 
         $datagrid = $datagridBuilder->create(new User())
-            ->addColumn('name', 'text', ['label' => 'Username'])
+            ->addColumn('name', new TextCell(), ['label' => 'Username'])
         ;
 
         $this->assertCount(1, $datagrid->getColumns());
@@ -75,7 +76,7 @@ class DatagridBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Opifer\CrudBundle\Datagrid\Column\Column', $first);
         $this->assertEquals('name', $first->getProperty());
-        $this->assertEquals('text', $first->getType());
+        $this->assertEquals(new TextCell(), $first->getCellType());
         $this->assertEquals('Username', $first->getLabel());
     }
 }
