@@ -2,12 +2,13 @@
 
 {% block icon_cell -%}
     <td class="text-center">
-        {% if data.attributes.hashmap is defined %}
-            {% set iconclass = (attribute(data.attributes.hashmap, data.value) is defined) ? attribute(data.attributes.hashmap, data.value) : 'default' %}
+        {#{% if data.attributes.class is defined %}
+            {% set iconclass = (attribute(data.attributes.class, data.value) is defined) ? attribute(data.attributes.class, data.value) : 'default' %}
             <i class="{{ iconclass }}"></i>
         {% else %}
             <i class="{{ data.value }}"></i>
-        {% endif %}
+        {% endif %}#}
+        <i class="{{ data.value }}"></i>
     </td>
 {% endblock icon_cell %}
 
@@ -53,8 +54,8 @@
 
 {% block label_cell -%}
     <td>
-        {% if data.attributes.hashmap is defined %}
-            {% set class = (attribute(data.attributes.hashmap, data.value) is defined) ? attribute(data.attributes.hashmap, data.value) : 'default' %}
+        {% if data.attributes.class is defined %}
+            {% set class = (attribute(data.attributes.class, data.value) is defined) ? attribute(data.attributes.class, data.value) : 'default' %}
             <span class="label label-{{ class }}">{{ data.value }}</span>
         {% else %}
             <span class="label label-default">{{ data.value }}</span>

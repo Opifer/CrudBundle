@@ -4,9 +4,11 @@ namespace Opifer\CrudBundle\Tests\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+
 use Opifer\CrudBundle\Datagrid\DatagridMapper;
 use Opifer\CrudBundle\Datagrid\Column\Column;
-use Opifer\CrudBundle\Datagrid\Row\Cell;
+use Opifer\CrudBundle\Datagrid\Cell\Type\TextCell;
+use Opifer\CrudBundle\Datagrid\Cell\Cell;
 use Opifer\CrudBundle\Datagrid\Row\Row;
 use Opifer\CrudBundle\Tests\TestData\User;
 
@@ -16,7 +18,7 @@ class DatagridMapperTest extends \PHPUnit_Framework_TestCase
     {
         $column = new Column();
         $column->setProperty('name');
-        $column->setType('text');
+        $column->setCellType(new TextCell());
         $column->setLabel('User name');
 
         $collection = new ArrayCollection();
@@ -43,7 +45,7 @@ class DatagridMapperTest extends \PHPUnit_Framework_TestCase
 
         $column = new Column();
         $column->setProperty('name');
-        $column->setType('text');
+        $column->setCellType(new TextCell());
         $column->setLabel('User name');
 
         $expected = new ArrayCollection();
@@ -56,7 +58,7 @@ class DatagridMapperTest extends \PHPUnit_Framework_TestCase
     {
         $column = new Column();
         $column->setProperty('name');
-        $column->setType('text');
+        $column->setCellType(new TextCell());
         $column->setLabel('User name');
         $columnCollection = new ArrayCollection();
         $columnCollection->add($column);
@@ -75,10 +77,12 @@ class DatagridMapperTest extends \PHPUnit_Framework_TestCase
         $cell->setProperty('name');
         $cell->setValue('some random name');
         $cell->setType('text');
+        $cell->setView('text');
+        $cell->setAttributes([]);
 
         $row = new Row();
         $row->setId(1);
-        $row->setName('some random name');
+        $row->setName(1);
         $row->addCell($cell);
 
         $expected = new ArrayCollection();

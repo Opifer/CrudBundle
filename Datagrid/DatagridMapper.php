@@ -6,8 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+use Opifer\CrudBundle\Datagrid\Cell\Type\TextCell;
+use Opifer\CrudBundle\Datagrid\Cell\Cell;
+use Opifer\CrudBundle\Datagrid\Cell\CellFactory;
 use Opifer\CrudBundle\Datagrid\Column\Column;
-use Opifer\CrudBundle\Datagrid\Row\Cell;
 use Opifer\CrudBundle\Datagrid\Row\Row;
 
 /**
@@ -208,7 +210,7 @@ class DatagridMapper
 
             $column = new Column();
             $column->setProperty($columnArray['property']);
-            $column->setType($columnArray['type']);
+            $column->setCellType(new TextCell());
             $column->setLabel($label);
 
             $collection->add($column);
@@ -236,56 +238,14 @@ class DatagridMapper
 
         foreach ($rows as $originalRow) {
             $row = new Row();
+            $row->setId($originalRow->getId());
             $row->setName($originalRow->getId());
 
             foreach ($columns as $column) {
-                $cell = new Cell();
-
-                // Set a row name value
-                if (in_array($column->getProperty(), ['username', 'name', 'title'])) {
-                    $row->setName($accessor->getValue($originalRow, $column->getProperty()));
-                }
-
-                // Handle the raw value
-                if ($column->getClosure() instanceof \Closure) {
-                    $closure = $column->getClosure();
-                    $value = $accessor->getValue($originalRow, $column->getProperty());
-                    $value = $closure($value);
-                } elseif ($column->getType() == 'count') {
-                    // in case of one-to-many or many-to-many relations, show
-                    // the count of related rows
-                    $getter = 'get' . ucfirst($column->getProperty());
-                    $value = $originalRow->$getter()->count();
-                } else {
-                    try {
-                        $value = $accessor->getValue($originalRow, $column->getProperty());
-                    } catch (\Exception $e) {
-                        $value = null;
-                    }
-                }
-
-                // Handle the generated value
-                if ($value instanceof \DateTime) {
-                    $value = $value->format('d-m-Y');
-                } elseif (is_array($value)) {
-                    $value = json_encode($value);
-                }
-
-                if (null !== $column->getType()) {
-                    $cell->setType($column->getType());
-                }
-
-                $cell->setValue($value);
-                $cell->setProperty($column->getProperty());
-                
-                if ($column->getAttributes()) {
-                    $cell->setAttributes($column->getAttributes());
-                }
-
+                $cellFactory = new CellFactory();
+                $cell = $cellFactory->create($column, $originalRow);
                 $row->addCell($cell);
             }
-
-            $row->setId($originalRow->getId());
             $collection->add($row);
         }
 
