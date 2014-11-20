@@ -110,9 +110,6 @@ class ViewBuilder
         $allowedProperties = $annotationReader->all($entity);
 
         foreach ($this->entityHelper->getProperties($entity) as $column) {
-            $typeTransformer = new DoctrineTypeTransformer();
-            $column['type'] =  $typeTransformer->transform($column['type']);
-            
             if (count($allowedProperties)) {
                 foreach ($allowedProperties as $property) {
                     if ($column['fieldName'] != $property['property']) {
