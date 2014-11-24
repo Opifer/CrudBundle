@@ -18,6 +18,9 @@ class Row
     /** @var string */
     protected $name;
 
+    /** @var object */
+    protected $object;
+
     /** @var ArrayCollection */
     protected $cells;
 
@@ -71,6 +74,28 @@ class Row
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set object
+     *
+     * @param string $object
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+
+        return $this;
+    }
+
+    /**
+     * Get object
+     *
+     * @return string
+     */
+    public function getObject()
+    {
+        return $this->object;
     }
 
     /**

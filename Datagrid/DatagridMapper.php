@@ -238,6 +238,7 @@ class DatagridMapper
 
         foreach ($rows as $originalRow) {
             $row = new Row();
+            $row->setObject($originalRow);
             $row->setId($originalRow->getId());
             $row->setName($originalRow->getId());
 
