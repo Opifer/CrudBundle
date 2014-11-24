@@ -68,7 +68,9 @@
         <td>
             {% if data.value is iterable %}
                 {% for value in data.value %}
-                    {{ value }}
+                    {% if value is not iterable %}
+                        {{ value }}
+                    {% endif %}
                 {% endfor %}
             {% else %}
                 {% if data.property in ['title', 'name', 'username'] %}

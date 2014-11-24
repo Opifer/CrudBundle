@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+use Opifer\CrudBundle\Datagrid\Cell\Type\DateTimeCell;
 use Opifer\CrudBundle\Datagrid\Cell\Type\TextCell;
 use Opifer\CrudBundle\Datagrid\Cell\Cell;
 use Opifer\CrudBundle\Datagrid\Cell\CellFactory;
@@ -210,7 +211,12 @@ class DatagridMapper
 
             $column = new Column();
             $column->setProperty($columnArray['property']);
-            $column->setCellType(new TextCell());
+
+            if ($columnArray['type'] == 'datetime') {
+                $column->setCellType(new DateTimeCell());
+            } else {
+                $column->setCellType(new TextCell());
+            }
             $column->setLabel($label);
 
             $collection->add($column);
