@@ -226,10 +226,12 @@ class DatagridMapper
     }
 
     /**
-     * Transform the rows to be used within the grid
+     * Transforms the rows into a collection of Row items
      *
      * @param  [array|Traversable] $rows
-     * @return array
+     * @param  ArrayCollection     $columns
+     * 
+     * @return ArrayCollection
      */
     public function mapRows($rows, $columns)
     {
@@ -243,19 +245,35 @@ class DatagridMapper
         $accessor = PropertyAccess::getPropertyAccessor();
 
         foreach ($rows as $originalRow) {
-            $row = new Row();
-            $row->setObject($originalRow);
-            $row->setId($originalRow->getId());
-            $row->setName($originalRow->getId());
-
-            foreach ($columns as $column) {
-                $cellFactory = new CellFactory();
-                $cell = $cellFactory->create($column, $originalRow);
-                $row->addCell($cell);
-            }
+            $row = $this->mapRow($originalRow, $columns);
             $collection->add($row);
         }
 
         return $collection;
+    }
+
+    /**
+     * Map a single row
+     *
+     * @param  object $object  The object the row represents
+     * @param  array  $columns The columns that should be added to the row
+     *
+     * @return Row
+     */
+    public function mapRow($object, $columns)
+    {
+        $row = new Row();
+        $row->setObject($object);
+        $row->setId($object->getId());
+        $row->setName($object->getId());
+
+        foreach ($columns as $column) {
+            $cellFactory = new CellFactory();
+
+            $cell = $cellFactory->create($column, $object);
+            $row->addCell($cell);
+        }
+
+        return $row;
     }
 }

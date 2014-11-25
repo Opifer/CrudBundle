@@ -129,18 +129,6 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * Set options
-     *
-     * @param array $options
-     */
-    public function setOptions($options = array())
-    {
-        $this->datagrid->setOptions($options);
-
-        return $this;
-    }
-
-    /**
      * Build the actual datagrid
      *
      * @return \Opifer\CrudBundle\Datagrid\Datagrid

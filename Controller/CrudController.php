@@ -172,4 +172,19 @@ class CrudController extends Controller
             'slug' => $slug
         ]));
     }
+
+    /**
+     * Batch actions
+     *
+     * @param  Request $request
+     * @param  string  $action
+     *
+     * @return Response
+     */
+    public function batchAction(Request $request, $action)
+    {
+        dump($action);
+
+        return new Response('BATCH');
+    }
 }
