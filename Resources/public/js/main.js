@@ -16,6 +16,21 @@ $(document).ready(function() {
     });
 
     /**
+     * Select all rows for batch processing
+     */
+    $('.js-batch-select-all').click(function() {
+        if(this.checked) {
+            $('.batch-select').each(function() {
+                this.checked = true;
+            });
+        }else{
+            $('.batch-select').each(function() {
+                this.checked = false;
+            });         
+        }
+    });
+
+    /**
      * Confirm batch process
      *
      * This opens a modal before actually batch processing.
@@ -24,7 +39,7 @@ $(document).ready(function() {
 
         var form = $(this).closest('form');
         var action = form.find('.js-batch-action').val();
-        
+
         // If no action is passed, there's no 
         if (action) {
             var selected = form.find('.js-batch-action option:selected');

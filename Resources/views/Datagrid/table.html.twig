@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 {% if grid.options.batch_actions|length %}
-                    <th width="25"><input type="checkbox" id="checkbox-all" /></th>
+                    <th width="25"><input type="checkbox" id="checkbox-all" class="js-batch-select-all" /></th>
                 {% endif %}
 
                 {% for column in grid.columns %}
