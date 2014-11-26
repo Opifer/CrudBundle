@@ -72,7 +72,7 @@ class CrudRouter extends AbstractRouter implements RouterInterface
         $result = $urlMatcher->match($pathinfo);
 
         if (!empty($result)) {
-            $entity = $this->container->get('opifer.crud.slug_to_entity_transformer')
+            $entity = $this->container->get('opifer.crud.slug_transformer')
                 ->transform($result['slug']);
 
             if (false === $entity) {

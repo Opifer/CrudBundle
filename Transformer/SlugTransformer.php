@@ -2,12 +2,19 @@
 
 namespace Opifer\CrudBundle\Transformer;
 
+use Opifer\CrudBundle\Exception\IncorrectRouteConfigException;
+
 /**
+ * Slug transformer
+ * 
  * This class helps transforming strings, possibly passed in a URL or as POST variable,
  * into the matching repository/entity/document
+ *
+ * @author Rick van Laarhoven <r.vanlaarhoven@opifer.nl>
  */
-class SlugToEntityTransformer
+class SlugTransformer
 {
+    /** @var array */
     protected $routes;
 
     /**
@@ -29,12 +36,12 @@ class SlugToEntityTransformer
      */
     public function transform($slug)
     {
-        foreach ($this->routes as $route => $entity) {
-            if ($route === $slug) {
-                return new $entity();
-            }
+        $object = $this->routes[$slug];
+
+        if (!class_exists($object)) {
+            throw new IncorrectRouteConfigException();
         }
 
-        return false;
+        return new $object();
     }
 }

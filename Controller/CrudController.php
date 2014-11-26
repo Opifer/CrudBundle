@@ -185,7 +185,7 @@ class CrudController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $this->get('opifer.crud.slug_to_entity_transformer')
+        $entity = $this->get('opifer.crud.slug_transformer')
             ->transform($slug);
 
         $objects = $em->getRepository(get_class($entity))->createQueryBuilder('a')

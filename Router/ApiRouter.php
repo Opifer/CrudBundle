@@ -87,7 +87,7 @@ class ApiRouter extends AbstractRouter implements RouterInterface
         $result = $urlMatcher->match($pathinfo);
 
         if (!empty($result)) {
-            $result['entity'] = $this->container->get('opifer.crud.slug_to_entity_transformer')
+            $result['entity'] = $this->container->get('opifer.crud.slug_transformer')
                 ->transform($result['slug']);
 
             if (!empty($result['id'])) {

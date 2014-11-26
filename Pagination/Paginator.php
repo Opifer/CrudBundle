@@ -6,7 +6,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
 /**
- * Pager
+ * Paginator
  *
  * Our custom pagination layer to ease a possible switch between paginators
  *
@@ -17,6 +17,8 @@ use Pagerfanta\Pagerfanta;
  *
  * Because the pager implements \IteratorAggregate, we can loop over
  * the results like a normal array.
+ *
+ * @author Rick van Laarhoven <r.vanlaarhoven@opifer.nl>
  */
 class Paginator extends Pagerfanta implements \Countable, \IteratorAggregate
 {
@@ -55,7 +57,9 @@ class Paginator extends Pagerfanta implements \Countable, \IteratorAggregate
     }
 
     /**
-     * {@inheritDoc}
+     * Get the total amount of pages
+     *
+     * @return  integer
      */
     public function getTotalPages()
     {
@@ -63,7 +67,9 @@ class Paginator extends Pagerfanta implements \Countable, \IteratorAggregate
     }
 
     /**
-     * {@inheritDoc}
+     * Get the total amount of results
+     *
+     * @return integer
      */
     public function getTotalResults()
     {
