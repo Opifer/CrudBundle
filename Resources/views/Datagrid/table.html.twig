@@ -1,8 +1,11 @@
-<form action="">
+<form action="#" method="POST">
     <table class="table">
         <thead>
             <tr>
-                <th width="25"><input type="checkbox" id="checkbox-all" /></th>
+                {% if grid.options.batch_actions|length %}
+                    <th width="25"><input type="checkbox" id="checkbox-all" /></th>
+                {% endif %}
+
                 {% for column in grid.columns %}
                     {{ include('OpiferCrudBundle:Datagrid:th.html.twig') }}
                 {% endfor %}
@@ -15,10 +18,14 @@
         <tbody>
             {% for row in grid.rows %}
                 <tr>
-                    <td><input type="checkbox" name="batchselect[]" value="{{ row.id }}" class="batch-select" /></td>
+                    {% if grid.options.batch_actions|length %}
+                        <td><input type="checkbox" name="batchselect[]" value="{{ row.id }}" class="batch-select" /></td>
+                    {% endif %}
+
                     {% for data in row.cells %}
                         {{ include('OpiferCrudBundle:Datagrid:td.html.twig') }}
                     {% endfor %}
+
                     {% if grid.options['actions'] is defined %}
                         <td class="actions">
                             {% for action, data in grid.options['actions'] %}
@@ -36,6 +43,20 @@
             {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
         </tbody>
     </table>
+
+    {% if grid.paginator %}
+        <div class="row">
+            <div class="col-xs-8 pagination-col">
+                {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+                {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-2 pagination-size">
+                {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
+            </div>
+        </div>
+    {% endif %}
     
     {% include 'OpiferCrudBundle:Datagrid:batch_actions.html.twig' with {'batch_actions': grid.options.batch_actions} %}
 </form>
