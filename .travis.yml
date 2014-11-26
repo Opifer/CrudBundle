@@ -10,3 +10,8 @@ before_script:
     - composer install -n
 
 script: phpunit --coverage-clover /tmp/coverage.xml
+
+branches:
+  only:
+    - master
+    - develop
