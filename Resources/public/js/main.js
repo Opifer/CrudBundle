@@ -24,7 +24,7 @@ $(document).ready(function() {
 
         var form = $(this).closest('form');
         var action = form.find('.js-batch-action').val();
-
+        
         // If no action is passed, there's no 
         if (action) {
             var selected = form.find('.js-batch-action option:selected');

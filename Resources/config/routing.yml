@@ -1,3 +1,7 @@
 opifer.crud.listview.delete:
     path: "/{slug}/filter/delete/{id}"
     defaults: { _controller: OpiferCrudBundle:ListView:delete }
+
+opifer.crud.batch.delete:
+    path: "/{slug}/batch/delete"
+    defaults: { _controller: OpiferCrudBundle:Crud:batchDelete }

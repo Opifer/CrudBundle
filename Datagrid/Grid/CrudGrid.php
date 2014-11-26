@@ -5,14 +5,18 @@ namespace Opifer\CrudBundle\Datagrid\Grid;
 use Opifer\CrudBundle\Datagrid\DatagridBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SimpleGrid extends AbstractGrid
+class CrudGrid extends AbstractGrid
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function buildGrid(DatagridBuilderInterface $builder)
-    {
+    protected $slug;
 
+    /**
+     * Constructor
+     *
+     * @param string $slug
+     */
+    public function __construct($slug)
+    {
+        $this->slug = $slug;
     }
 
     /**
@@ -22,7 +26,7 @@ class SimpleGrid extends AbstractGrid
     {
         $resolver->setDefaults([
             'batch_actions' => [
-                'edit' => '/'
+                'delete' => ['opifer.crud.batch.delete', ['slug' => $this->slug]]
             ],
             'actions' => [
                 'edit'   => ['template' => 'OpiferCrudBundle:Datagrid:action_edit.html.twig'],

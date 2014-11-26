@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\CrudBundle\Datagrid\Grid\SimpleGrid;
+use Opifer\CrudBundle\Datagrid\Grid\CrudGrid;
 
 class CrudController extends Controller
 {
@@ -23,7 +23,7 @@ class CrudController extends Controller
      */
     public function indexAction(Request $request, $entity, $slug)
     {
-        $datagrid = $this->get('opifer.crud.datagrid_factory')->create(new SimpleGrid(), $entity);
+        $datagrid = $this->get('opifer.crud.datagrid_factory')->create(new CrudGrid($slug), $entity);
 
         return $this->render('OpiferCrudBundle:Crud:list.html.twig', [
             'slug'  => $slug,
@@ -174,17 +174,34 @@ class CrudController extends Controller
     }
 
     /**
-     * Batch actions
+     * Batch delete action
      *
      * @param  Request $request
      * @param  string  $action
      *
      * @return Response
      */
-    public function batchAction(Request $request, $action)
+    public function batchDeleteAction(Request $request, $slug)
     {
-        dump($action);
+        $em = $this->getDoctrine()->getManager();
 
-        return new Response('BATCH');
+        $entity = $this->get('opifer.crud.slug_to_entity_transformer')
+            ->transform($slug);
+
+        $objects = $em->getRepository(get_class($entity))->createQueryBuilder('a')
+            ->where('a.id IN (:ids)')
+            ->setParameter('ids', $request->get('batchselect'))
+            ->getQuery()
+            ->getResult();
+
+        foreach ($objects as $object) {
+            $em->remove($object);
+        }
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('opifer.crud.index', [
+            'slug' => $slug
+        ]));
     }
 }

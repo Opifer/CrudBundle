@@ -1,4 +1,4 @@
-<form action="#" method="POST">
+<form action="#" method="POST" class="clearfix">
     <table class="table">
         <thead>
             <tr>
@@ -43,20 +43,20 @@
             {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
         </tbody>
     </table>
-
-    {% if grid.paginator %}
-        <div class="row">
-            <div class="col-xs-8 pagination-col">
-                {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
-                {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
-            </div>
-            <div class="col-xs-2">
-            </div>
-            <div class="col-xs-2 pagination-size">
-                {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
-            </div>
-        </div>
-    {% endif %}
     
     {% include 'OpiferCrudBundle:Datagrid:batch_actions.html.twig' with {'batch_actions': grid.options.batch_actions} %}
 </form>
+
+{% if grid.paginator %}
+    <div class="row">
+        <div class="col-xs-8 pagination-col">
+            {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+            {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+        </div>
+        <div class="col-xs-2">
+        </div>
+        <div class="col-xs-2 pagination-size">
+            {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
+        </div>
+    </div>
+{% endif %}
