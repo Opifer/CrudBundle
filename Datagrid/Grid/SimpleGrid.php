@@ -3,6 +3,7 @@
 namespace Opifer\CrudBundle\Datagrid\Grid;
 
 use Opifer\CrudBundle\Datagrid\DatagridBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SimpleGrid extends AbstractGrid
 {
