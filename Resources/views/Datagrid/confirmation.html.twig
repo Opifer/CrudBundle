@@ -1,17 +1,15 @@
-{# MODAL #}
 <div class="modal modal-delete fallin" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-               {# <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
-                <h4 class="modal-title" id="DeleteModalLabel">Confirm delete</h4>
+                <h4 class="modal-title" id="DeleteModalLabel">{{ 'modal.delete.title'|trans|capitalize }}</h4>
             </div>
             <div class="modal-body">
-                Do you really want to delete <span class="modal-name"></span>?
+                {{ 'modal.delete.message'|trans|format('<span class="modal-name"></span>') }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-danger modal-confirm-button" title="Confirms removal">Delete</a>
+                <button type="button" class="btn btn-default btn-link" data-dismiss="modal">{{ 'action.cancel'|trans|capitalize }}</button>
+                <a href="#" class="btn btn-danger modal-confirm-button" title="Confirms removal">{{ 'action.delete'|trans|capitalize }}</a>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
         <div class="col-xs-8">
             <div class="">
                 <select name="view" class="stored-filters form-control js-submit-on-change">
-                    <option value="">All</option>
+                    <option value="">{{ 'view.null_value'|trans|capitalize }}</option>
                     {% for item in grid.views %}
                         <option value="{{ item.slug }}" {% if app.request.get('view') == item.slug %}selected{% endif %}>
                             {{ item.name|capitalize }}
@@ -12,7 +12,7 @@
                     {% endfor %}
                 </select>
                 <a href="#" class="btn btn-default" id="btn-createview" data-toggle="collapse" data-target="#filter-panel">
-                    Create custom view
+                    {{ 'view.create'|trans|capitalize }}
                 </a>
             </div>
         </div>
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="collapse {% if form.conditions.vars.value != '' and app.request.get('view') != true and app.request.get('filterfields') is not defined %}in{% endif %}" id="filter-panel">
         <div class="col-xs-12">
             <div class="listview-form">

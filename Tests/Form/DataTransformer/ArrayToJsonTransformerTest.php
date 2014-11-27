@@ -25,7 +25,7 @@ class ArrayToJsonTransformerTest extends \PHPUnit_Framework_TestCase
         $expected = ['one' => 'two', 'three' => 'four'];
 
         $string = '{"one":"two","three":"four"}';
-        $actual = $transformer->transform($string);
+        $actual = $transformer->reverseTransform($string);
         
         $this->assertEquals($expected, $actual);
     }

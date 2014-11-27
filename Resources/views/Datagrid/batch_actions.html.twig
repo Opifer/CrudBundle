@@ -1,7 +1,7 @@
 {% if batch_actions|length %}
     <div class="batch-action-selector">
         <select class="form-control js-batch-action ">
-            <option value="" selected>Batch actions</option>
+            <option value="" selected>{{ 'batch.null_value'|trans|capitalize }}</option>
             {% for action, route in batch_actions %}
                 {% set path = '' %}
                 {% if route is iterable %}
@@ -9,24 +9,24 @@
                 {% else %}
                     {% set path = path(route) %}
                 {% endif %}
-                <option value="{{ path }}" data-action="{{ action }}">{{ action|capitalize }}</option>
+                <option value="{{ path }}" data-action="{{ action|trans }}">{{ action|trans|capitalize }}</option>
             {% endfor %}
         </select>
-        <a href="#" class="btn btn-default js-batch-confirm">Go!</a>
+        <a href="#" class="btn btn-default js-batch-confirm">{{ 'action.process'|trans|capitalize }}</a>
     </div>
 
     <div class="modal batch-modal fallin" id="batch-modal" tabindex="-1" role="dialog" aria-labelledby="batch-modal-label" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="batch-modal-label">Confirm</h4>
+                    <h4 class="modal-title" id="batch-modal-label">{{ 'modal.batch.title'|trans|capitalize }}</h4>
                 </div>
                 <div class="modal-body">
-                    Do you really want to <span class="batch-action"></span> <span class="batch-count"></span> items?
+                    {{ 'modal.batch.message'|trans|format('<span class="batch-action"></span>', '<span class="batch-count"></span>') }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
-                    <a href="#" class="btn btn-danger js-batch-start batch-action" title="Confirms removal">Batch</a>
+                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">{{ 'action.cancel'|trans|capitalize }}</button>
+                    <a href="#" class="btn btn-danger js-batch-start batch-action" title="Confirms removal">{{ 'action.process'|trans|capitalize }}</a>
                 </div>
             </div>
         </div>
