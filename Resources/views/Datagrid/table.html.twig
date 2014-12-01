@@ -30,9 +30,9 @@
                         <td class="actions">
                             {% for action, data in grid.options['actions'] %}
                                 {% if data.template is defined %}
-                                    {{ include(data.template) }}&nbsp;
+                                    {{ include(data.template) }}
                                 {% else %}
-                                    {{ include('OpiferCrudBundle:Datagrid:action_'~action~'.html.twig') }}&nbsp;
+                                    {{ include('OpiferCrudBundle:Datagrid:action_'~action~'.html.twig') }}
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -43,7 +43,7 @@
             {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
         </tbody>
     </table>
-    
+
     {% include 'OpiferCrudBundle:Datagrid:batch_actions.html.twig' with {'batch_actions': grid.options.batch_actions} %}
 </form>
 
