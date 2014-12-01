@@ -10,10 +10,15 @@ use Opifer\CrudBundle\Annotation\FormAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\CrudBundle\Transformer\DoctrineTypeTransformer;
 
+/**
+ * Crud relation type
+ *
+ * @author Rick van Laarhoven <r.vanlaarhoven@opifer.nl>
+ */
 class CrudRelationType extends AbstractType
 {
     /**
-     * @var  \Opifer\CrudBundle\Doctrine\EntityHelper
+     * @var EntityHelper
      */
     protected $entityHelper;
 
@@ -25,20 +30,21 @@ class CrudRelationType extends AbstractType
     protected $entity;
 
     /**
-     * @var  \Opifer\CrudBundle\Annotation\FormAnnotationReader
+     * @var FormAnnotationReader
      */
     protected $annotationReader;
 
     /**
      * Constructor
      *
-     * @param \Opifer\CrudBundle\Doctrine\EntityHelper $entityHelper
-     * @param string                                   $entity
+     * @param EntityHelper         $entityHelper
+     * @param string               $object
+     * @param FormAnnotationReader $annotationReader
      */
-    public function __construct(EntityHelper $entityHelper, $entity, FormAnnotationReader $annotationReader)
+    public function __construct(EntityHelper $entityHelper, $object, FormAnnotationReader $annotationReader)
     {
         $this->entityHelper = $entityHelper;
-        $this->entity = $entity;
+        $this->object = $object;
         $this->annotationReader = $annotationReader;
     }
 
@@ -47,30 +53,51 @@ class CrudRelationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $allowedProperties = $this->annotationReader->getEditableProperties($this->entity);
-        $transformer = new DoctrineTypeTransformer();
+        $this->addOwnProperties($builder);
+        $this->addRelations($builder);
+    }
 
-        foreach ($this->entityHelper->getProperties($this->entity) as $property) {
-            if (count($allowedProperties) && !in_array($property['fieldName'], $allowedProperties)) {
+    /**
+     * Add own properties
+     *
+     * @param FormBuilderInterface $builder
+     */
+    public function addOwnProperties(FormBuilderInterface $builder)
+    {
+        $transformer = new DoctrineTypeTransformer();
+        $properties = $this->entityHelper->getProperties($this->object);
+
+        foreach ($properties as $property) {
+            if (!isAllowed($property['fieldName'])) {
                 continue;
             }
 
-            if (!in_array($property['fieldName'], ['id', 'slug', 'createdAt', 'updatedAt', 'deletedAt'])) {
-                if ($propertyType = $this->annotationReader->getPropertyType($this->entity, $property['fieldName'])) {
-                    $builder->add($property['fieldName'], $propertyType);
-                } elseif ('bootstrap_collection' == $type = $transformer->transform($property['type'])) {
-                    $builder->add($property['fieldName'], $type, [
-                        'allow_add' => true,
-                        'allow_delete' => true,
-                    ]);
-                } else {
-                    $builder->add($property['fieldName'], $type);
-                }
+            $type = $transformer->transform($property['type']);
+
+            if ($propertyType = $this->annotationReader->getPropertyType($this->object, $property['fieldName'])) {
+                $builder->add($property['fieldName'], $propertyType);
+            } elseif ('bootstrap_collection' == $type) {
+                $builder->add($property['fieldName'], $type, [
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                ]);
+            } else {
+                $builder->add($property['fieldName'], $type);
             }
         }
+    }
 
-        foreach ($this->entityHelper->getRelations($this->entity) as $key => $relation) {
-            if (count($allowedProperties) && !in_array($relation['fieldName'], $allowedProperties)) {
+    /**
+     * Add relations to the form
+     *
+     * @param FormBuilderInterface $builder
+     */
+    public function addRelations(FormBuilderInterface $builder)
+    {
+        $relations = $this->entityHelper->getRelations($this->object);
+
+        foreach ($relations as $key => $relation) {
+            if (!isAllowed($relation['fieldName'])) {
                 continue;
             }
 
@@ -83,12 +110,39 @@ class CrudRelationType extends AbstractType
     }
 
     /**
+     * Check if the property is allowed
+     *
+     * @param  string  $property
+     *
+     * @return boolean
+     */
+    public function isAllowed($property)
+    {
+        if (count($this->getAllowedProperties()) &&
+            !in_array($property, $this->getAllowedProperties())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the allowed properties from the object
+     *
+     * @return array
+     */
+    public function getAllowedProperties()
+    {
+        return $this->annotationReader->getEditableProperties($this->object);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->entity,
+            'data_class' => $this->object,
         ));
     }
 
@@ -97,6 +151,6 @@ class CrudRelationType extends AbstractType
      */
     public function getName()
     {
-        return 'crud_collection';
+        return 'crud_relation';
     }
 }

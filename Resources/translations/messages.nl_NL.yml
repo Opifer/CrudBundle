@@ -1,45 +1,41 @@
-# Filters
-filter:
-    row:
-        dropdown:
-            label: filters
-            new: nieuwe filter toevoegen
-    column:
-        dropdown:
-            label: kolommen
-            new: bewerk kolommen
+action:
+    cancel: annuleren
+    delete: verwijderen
+    process: process
 
-# Crud
+batch:
+    null_value: batch acties
+
+button:
+    add: nieuwe toevoegen
+
 crud:
-    list:
-        title: %slug%
-        empty: er zijn geen resultaten gevonden voor "%slug%"
     new:
-        title: %slug%
-        success: "Het item was succesvol aangemaakt"
+        success: 'Het item is succesvol aangemaakt!'
+        title: '%slug%'
     edit:
-        success: "Het item was succesvol bijgewerkt"
+        success: 'Het item is succesvol bijgewerkt!'
     delete:
-        success: "Het item was succesvol verwijderd"
+        success: 'Het item is succesvol verwijderd!'
+    list:
+        title: '%slug%'
+        empty: 'geen resultaten gevonden voor "%slug%"'
 
-# Datagrid
 datagrid:
     search:
-        placeholder: filter op alle velden
-        submit: zoeken
-    filters:
-        button: filters
-        existing: opgeslagen filters
-        new: nieuwe filter
-    columns:
-        button: kolommen
-        existing: opgeslagen kolom instellingen
-        new: nieuw kolom overzicht
+        placeholder: doorzoek alle velden
 
-# Pagination
+modal:
+    delete:
+        title: bevestig verwijderen
+        message: weet je zeker dat je %d wil verwijderen?
+    batch:
+        title: bevestigen
+        message: weet je zeker dat je %d rijen wil %s?
+
 pagination:
     of: van
 
-# Buttons
-button:
-    add: nieuwe toevoegen
+view:
+    create: maak eigen view
+    null_value: alle

@@ -1,45 +1,41 @@
-# Filters
-filter:
-    row:
-        dropdown:
-            label: filters
-            new: create new filter
-    column:
-        dropdown:
-            label: columns
-            new: modify columns
+action:
+    cancel: cancel
+    delete: delete
+    process: process
 
-# Crud
+batch:
+    null_value: batch actions
+
+button:
+    add: add new
+
 crud:
-    list:
-        title: %slug%
-        empty: no results were found for "%slug%"
     new:
-        title: %slug%
-        success: "The item was created successfully!"
+        success: 'The item was created successfully!'
+        title: '%slug%'
     edit:
-        success: "The item was updated successfully!"
+        success: 'The item was updated successfully!'
     delete:
-        success: "The item was deleted successfully!"
+        success: 'The item was deleted successfully!'
+    list:
+        title: '%slug%'
+        empty: 'no results were found for "%slug%"'
 
-# Datagrid
 datagrid:
     search:
-        placeholder: filter any field
-        submit: search
-    filters:
-        button: filters
-        existing: stored filters
-        new: new filter
-    columns:
-        button: columns
-        existing: stored column settings
-        new: new view
+        placeholder: 'filter any field'
 
-# Pagination
+modal:
+    delete:
+        title: confirm delete
+        message: do you really want to delete %d?
+    batch:
+        title: confirm
+        message: do you really want to %s %d items
+
 pagination:
     of: of
 
-# Buttons
-button:
-    add: add new
+view:
+    create: create custom view
+    null_value: all

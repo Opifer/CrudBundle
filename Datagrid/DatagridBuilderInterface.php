@@ -40,13 +40,6 @@ interface DatagridBuilderInterface
     public function setParameter($parameter, $value);
 
     /**
-     * Set options
-     *
-     * @param array $options
-     */
-    public function setOptions($options = []);
-
-    /**
      * Build the actual datagrid
      *
      * @return Datagrid

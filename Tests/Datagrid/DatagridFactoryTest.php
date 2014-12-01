@@ -5,7 +5,7 @@ namespace Opifer\CrudBundle\Tests\Datagrid;
 use Mockery as m;
 use Opifer\CrudBundle\Datagrid\Datagrid;
 use Opifer\CrudBundle\Datagrid\DatagridFactory;
-use Opifer\CrudBundle\Datagrid\Grid\SimpleGrid;
+use Opifer\CrudBundle\Datagrid\Grid\CrudGrid;
 use Opifer\CrudBundle\Tests\TestData\User;
 
 class DatagridFactoryTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +20,7 @@ class DatagridFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $datagrid = new Datagrid();
-        $simpleGrid = new SimpleGrid();
+        $simpleGrid = new CrudGrid('users');
         $user = new User();
 
         $this->builder->shouldReceive('create')->andReturn($this->builder);

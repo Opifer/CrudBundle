@@ -42,8 +42,8 @@ services:
         arguments: [@doctrine.orm.entity_manager, @serializer, @opifer.crud.entity_helper, @form.factory]
 
     # Transformers
-    opifer.crud.slug_to_entity_transformer:
-        class: Opifer\CrudBundle\Transformer\SlugToEntityTransformer
+    opifer.crud.slug_transformer:
+        class: Opifer\CrudBundle\Transformer\SlugTransformer
         arguments: [%opifer_crud.routes%]
 
     # AnnotationReader
