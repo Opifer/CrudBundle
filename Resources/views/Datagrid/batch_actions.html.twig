@@ -22,7 +22,7 @@
                     <h4 class="modal-title" id="batch-modal-label">{{ 'modal.batch.title'|trans|capitalize }}</h4>
                 </div>
                 <div class="modal-body">
-                    {{ 'modal.batch.message'|trans|format('<span class="batch-action"></span>', '<span class="batch-count"></span>') }}
+                    {{ 'modal.batch.message'|trans|format('<span class="batch-action"></span>', '<span class="batch-count"></span>')|raw }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-link" data-dismiss="modal">{{ 'action.cancel'|trans|capitalize }}</button>
