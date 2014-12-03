@@ -14,13 +14,23 @@
             <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
 
-        {% for page in 1..pagination.totalPages %}
+        {% if pagination.firstinrange > 1 %}
+            <li><a href="{{ path('opifer.crud.index', query|merge({'page': 1})) }}">1</a></li>
+            <li class="disabled"><span>&hellip;</span></li>
+        {% endif %}
+
+        {% for page in pagination.firstinrange..pagination.lastinrange %}
             {% if page != current %}
                 <li><a href="{{ path('opifer.crud.index', query|merge({'page': page})) }}">{{ page }}</a></li>
             {% else %}
                 <li class="active"><span>{{ page }}</span></li>
             {% endif %}
         {% endfor %}
+
+        {% if pagination.lastinrange < pagination.totalPages %}
+            <li class="disabled"><span>&hellip;</span></li>
+            <li><a href="{{ path('opifer.crud.index', query|merge({'page': pagination.totalPages})) }}">{{ pagination.totalPages }}</a></li>
+        {% endif %}
 
         {% if pagination.hasNextPage %}
             <li><a href="{{ path('opifer.crud.index', query|merge({'page': pagination.nextPage})) }}">&raquo;</a></li>

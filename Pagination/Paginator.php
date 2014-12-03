@@ -22,6 +22,8 @@ use Pagerfanta\Pagerfanta;
  */
 class Paginator extends Pagerfanta implements \Countable, \IteratorAggregate
 {
+    protected $range = 2;
+
     /**
      * Constructor
      *
@@ -74,5 +76,45 @@ class Paginator extends Pagerfanta implements \Countable, \IteratorAggregate
     public function getTotalResults()
     {
         return $this->getNbResults();
+    }
+
+    /**
+     * Set the page range
+     *
+     * @param  integer $range
+     *
+     * @return Paginator
+     */
+    public function setRange($range)
+    {
+        $this->range = $range;
+
+        return $this;
+    }
+
+    /**
+     * Get first page in range
+     *
+     * @return integer
+     */
+    public function getFirstInRange()
+    {
+        $start = $this->getCurrentPage() - $this->range;
+        $start = ($start > 1) ? $start : 1;
+
+        return $start;
+    }
+
+    /**
+     * Get last page in range
+     *
+     * @return integer
+     */
+    public function getLastInRange()
+    {
+        $last = $this->getCurrentPage() + $this->range;
+        $last = ($last < $this->getTotalPages()) ? $last : $this->getTotalPages();
+
+        return $last;
     }
 }
