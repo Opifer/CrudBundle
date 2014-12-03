@@ -56,9 +56,9 @@
     <td>
         {% if data.attributes.class is defined %}
             {% set class = (attribute(data.attributes.class, data.value) is defined) ? attribute(data.attributes.class, data.value) : 'default' %}
-            <span class="label label-{{ class }}">{{ data.value }}</span>
+            <span class="label label-{{ class }}">{{ data.value|trans }}</span>
         {% else %}
-            <span class="label label-default">{{ data.value }}</span>
+            <span class="label label-default">{{ data.value|trans }}</span>
         {% endif %}
     </td>
 {% endblock label_cell %}
