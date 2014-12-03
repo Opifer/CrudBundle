@@ -12,9 +12,11 @@ button:
 crud:
     new:
         success: 'Het item is succesvol aangemaakt!'
+        error: 'Het item kon door een fout niet worden aangemaakt!'
         title: '%slug%'
     edit:
         success: 'Het item is succesvol bijgewerkt!'
+        error: 'Het item kon door een fout niet worden bijgewerkt!'
     delete:
         success: 'Het item is succesvol verwijderd!'
     list:
