@@ -20,6 +20,11 @@ abstract class AbstractGrid implements GridInterface
      */
     public function configureOptions(OptionsResolverInterface $resolver)
     {
-
+        $resolver->setDefaults([
+            'actions' => [
+                'edit'   => ['template' => 'OpiferCrudBundle:Datagrid:action_edit.html.twig'],
+                'delete' => ['template' => 'OpiferCrudBundle:Datagrid:action_delete.html.twig'],
+            ]
+        ]);
     }
 }
