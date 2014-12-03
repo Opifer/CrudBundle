@@ -307,7 +307,7 @@ class DatagridBuilder implements DatagridBuilderInterface
 
         $source = $this->datagrid->getSource();
 
-        if ($filterfields = $this->getRequest()->request->get('filterfields')) {
+        if ($filterfields = $this->getRequest()->get('filterfields')) {
             $qb = $viewBuilder->any($source, $filterfields);
         } elseif ($this->getRequest()->get('view')) {
             $qb = $viewBuilder->getRowQuery($this->datagrid->getView()->getConditions(), $source);

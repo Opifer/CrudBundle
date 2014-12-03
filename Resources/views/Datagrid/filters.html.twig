@@ -1,56 +1,58 @@
+<form action="#" method="GET" class="pull-right">
+    <div class="col-xs-12">
+        <div class="pull-right" style="max-width: 250px;">
+            <div class="form-group">
+                <div class="input-group search-group">
+                    <input name="filterfields" id="filterfields" type="search" value="{{ app.request.get('filterfields') }}" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}" class="form-control"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 {% if form.conditions is defined %}
     {{ form_start(form) }}
-    <div class="clearfix">
-        <div class="col-xs-8">
-            <div class="">
-                <select name="view" class="stored-filters form-control js-submit-on-change">
-                    <option value="">{{ 'view.null_value'|trans|capitalize }}</option>
-                    {% for item in grid.views %}
-                        <option value="{{ item.slug }}" {% if app.request.get('view') == item.slug %}selected{% endif %}>
-                            {{ item.name|capitalize }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <a href="#" class="btn btn-default" id="btn-createview" data-toggle="collapse" data-target="#filter-panel">
-                    {{ 'view.create'|trans|capitalize }}
-                </a>
+        <div class="clearfix">
+            <div class="col-xs-8">
+                <div class="">
+                    <select name="view" class="stored-filters form-control js-submit-on-change">
+                        <option value="">{{ 'view.null_value'|trans|capitalize }}</option>
+                        {% for item in grid.views %}
+                            <option value="{{ item.slug }}" {% if app.request.get('view') == item.slug %}selected{% endif %}>
+                                {{ item.name|capitalize }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <a href="#" class="btn btn-default" id="btn-createview" data-toggle="collapse" data-target="#filter-panel">
+                        {{ 'view.create'|trans|capitalize }}
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="col-xs-4">
-            <div class="pull-right" style="max-width: 250px;">
-                <div class="form-group">
-                    <div class="input-group search-group">
-                        <input name="filterfields" id="filterfields" type="search" value="{{ app.request.get('filterfields') }}" placeholder="{{ 'datagrid.search.placeholder'|trans|capitalize }}" class="form-control"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
+        <div class="collapse {% if form.conditions.vars.value != '' and app.request.get('view') != true and app.request.get('filterfields') is not defined %}in{% endif %}" id="filter-panel">
+            <div class="col-xs-12">
+                <div class="listview-form">
+                    <div class="form-group">
+                        <div class="btn-group">
+                            {{ form_widget(form.conditions) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xs-4">
+                            {{ form_widget(form.apply) }}
+                        </div>
+
+                        <div class="form-group col-xs-4 pull-right">
+                            {{ form_widget(form.save) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'listview-name'}}) }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="collapse {% if form.conditions.vars.value != '' and app.request.get('view') != true and app.request.get('filterfields') is not defined %}in{% endif %}" id="filter-panel">
-        <div class="col-xs-12">
-            <div class="listview-form">
-                <div class="form-group">
-                    <div class="btn-group">
-                        {{ form_widget(form.conditions) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-xs-4">
-                        {{ form_widget(form.apply) }}
-                    </div>
-
-                    <div class="form-group col-xs-4 pull-right">
-                        {{ form_widget(form.save) }}
-                        {{ form_widget(form.name, {'attr': {'class': 'listview-name'}}) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     {{ form_end(form) }}
 {% endif %}
