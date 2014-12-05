@@ -68,7 +68,7 @@ class CrudRelationType extends AbstractType
         $properties = $this->entityHelper->getProperties($this->object);
 
         foreach ($properties as $property) {
-            if (!isAllowed($property['fieldName'])) {
+            if (!$this->isAllowed($property['fieldName'])) {
                 continue;
             }
 
@@ -97,7 +97,7 @@ class CrudRelationType extends AbstractType
         $relations = $this->entityHelper->getRelations($this->object);
 
         foreach ($relations as $key => $relation) {
-            if (!isAllowed($relation['fieldName'])) {
+            if (!$this->isAllowed($relation['fieldName'])) {
                 continue;
             }
 
