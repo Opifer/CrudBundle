@@ -12,9 +12,11 @@ button:
 crud:
     new:
         success: 'The item was created successfully!'
+        error: 'An error has occurred during the creation of the item!'
         title: '%slug%'
     edit:
         success: 'The item was updated successfully!'
+        error: 'An error has occurred during update of the item!'
     delete:
         success: 'The item was deleted successfully!'
     list:
