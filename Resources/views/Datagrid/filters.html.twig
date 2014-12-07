@@ -15,10 +15,11 @@
 
 {% if form.conditions is defined %}
     {{ form_start(form) }}
-        <div class="clearfix">
-            <div class="col-xs-8">
-                <div class="">
-                    <select name="view" class="stored-filters form-control js-submit-on-change">
+        <div class="col-xs-8">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="sr-only" for="changeView">View</label>
+                    <select name="view" id="changeView" class="stored-filters form-control js-submit-on-change">
                         <option value="">{{ 'view.null_value'|trans|capitalize }}</option>
                         {% for item in grid.views %}
                             <option value="{{ item.slug }}" {% if app.request.get('view') == item.slug %}selected{% endif %}>
@@ -26,10 +27,10 @@
                             </option>
                         {% endfor %}
                     </select>
-                    <a href="#" class="btn btn-default" id="btn-createview" data-toggle="collapse" data-target="#filter-panel">
-                        {{ 'view.create'|trans|capitalize }}
-                    </a>
                 </div>
+                <a href="#" class="btn btn-default" id="btn-createview" data-toggle="collapse" data-target="#filter-panel">
+                    {{ 'view.create'|trans|capitalize }}
+                </a>
             </div>
         </div>
 

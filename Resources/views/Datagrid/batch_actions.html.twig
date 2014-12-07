@@ -1,18 +1,22 @@
 {% if batch_actions|length %}
-    <div class="batch-action-selector">
-        <select class="form-control js-batch-action ">
-            <option value="" selected>{{ 'batch.null_value'|trans|capitalize }}</option>
-            {% for action, route in batch_actions %}
-                {% set path = '' %}
-                {% if route is iterable %}
-                    {% set path = path(route[0], route[1]) %}
-                {% else %}
-                    {% set path = path(route) %}
-                {% endif %}
-                <option value="{{ path }}" data-action="{{ action|trans }}">{{ action|trans|capitalize }}</option>
-            {% endfor %}
-        </select>
-        <a href="#" class="btn btn-default js-batch-confirm">{{ 'action.process'|trans|capitalize }}</a>
+    <div class="col-xs-12">
+        <div class="batch-action-selector form-inline">
+            <div class="form-group">
+                <select class="form-control js-batch-action ">
+                    <option value="" selected>{{ 'batch.null_value'|trans|capitalize }}</option>
+                    {% for action, route in batch_actions %}
+                        {% set path = '' %}
+                        {% if route is iterable %}
+                            {% set path = path(route[0], route[1]) %}
+                        {% else %}
+                            {% set path = path(route) %}
+                        {% endif %}
+                        <option value="{{ path }}" data-action="{{ action|trans }}">{{ action|trans|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <a href="#" class="btn btn-default js-batch-confirm">{{ 'action.process'|trans|capitalize }}</a>
+        </div>
     </div>
 
     <div class="modal batch-modal fallin" id="batch-modal" tabindex="-1" role="dialog" aria-labelledby="batch-modal-label" aria-hidden="true">
