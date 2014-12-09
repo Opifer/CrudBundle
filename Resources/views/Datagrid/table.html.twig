@@ -1,9 +1,10 @@
 <form action="#" method="POST" class="clearfix">
-    <table class="table">
-        <thead>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
             <tr>
                 {% if grid.options.batch_actions|length %}
-                    <th width="25"><input type="checkbox" id="checkbox-all" class="js-batch-select-all" /></th>
+                    <th width="25"><input type="checkbox" id="checkbox-all" class="js-batch-select-all"/></th>
                 {% endif %}
 
                 {% for column in grid.columns %}
@@ -14,12 +15,12 @@
                     <th class="actions">&nbsp;</th>
                 {% endif %}
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for row in grid.rows %}
                 <tr>
                     {% if grid.options.batch_actions|length %}
-                        <td><input type="checkbox" name="batchselect[]" value="{{ row.id }}" class="batch-select" /></td>
+                        <td><input type="checkbox" name="batchselect[]" value="{{ row.id }}" class="batch-select"/></td>
                     {% endif %}
 
                     {% for data in row.cells %}
@@ -41,22 +42,23 @@
             {% endfor %}
 
             {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    </div>
     {% include 'OpiferCrudBundle:Datagrid:batch_actions.html.twig' with {'batch_actions': grid.options.batch_actions} %}
 </form>
-
 {% if grid.paginator %}
-    <div class="row">
-        <div class="col-xs-8 pagination-col">
-            {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
-            {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
-        </div>
-        <div class="col-xs-2">
-        </div>
-        <div class="col-xs-2 pagination-size">
-            {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
+    <div class="crud-container-pagination">
+        <div class="row">
+            <div class="col-xs-8 pagination-col">
+                {{ include('OpiferCrudBundle:Pagination:paginator.html.twig', {'pagination': grid.paginator, 'query': query}) }}
+                {{ include('OpiferCrudBundle:Pagination:indicator.html.twig', {'pagination': grid.paginator}) }}
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-2 pagination-size">
+                {{ include('OpiferCrudBundle:Pagination:limit.html.twig') }}
+            </div>
         </div>
     </div>
 {% endif %}

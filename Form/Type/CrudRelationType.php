@@ -102,9 +102,7 @@ class CrudRelationType extends AbstractType
             }
 
             if ($relation['isOwningSide'] === false) {
-                $builder->add('Edit ' . $relation['fieldName'], 'button', [
-                    'attr' => ['class' => 'btn btn-primary']
-                ]);
+                $builder->add('Edit ' . $relation['fieldName'], 'button');
             }
         }
     }
