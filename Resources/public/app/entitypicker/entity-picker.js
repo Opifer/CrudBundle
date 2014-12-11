@@ -34,7 +34,10 @@ angular.module('OpiferEntityPicker', ['ui.bootstrap.typeahead'])
                     if (angular.isUndefined($scope.subject.right.value)) {
                         $scope.subject.right.value = [];
                     }
-                    $scope.subject.right.value.push(item.id);
+
+                    if ($scope.subject.right.value.indexOf(item.id) == -1) {
+                        $scope.subject.right.value.push(item.id);
+                    }
 
                     $scope.search = null;
                 };
