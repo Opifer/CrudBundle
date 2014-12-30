@@ -2,6 +2,8 @@
 
 namespace Opifer\CrudBundle\Form\Type;
 
+use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -82,7 +84,7 @@ class CrudType extends AbstractType
                     'by_reference' => false
                 ]);
             } else {
-                $builder->add($relation['fieldName'], 'genemu_jqueryselect2_entity', [
+                $builder->add($relation['fieldName'], new Select2Type('entity'), [
                     'class'       => $relation['targetEntity'],
                     'property'    => 'name',
                     'empty_value' => '(empty)',
