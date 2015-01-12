@@ -52,7 +52,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritDoc}
      */
-    public function addColumn($property, $cell, array $options = array())
+    public function addColumn($property, $cell, array $options = array(), $sortable = true)
     {
         if (!$cell instanceof CellTypeInterface) {
             $cell = $this->container->get('opifer.crud.cell_registry')->getCellType($cell);
@@ -62,11 +62,12 @@ class DatagridBuilder implements DatagridBuilderInterface
         $column->setProperty($property);
         $column->setCellType($cell);
         $column->setAttributes($options);
-        
+        $column->setSortable($sortable);
+
         if (isset($options['label'])) {
             $column->setLabel($options['label']);
         }
-        
+
         $this->mapper->addColumn($column);
 
         return $this;
@@ -239,23 +240,23 @@ class DatagridBuilder implements DatagridBuilderInterface
 
         return $columns;
     }
-    
+
     /**
      * Set rows
-     * 
+     *
      * @param \IteratorAggregate $rows
      * @return DatagridBuilder
      */
     public function setRows(\IteratorAggregate $rows)
     {
         $this->mapper->setRows($rows);
-        
+
         return $this;
     }
-    
+
     /**
      * Get rows
-     * 
+     *
      * @return \IteratorAggregate
      */
     public function getRows()
@@ -265,7 +266,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             $this->mapper->setRows($paginator);
             $this->datagrid->setPaginator($paginator);
         }
-        
+
         return $this->mapper->getRows();
     }
 
