@@ -26,6 +26,9 @@ class Column
     /** @var Array */
     protected $attributes;
 
+    /** @var bool */
+    protected $sortable;
+
     /**
      * Set property
      *
@@ -146,7 +149,23 @@ class Column
         $attributes = (isset($this->attributes['cell']))
             ? $this->attributes['cell']
             : [];
-        
+
         return $attributes;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSortable()
+    {
+        return $this->sortable;
+    }
+
+    /**
+     * @param boolean $isSortable
+     */
+    public function setSortable($sortable)
+    {
+        $this->sortable = $sortable;
     }
 }
