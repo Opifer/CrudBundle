@@ -167,5 +167,7 @@ class Column
     public function setSortable($sortable)
     {
         $this->sortable = $sortable;
+
+        return $this;
     }
 }
