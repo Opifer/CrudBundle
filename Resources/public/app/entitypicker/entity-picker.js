@@ -10,15 +10,15 @@ angular.module('OpiferEntityPicker', ['ui.bootstrap.typeahead'])
             restrict: 'E',
             transclude: true,
             scope: {
-                url: '=',
-                subject: '='
+                subject: '=',
+                configuration: '='
             },
             template: tpl,
             controller: function($scope, $http, $attrs) {
 
                 // Get the object by search term
                 $scope.getObject = function(term) {
-                    return $http.get($scope.url, {
+                    return $http.get(Routing.generate($scope.configuration.searchRoute(), [], true), {
                         params: {
                             term: term
                         }
@@ -37,6 +37,7 @@ angular.module('OpiferEntityPicker', ['ui.bootstrap.typeahead'])
 
                     if ($scope.subject.right.value.indexOf(item.id) == -1) {
                         $scope.subject.right.value.push(item.id);
+                        $scope.configuration.add(item);
                     }
 
                     $scope.search = null;
