@@ -18,7 +18,7 @@ angular.module('OpiferEntityPicker', ['ui.bootstrap.typeahead'])
 
                 // Get the object by search term
                 $scope.getObject = function(term) {
-                    return $http.get(Routing.generate($scope.configuration.searchRoute(), [], true), {
+                    return $http.get(Routing.generate($scope.configuration.searchRoute, [], true), {
                         params: {
                             term: term
                         }
