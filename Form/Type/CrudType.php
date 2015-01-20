@@ -6,6 +6,7 @@ use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Opifer\CrudBundle\Annotation\FormAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
@@ -25,9 +26,11 @@ class CrudType extends AbstractType
      *
      * @param EntityHelper         $entityHelper
      * @param FormAnnotationReader $annotationReader
+     * @param ContainerInterface   $container
      */
-    public function __construct(EntityHelper $entityHelper, FormAnnotationReader $annotationReader)
+    public function __construct(EntityHelper $entityHelper, FormAnnotationReader $annotationReader, ContainerInterface $container)
     {
+        $this->container = $container;
         $this->annotationReader = $annotationReader;
         $this->entityHelper = $entityHelper;
     }
@@ -37,6 +40,7 @@ class CrudType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        
         $allowedProperties = $this->annotationReader->getEditableProperties($options['data']);
         $transformer = new DoctrineTypeTransformer();
 
@@ -69,13 +73,13 @@ class CrudType extends AbstractType
                 $builder->add($property['fieldName'], $transformer->transform($property['type']));
             }
         }
-
+        
         // Get the relations' form fields
         foreach ($this->entityHelper->getRelations($options['data']) as $key => $relation) {
             if (count($allowedProperties) && !in_array($relation['fieldName'], $allowedProperties)) {
                 continue;
             }
-
+            
             if ($relation['isOwningSide'] === false) {
                 $builder->add($relation['fieldName'], 'bootstrap_collection', [
                     'allow_add'    => true,
@@ -83,7 +87,9 @@ class CrudType extends AbstractType
                     'type'         => new CrudRelationType($this->entityHelper, $relation['targetEntity'], $this->annotationReader),
                     'by_reference' => false
                 ]);
-            } else {
+            } elseif ($relation['targetEntity'] == $this->container->getParameter('opifer_eav.valueset_class')) {
+                $builder->add($relation['fieldName'], 'opifer_valueset');
+            }else {
                 $builder->add($relation['fieldName'], new Select2Type('entity'), [
                     'class'       => $relation['targetEntity'],
                     'property'    => 'name',

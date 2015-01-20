@@ -27,7 +27,7 @@ services:
     # Form Types
     opifer.crud.crud_type:
         class: Opifer\CrudBundle\Form\Type\CrudType
-        arguments: [@opifer.crud.entity_helper, @opifer.crud.form_annotation_reader]
+        arguments: [@opifer.crud.entity_helper, @opifer.crud.form_annotation_reader, @service_container]
         tags:
             - { name: form.type, alias: crud_form }
 
