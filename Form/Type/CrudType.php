@@ -26,11 +26,11 @@ class CrudType extends AbstractType
      *
      * @param EntityHelper         $entityHelper
      * @param FormAnnotationReader $annotationReader
-     * @param ContainerInterface   $container
+     * @param string               $valuesetClass
      */
-    public function __construct(EntityHelper $entityHelper, FormAnnotationReader $annotationReader, ContainerInterface $container)
+    public function __construct(EntityHelper $entityHelper, FormAnnotationReader $annotationReader, $valuesetClass)
     {
-        $this->container = $container;
+        $this->valuesetClass = $valuesetClass;
         $this->annotationReader = $annotationReader;
         $this->entityHelper = $entityHelper;
     }
@@ -87,7 +87,7 @@ class CrudType extends AbstractType
                     'type'         => new CrudRelationType($this->entityHelper, $relation['targetEntity'], $this->annotationReader),
                     'by_reference' => false
                 ]);
-            } elseif ($relation['targetEntity'] == $this->container->getParameter('opifer_eav.valueset_class')) {
+            } elseif ($relation['targetEntity'] == $this->valuesetClass) {
                 $builder->add($relation['fieldName'], 'opifer_valueset');
             }else {
                 $builder->add($relation['fieldName'], new Select2Type('entity'), [
