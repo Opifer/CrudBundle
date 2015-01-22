@@ -361,6 +361,8 @@ class DatagridBuilder implements DatagridBuilderInterface
             $sort = $sortParts[0] . '.' . $sort;
 
             $rowQuery->orderBy($sort, $direction);
+        } else {
+            $rowQuery->orderBy('a.id', 'DESC');
         }
 
         return $rowQuery;
