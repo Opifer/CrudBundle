@@ -5,13 +5,12 @@ namespace Opifer\CrudBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Opifer\CrudBundle\Annotation\FormAnnotationReader;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 use Opifer\CrudBundle\Transformer\DoctrineTypeTransformer;
 
 /**
- * Crud relation type
+ * Crud relation type.
  *
  * @author Rick van Laarhoven <r.vanlaarhoven@opifer.nl>
  */
@@ -23,9 +22,9 @@ class CrudRelationType extends AbstractType
     protected $entityHelper;
 
     /**
-     * The complete class namespace
+     * The complete class namespace.
      *
-     * @var  string
+     * @var string
      */
     protected $entity;
 
@@ -35,7 +34,7 @@ class CrudRelationType extends AbstractType
     protected $annotationReader;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityHelper         $entityHelper
      * @param string               $object
@@ -58,7 +57,7 @@ class CrudRelationType extends AbstractType
     }
 
     /**
-     * Add own properties
+     * Add own properties.
      *
      * @param FormBuilderInterface $builder
      */
@@ -88,7 +87,7 @@ class CrudRelationType extends AbstractType
     }
 
     /**
-     * Add relations to the form
+     * Add relations to the form.
      *
      * @param FormBuilderInterface $builder
      */
@@ -102,15 +101,38 @@ class CrudRelationType extends AbstractType
             }
 
             if ($relation['isOwningSide'] === false) {
-                $builder->add('Edit ' . $relation['fieldName'], 'button');
+                $this->addEditRelationCollection($builder, $relation);
             }
         }
     }
 
     /**
-     * Check if the property is allowed
+     * Add "Edit 'relation' button" with relation group.
      *
-     * @param  string  $property
+     * @param FormBuilderInterface $builder
+     * @param array                $relation
+     */
+    public function addEditRelationCollection(FormBuilderInterface $builder, $relation)
+    {
+        $builder->add('Edit '.$relation['fieldName'], 'button', array(
+                'attr'  => [
+                    'class' => 'options_button',
+                ],
+        ));
+
+        $builder->add($relation['fieldName'], 'bootstrap_collection', [
+            'label' => " ",
+            'allow_add'    => true,
+            'allow_delete' => true,
+            'type'         => new self($this->entityHelper, $relation['targetEntity'], $this->annotationReader),
+            'by_reference' => false,
+        ]);
+    }
+
+    /**
+     * Check if the property is allowed.
+     *
+     * @param string $property
      *
      * @return boolean
      */
@@ -125,7 +147,7 @@ class CrudRelationType extends AbstractType
     }
 
     /**
-     * Get the allowed properties from the object
+     * Get the allowed properties from the object.
      *
      * @return array
      */
