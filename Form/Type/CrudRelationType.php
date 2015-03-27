@@ -114,11 +114,11 @@ class CrudRelationType extends AbstractType
      */
     public function addEditRelationCollection(FormBuilderInterface $builder, $relation)
     {
-        $builder->add('Edit '.$relation['fieldName'], 'button', array(
-                'attr'  => [
-                    'class' => 'options_button',
-                ],
-        ));
+        $builder->add('Edit '.$relation['fieldName'], 'button', [
+            'attr'  => [
+                'class' => 'options_button',
+            ],
+        ]);
 
         $builder->add($relation['fieldName'], 'bootstrap_collection', [
             'label' => " ",
