@@ -85,7 +85,7 @@ $(document).ready(function() {
     
     
     /**
-     * Hide all options and toggle it when "Edit options" button is clicked
+     * Hide all options and toggle it when "Edit 'collection'" button is clicked
      */
     $("button.options_button").closest("div.form-group").next().hide();
     $("button.options_button").click(function(){
