@@ -2,18 +2,15 @@
 
 namespace Opifer\CrudBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Opifer\CrudBundle\Datagrid\Grid\CrudGrid;
 
 class CrudController extends Controller
 {
     /**
-     * Render the entity index
+     * Render the entity index.
      *
      * @param Request $request
      * @param object  $entity
@@ -33,7 +30,7 @@ class CrudController extends Controller
     }
 
     /**
-     * Create new item
+     * Create new item.
      *
      * @param Request $request
      * @param object  $entity
@@ -51,9 +48,9 @@ class CrudController extends Controller
 
             foreach ($this->get('opifer.crud.entity_helper')->getRelations($entity) as $key => $relation) {
                 if ($relation['isOwningSide'] === false) {
-                    $getRelations = 'get' . ucfirst($relation['fieldName']);
+                    $getRelations = 'get'.ucfirst($relation['fieldName']);
                     foreach ($form->getData()->$getRelations() as $relationClass) {
-                        $setRelation = 'set' . ucfirst($relation['mappedBy']);
+                        $setRelation = 'set'.ucfirst($relation['mappedBy']);
                         $relationClass->$setRelation($entity);
                     }
                 }
@@ -70,12 +67,12 @@ class CrudController extends Controller
         return $this->render('OpiferCrudBundle:Crud:edit.html.twig', [
             'form'   => $form->createView(),
             'slug'   => $slug,
-            'entity' => $entity
+            'entity' => $entity,
         ]);
     }
 
     /**
-     * Edit an item
+     * Edit an item.
      *
      * @param Request $request
      * @param object  $entity
@@ -87,66 +84,36 @@ class CrudController extends Controller
     public function editAction(Request $request, $entity, $slug, $id)
     {
         $entity = $this->getDoctrine()->getRepository(get_class($entity))->find($id);
-        $relations = $this->get('opifer.crud.entity_helper')->getRelations($entity);
-
-        // Set original relations, to be used after form's isValid method passed
-        foreach ($relations as $key => $relation) {
-            if ($relation['isOwningSide'] === false) {
-                $originalRelations[$key] = new ArrayCollection();
-                $getRelations = 'get' . ucfirst($relation['fieldName']);
-
-                foreach ($entity->$getRelations() as $relationEntity) {
-                    $originalRelations[$key]->add($relationEntity);
-                }
-            }
-        }
 
         $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
 
-            foreach ($relations as $key => $relation) {
-                if ($relation['isOwningSide'] === false) {
-                    // Set getters and setters
-                    $getRelations = 'get' . ucfirst($relation['fieldName']);
-                    $setRelation = 'set' . ucfirst($relation['mappedBy']);
+            $data = $form->getData();
 
-                    // Connect the added relations
-                    foreach ($form->getData()->$getRelations() as $relationClass) {
-                        $relationClass->$setRelation($entity);
-                    }
+            // Connect the added relations
+            $this->get('opifer.crud.entity_helper')->connectAddedRelations($data);
 
-                    // Disconnect the removed relations
-                    foreach ($originalRelations[$key] as $relationEntity) {
-                        if (false === $entity->$getRelations()->contains($relationEntity)) {
-                            $relationEntity->$setRelation(null);
-
-                            $em->persist($relationEntity);
-                        }
-                    }
-                }
-            }
-            $em->persist($entity);
-            $em->flush();
+            // Disconnect the removed relations
+            $this->get('opifer.crud.entity_helper')->disconnectRemovedRelations($data, $entity);
 
             $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('crud.edit.success'));
 
             return $this->redirect($this->generateUrl('opifer.crud.index', [
-                'slug' => $slug
+                'slug' => $slug,
             ]));
         }
 
         return $this->render('OpiferCrudBundle:Crud:edit.html.twig', [
             'form'   => $form->createView(),
             'slug'   => $slug,
-            'entity' => $entity
+            'entity' => $entity,
         ]);
     }
 
     /**
-     * Remove an item
+     * Remove an item.
      *
      * When the Softdeletable annotation (@Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false))
      * is set on the entity, the item will be removed from the index, but will still
@@ -169,15 +136,15 @@ class CrudController extends Controller
         $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('crud.delete.success'));
 
         return $this->redirect($this->generateUrl('opifer.crud.index', [
-            'slug' => $slug
+            'slug' => $slug,
         ]));
     }
 
     /**
-     * Batch delete action
+     * Batch delete action.
      *
-     * @param  Request $request
-     * @param  string  $action
+     * @param Request $request
+     * @param string  $action
      *
      * @return Response
      */
@@ -201,7 +168,7 @@ class CrudController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('opifer.crud.index', [
-            'slug' => $slug
+            'slug' => $slug,
         ]));
     }
 }
