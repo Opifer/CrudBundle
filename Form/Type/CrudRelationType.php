@@ -77,7 +77,7 @@ class CrudRelationType extends AbstractType
                 $builder->add($property['fieldName'], $propertyType);
             } elseif ('bootstrap_collection' == $type) {
                 $builder->add($property['fieldName'], $type, [
-                    'allow_add' => true,
+                    'allow_add'    => true,
                     'allow_delete' => true,
                 ]);
             } else {
@@ -101,32 +101,14 @@ class CrudRelationType extends AbstractType
             }
 
             if ($relation['isOwningSide'] === false) {
-                $this->addEditRelationCollection($builder, $relation);
+                $builder->add($relation['fieldName'], 'collapsible_collection', [
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'type'         => new CrudRelationType($this->entityHelper, $relation['targetEntity'], $this->annotationReader),
+                    'by_reference' => false
+                ]);
             }
         }
-    }
-
-    /**
-     * Add "Edit 'relation' button" with relation group.
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $relation
-     */
-    public function addEditRelationCollection(FormBuilderInterface $builder, $relation)
-    {
-        $builder->add('Edit '.$relation['fieldName'], 'button', [
-            'attr'  => [
-                'class' => 'options_button',
-            ],
-        ]);
-
-        $builder->add($relation['fieldName'], 'bootstrap_collection', [
-            'label' => " ",
-            'allow_add'    => true,
-            'allow_delete' => true,
-            'type'         => new self($this->entityHelper, $relation['targetEntity'], $this->annotationReader),
-            'by_reference' => false,
-        ]);
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace Opifer\CrudBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,16 +88,7 @@ class CrudController extends Controller
         $relations = $this->get('opifer.crud.entity_helper')->getRelations($entity);
 
         // Set original relations, to be used after form's isValid method passed
-        foreach ($relations as $key => $relation) {
-            if ($relation['isOwningSide'] === false) {
-                $originalRelations[$key] = new ArrayCollection();
-                $getRelations = 'get' . ucfirst($relation['fieldName']);
-
-                foreach ($entity->$getRelations() as $relationEntity) {
-                    $originalRelations[$key]->add($relationEntity);
-                }
-            }
-        }
+        $originalRelations = $this->get('opifer.crud.relation_manager')->originalRelations([], $relations, $entity);
 
         $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
@@ -107,27 +96,7 @@ class CrudController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            foreach ($relations as $key => $relation) {
-                if ($relation['isOwningSide'] === false) {
-                    // Set getters and setters
-                    $getRelations = 'get' . ucfirst($relation['fieldName']);
-                    $setRelation = 'set' . ucfirst($relation['mappedBy']);
-
-                    // Connect the added relations
-                    foreach ($form->getData()->$getRelations() as $relationClass) {
-                        $relationClass->$setRelation($entity);
-                    }
-
-                    // Disconnect the removed relations
-                    foreach ($originalRelations[$key] as $relationEntity) {
-                        if (false === $entity->$getRelations()->contains($relationEntity)) {
-                            $relationEntity->$setRelation(null);
-
-                            $em->persist($relationEntity);
-                        }
-                    }
-                }
-            }
+            $this->get('opifer.crud.relation_manager')->setRelations($relations, $originalRelations, $entity);
             $em->persist($entity);
             $em->flush();
 

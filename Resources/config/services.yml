@@ -61,3 +61,14 @@ services:
     # Cell types
     opifer.crud.cell_registry:
         class: Opifer\CrudBundle\Datagrid\Cell\CellRegistry
+
+    # Field Types
+    opifer.crud.form.collapsible_collection:
+        class: Opifer\CrudBundle\Form\Type\CollapsibleCollectionType
+        tags:
+            - { name: form.type, alias: collapsible_collection }
+
+    # Managers
+    opifer.crud.relation_manager:
+        class: Opifer\CrudBundle\Manager\RelationManager
+        arguments: [@doctrine.orm.entity_manager, @opifer.crud.entity_helper]
