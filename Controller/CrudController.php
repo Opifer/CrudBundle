@@ -88,7 +88,7 @@ class CrudController extends Controller
         $relations = $this->get('opifer.crud.entity_helper')->getRelations($entity);
 
         // Set original relations, to be used after form's isValid method passed
-        $originalRelations = $this->container->get('opifer.crud.relation_manager')->originalRelations([], $relations, $entity);
+        $originalRelations = $this->get('opifer.crud.relation_manager')->originalRelations([], $relations, $entity);
 
         $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
@@ -96,7 +96,7 @@ class CrudController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $this->container->get('opifer.crud.relation_manager')->setRelations($relations, $originalRelations, $entity);
+            $this->get('opifer.crud.relation_manager')->setRelations($relations, $originalRelations, $entity);
             $em->persist($entity);
             $em->flush();
 

@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 
-class RelationManager {
+class RelationManager
+{
     /**
      * @var EntityManager
      */
@@ -18,12 +19,24 @@ class RelationManager {
      */
     private $entityHelper;
 
+    /**
+     * @param EntityManager $em
+     * @param EntityHelper $entityHelper
+     */
     function __construct(EntityManager $em, EntityHelper $entityHelper)
     {
         $this->em = $em;
         $this->entityHelper = $entityHelper;
     }
 
+    /**
+     * retrieves all original relations
+     *
+     * @param $originalRelations
+     * @param $relations
+     * @param $entity
+     * @return array
+     */
     public function originalRelations($originalRelations, $relations, $entity)
     {
         foreach ($relations as $key => $relation) {
@@ -48,6 +61,8 @@ class RelationManager {
     }
 
     /**
+     * Builds the relations properly so all relations can get saved properly
+     *
      * @param $relations
      * @param $originalRelations
      * @param $entity
