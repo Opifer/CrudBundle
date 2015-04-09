@@ -75,10 +75,10 @@ class RelationManager
                 // Set getters and setters
                 $getRelations = 'get' . ucfirst($relation['fieldName']);
                 $setRelation = 'set' . ucfirst($relation['mappedBy']);
+                $getBackReference = 'get' . ucfirst($relation['mappedBy']);
 
                 // Connect the added relations
                 foreach ($entity->$getRelations() as $relationClass) {
-                    $getBackReference = 'get' . ucfirst($relation['mappedBy']);
                     if ($relationClass->$getBackReference() instanceof Collection) {
                         if (!$relationClass->$getBackReference()->contains($entity)) {
                             $relationClass->$getBackReference()->add($entity);
@@ -95,7 +95,11 @@ class RelationManager
                 if(array_key_exists($key, $originalRelations)) {
                     foreach ($originalRelations[$key]['entities'] as $relationEntity) {
                         if (false === $entity->$getRelations()->contains($relationEntity)) {
-                            $relationEntity->$setRelation(null);
+                            if ($relationEntity->$getBackReference() instanceof Collection) {
+                                $relationEntity->$getBackReference()->removeElement($relationEntity);
+                            } else {
+                                $relationEntity->$setRelation(null);
+                            }
 
                             $this->em->persist($relationEntity);
                         }
