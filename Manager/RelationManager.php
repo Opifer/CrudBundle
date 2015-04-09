@@ -4,6 +4,7 @@ namespace Opifer\CrudBundle\Manager;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 
@@ -74,10 +75,17 @@ class RelationManager
                 // Set getters and setters
                 $getRelations = 'get' . ucfirst($relation['fieldName']);
                 $setRelation = 'set' . ucfirst($relation['mappedBy']);
+                $getBackReference = 'get' . ucfirst($relation['mappedBy']);
 
                 // Connect the added relations
                 foreach ($entity->$getRelations() as $relationClass) {
-                    $relationClass->$setRelation($entity);
+                    if ($relationClass->$getBackReference() instanceof Collection) {
+                        if (!$relationClass->$getBackReference()->contains($entity)) {
+                            $relationClass->$getBackReference()->add($entity);
+                        }
+                    } else {
+                        $relationClass->$setRelation($entity);
+                    }
 
                     $relationRelations = $this->entityHelper->getRelations($relationClass);
                     $this->setRelations($relationRelations, $originalRelations[$key]['relations'], $relationClass);
@@ -87,7 +95,11 @@ class RelationManager
                 if(array_key_exists($key, $originalRelations)) {
                     foreach ($originalRelations[$key]['entities'] as $relationEntity) {
                         if (false === $entity->$getRelations()->contains($relationEntity)) {
-                            $relationEntity->$setRelation(null);
+                            if ($relationEntity->$getBackReference() instanceof Collection) {
+                                $relationEntity->$getBackReference()->removeElement($relationEntity);
+                            } else {
+                                $relationEntity->$setRelation(null);
+                            }
 
                             $this->em->persist($relationEntity);
                         }
