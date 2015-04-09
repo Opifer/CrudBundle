@@ -4,6 +4,7 @@ namespace Opifer\CrudBundle\Manager;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Opifer\CrudBundle\Doctrine\EntityHelper;
 
@@ -77,7 +78,14 @@ class RelationManager
 
                 // Connect the added relations
                 foreach ($entity->$getRelations() as $relationClass) {
-                    $relationClass->$setRelation($entity);
+                    $getBackReference = 'get' . ucfirst($relation['mappedBy']);
+                    if ($relationClass->$getBackReference() instanceof Collection) {
+                        if (!$relationClass->$getBackReference()->contains($entity)) {
+                            $relationClass->$getBackReference()->add($entity);
+                        }
+                    } else {
+                        $relationClass->$setRelation($entity);
+                    }
 
                     $relationRelations = $this->entityHelper->getRelations($relationClass);
                     $this->setRelations($relationRelations, $originalRelations[$key]['relations'], $relationClass);
