@@ -82,4 +82,13 @@ $(document).ready(function() {
         var form = $(this).closest('form');
         form.submit();
     });
+    
+    
+    /**
+     * Hide all options and toggle it when "Edit 'collection'" button is clicked
+     */
+    $("button.options_button").closest("div.form-group").next().hide();
+    $("button.options_button").click(function(){
+        $(this).closest("div.form-group").next().slideToggle();
+    });
 });

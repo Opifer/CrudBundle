@@ -15,7 +15,7 @@
             {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
         {% endif %}
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOptions{{ form.vars.id }}" aria-expanded="false" aria-controls="collapseOptions{{ form.vars.id }}">
-            Edit Options
+            Edit {{ form.vars.name }}
         </button>
         <br/>
         <div class="collapse" id="collapseOptions{{ form.vars.id }}">

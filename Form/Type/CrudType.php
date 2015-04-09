@@ -79,7 +79,7 @@ class CrudType extends AbstractType
             if (count($allowedProperties) && !in_array($relation['fieldName'], $allowedProperties)) {
                 continue;
             }
-            
+           
             if ($relation['isOwningSide'] === false) {
                 $builder->add($relation['fieldName'], 'bootstrap_collection', [
                     'allow_add'    => true,
