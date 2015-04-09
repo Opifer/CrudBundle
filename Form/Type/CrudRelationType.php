@@ -78,7 +78,7 @@ class CrudRelationType extends AbstractType
                 $builder->add($property['fieldName'], $propertyType);
             } elseif ('bootstrap_collection' == $type) {
                 $builder->add($property['fieldName'], $type, [
-                    'allow_add' => true,
+                    'allow_add'    => true,
                     'allow_delete' => true,
                 ]);
             } else {
@@ -102,7 +102,12 @@ class CrudRelationType extends AbstractType
             }
 
             if ($relation['isOwningSide'] === false) {
-                $builder->add('Edit ' . $relation['fieldName'], 'button');
+                $builder->add($relation['fieldName'], 'collapsible_collection', [
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'type'         => new CrudRelationType($this->entityHelper, $relation['targetEntity'], $this->annotationReader),
+                    'by_reference' => false
+                ]);
             }
         }
     }
