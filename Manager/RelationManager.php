@@ -42,16 +42,19 @@ class RelationManager
     {
         foreach ($relations as $key => $relation) {
             if ($relation['isOwningSide'] === false) {
-                $originalRelations[$key]['entities'] = new ArrayCollection();
-                $originalRelations[$key]['relations'] = [];
+                $originalRelations[$key] = [];
 
                 $getRelations = 'get' . ucfirst($relation['fieldName']);
 
                 foreach ($entity->$getRelations() as $relationEntity) {
-                    $originalRelations[$key]['entities']->add($relationEntity);
+                    $entRelationArray['entity'] = $relationEntity;
+                    $entRelationArray['relations'] = [];
+
 
                     $relationRelations = $this->entityHelper->getRelations($relationEntity);
-                    $originalRelations[$key]['relations'] = $this->originalRelations($originalRelations[$key]['relations'], $relationRelations, $relationEntity);
+                    $entRelationArray['relations'] = $this->originalRelations($entRelationArray['relations'], $relationRelations, $relationEntity);
+
+                    $originalRelations[$key][$relationEntity->getId()] = $entRelationArray;
                 }
 
 
@@ -78,30 +81,35 @@ class RelationManager
                 $getBackReference = 'get' . ucfirst($relation['mappedBy']);
 
                 // Connect the added relations
-                foreach ($entity->$getRelations() as $relationClass) {
-                    if ($relationClass->$getBackReference() instanceof Collection) {
-                        if (!$relationClass->$getBackReference()->contains($entity)) {
-                            $relationClass->$getBackReference()->add($entity);
+                foreach ($entity->$getRelations() as $relationEntity) {
+                    if ($relationEntity->$getBackReference() instanceof Collection) {
+                        if (!$relationEntity->$getBackReference()->contains($entity)) {
+                            $relationEntity->$getBackReference()->add($entity);
                         }
                     } else {
-                        $relationClass->$setRelation($entity);
+                        $relationEntity->$setRelation($entity);
                     }
 
-                    $relationRelations = $this->entityHelper->getRelations($relationClass);
-                    $this->setRelations($relationRelations, $originalRelations[$key]['relations'], $relationClass);
+                    $relationRelations = $this->entityHelper->getRelations($relationEntity);
+
+                    $originalRelationsForEntity = count($originalRelations) > 0 &&
+                        array_key_exists($relationEntity->getId(), $originalRelations[$key]) ?
+                        $originalRelations[$key][$relationEntity->getId()]['relations'] :
+                        [];
+                    $this->setRelations($relationRelations, $originalRelationsForEntity, $relationEntity);
                 }
 
                 // Disconnect the removed relations
                 if(array_key_exists($key, $originalRelations)) {
-                    foreach ($originalRelations[$key]['entities'] as $relationEntity) {
-                        if (false === $entity->$getRelations()->contains($relationEntity)) {
-                            if ($relationEntity->$getBackReference() instanceof Collection) {
-                                $relationEntity->$getBackReference()->removeElement($relationEntity);
+                    foreach ($originalRelations[$key] as $relationEntityArray) {
+                        if (false === $entity->$getRelations()->contains($relationEntityArray['entity'])) {
+                            if ($relationEntityArray['entity']->$getBackReference() instanceof Collection) {
+                                $relationEntityArray['entity']->$getBackReference()->removeElement($relationEntityArray['entity']);
                             } else {
-                                $relationEntity->$setRelation(null);
+                                $relationEntityArray['entity']->$setRelation(null);
                             }
 
-                            $this->em->persist($relationEntity);
+                            $this->em->persist($relationEntityArray['entity']);
                         }
                     }
                 }
