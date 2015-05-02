@@ -12,6 +12,24 @@ class FormAnnotationReader extends AbstractAnnotationReader
     protected $annotationClass = 'Opifer\\CrudBundle\\Annotation\\Form';
 
     /**
+     * Return type for class if set, otherwise return false.
+     *
+     * @param  Object $entity
+     * @return string
+     */
+    public function getClassType($entity)
+    {
+        $reflectionClass = new \ReflectionClass($entity);
+        $classAnnotation = $this->reader->getClassAnnotation($reflectionClass, $this->annotationClass);
+
+        if (!is_null($classAnnotation) && $classAnnotation->type) {
+            return $classAnnotation->type;
+        }
+
+        return false;
+    }
+
+    /**
      * Return type for property if set, otherwise return false.
      *
      * @param  Object $entity

@@ -41,7 +41,8 @@ class CrudController extends Controller
      */
     public function newAction(Request $request, $entity, $slug)
     {
-        $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
+        $formType = $this->get('opifer.crud.form_annotation_reader')->getClassType($entity);
+        $form = $this->createForm(($formType) ? $formType : $this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -85,12 +86,13 @@ class CrudController extends Controller
     public function editAction(Request $request, $entity, $slug, $id)
     {
         $entity = $this->getDoctrine()->getRepository(get_class($entity))->find($id);
+        $formType = $this->get('opifer.crud.form_annotation_reader')->getClassType($entity);
         $relations = $this->get('opifer.crud.entity_helper')->getRelations($entity);
 
         // Set original relations, to be used after form's isValid method passed
         $originalRelations = $this->get('opifer.crud.relation_manager')->originalRelations([], $relations, $entity);
 
-        $form = $this->createForm($this->get('opifer.crud.crud_type'), $entity);
+        $form = $this->createForm(($formType) ? $formType : $this->get('opifer.crud.crud_type'), $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
