@@ -11,7 +11,7 @@ use Doctrine\Common\Annotations\Annotation;
  * - add the annotation to the properties. (e.g. @Form(editable=true) )
  *
  * @Annotation
- * @Target({"PROPERTY"})
+ * @Target({"CLASS", "PROPERTY"})
  */
 final class Form extends Annotation
 {
