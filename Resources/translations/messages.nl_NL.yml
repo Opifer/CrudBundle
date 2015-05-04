@@ -30,10 +30,10 @@ datagrid:
 modal:
     delete:
         title: bevestig verwijderen
-        message: weet je zeker dat je %d wil verwijderen?
+        message: Weet je zeker dat je %d% wil verwijderen?
     batch:
         title: bevestigen
-        message: weet je zeker dat je %d rijen wil %s?
+        message: "{1} Weet je zeker dat je %d% rij wil %s%?|[2,Inf] Weet je zeker dat je %d% rijen wil %s%?"
 
 pagination:
     of: van
@@ -41,3 +41,6 @@ pagination:
 view:
     create: maak eigen view
     null_value: alle
+
+edit: Aanpassen
+delete: Verwijderen
