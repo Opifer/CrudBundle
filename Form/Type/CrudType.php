@@ -52,6 +52,12 @@ class CrudType extends AbstractType
 
             if ($propertyType = $this->annotationReader->getPropertyType($options['data'], $property['fieldName'])) {
                 $builder->add($property['fieldName'], $propertyType);
+            } elseif ($property['type'] == 'boolean') {
+                $builder->add($property['fieldName'], $transformer->transform($property['type']), [
+                    'attr' => [
+                        'align_with_widget' => true
+                    ]
+                ]);
             } elseif ($property['type'] == 'json_array') {
                 $builder->add(
                     $builder->create($property['fieldName'], 'textarea')
