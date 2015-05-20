@@ -68,7 +68,9 @@
         {% if data.value is iterable %}
             {% for value in data.value %}
                 {% if value is not iterable %}
-                    {{ value }}
+                    <td>
+                        {{ value }}
+                    </td>
                 {% endif %}
             {% endfor %}
         {% else %}
