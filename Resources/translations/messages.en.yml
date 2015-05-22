@@ -30,10 +30,10 @@ datagrid:
 modal:
     delete:
         title: confirm delete
-        message: do you really want to delete %d?
+        message: do you really want to delete %d%?
     batch:
         title: confirm
-        message: do you really want to %s %s items
+        message: do you really want to %s% %d% items
 
 pagination:
     of: of

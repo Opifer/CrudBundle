@@ -7,13 +7,7 @@ $(document).ready(function() {
         $(this).closest('form').submit();
     });
 
-    /**
-     * Set some display data on the delete confirmation modal
-     */
-    $('.js-delete-confirm').click(function () {
-        $(".modal-body .modal-name").html($(this).attr('data-name'));
-        $(".modal .modal-confirm-button").attr('href', $(this).attr('data-href'));
-    });
+
 
     /**
      * Select all rows for batch processing
@@ -31,6 +25,15 @@ $(document).ready(function() {
     });
 
     /**
+     * Set some display data on the delete confirmation modal
+     */
+    $('.js-delete-confirm').click(function () {
+        $(".modal-body").html(Translator.trans('modal.delete.message', { "d" : $(this).attr('data-name') }));
+        $(".modal .modal-confirm-button").attr('href', $(this).attr('data-href'));
+    });
+
+
+    /**
      * Confirm batch process
      *
      * This opens a modal before actually batch processing.
@@ -39,10 +42,10 @@ $(document).ready(function() {
 
         var form = $(this).closest('form');
         var action = form.find('.js-batch-action').val();
-
-        // If no action is passed, there's no 
+        // If no action is passed, there's no
         if (action) {
             var selected = form.find('.js-batch-action option:selected');
+            var dataAction = selected.attr('data-action');
             var modal = form.find('.batch-modal');
 
             // Get all selected rows
@@ -57,7 +60,8 @@ $(document).ready(function() {
 
             // Set some display data on the model
             modal.find('.batch-action').each(function() {
-                $(this).html(selected.attr('data-action'));
+                $(".modal-body").html(Translator.transChoice('modal.batch.message', checkedValues.length, { "d" : checkedValues.length, "s": dataAction }));
+                $(this).html(dataAction);
             });
             modal.find('.batch-count').html(checkedValues.length);
 
@@ -68,7 +72,7 @@ $(document).ready(function() {
             $('#batch-modal').modal({show:true});
         }
     });
-    
+
     /**
      * Submit the batch form
      *
