@@ -66,13 +66,13 @@
 {% block simple_cell -%}
     {% if data.value != null %}
         {% if data.value is iterable %}
-            {% for value in data.value %}
-                {% if value is not iterable %}
-                    <td>
+            <td>
+                {% for value in data.value %}
+                    {% if value is not iterable %}
                         {{ value }}
-                    </td>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </td>
         {% else %}
             {% if data.property in ['title', 'name', 'username'] %}
                 {{- block('link_cell') -}}
