@@ -23,6 +23,7 @@
         "jms/serializer": "~0.16",
         "jms/serializer-bundle": "~0.13",
         "pagerfanta/pagerfanta": "~1.0.3",
+        "willdurand/js-translation-bundle": "^2.3@dev",
 
         "opifer/rulesengine-bundle": "@dev",
         "opifer/rulesengine": "@dev"

@@ -1,3 +1,4 @@
+{% trans_default_domain 'messages' %}
 {% if batch_actions|length %}
     <div class="col-xs-12">
         <div class="batch-action-selector form-inline">
@@ -25,9 +26,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="batch-modal-label">{{ 'modal.batch.title'|trans|capitalize }}</h4>
                 </div>
-                <div class="modal-body">
-                    {{ 'modal.batch.message'|trans|format('<span class="batch-action"></span>', '<span class="batch-count"></span>')|raw }}
-                </div>
+                <div class="modal-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-link" data-dismiss="modal">{{ 'action.cancel'|trans|capitalize }}</button>
                     <a href="#" class="btn btn-danger js-batch-start batch-action" title="Confirms removal">{{ 'action.process'|trans|capitalize }}</a>
