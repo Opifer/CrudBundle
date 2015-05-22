@@ -65,25 +65,27 @@
 
 {% block simple_cell -%}
     {% if data.value != null %}
-        <td>
-            {% if data.value is iterable %}
+        {% if data.value is iterable %}
+            <td>
                 {% for value in data.value %}
                     {% if value is not iterable %}
                         {{ value }}
                     {% endif %}
                 {% endfor %}
-            {% else %}
-                {% if data.property in ['title', 'name', 'username'] %}
-                    <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
-                        {{ data.value }}
-                    </a>
-                {% elseif data.property in ['email'] %}
+            </td>
+        {% else %}
+            {% if data.property in ['title', 'name', 'username'] %}
+                {{- block('link_cell') -}}
+            {% elseif data.property in ['email'] %}
+                <td>
                     <a href="mailto:{{ data.value }}">{{ data.value }}</a>
-                {% else %}
+                </td>
+            {% else %}
+                <td>
                     {{ data.value }}
-                {% endif %}
+                </td>
             {% endif %}
-        </td>
+        {% endif %}
     {% else %}
         {{ block('empty_cell') }}
     {% endif %}
@@ -92,3 +94,20 @@
 {% block empty_cell -%}
     <td>-</td>
 {% endblock %}
+
+{#
+    Link cell take an array with [0] = value, [1] = route to link to, [2] params for the route
+#}
+{% block link_cell -%}
+    <td>
+        {% if data.value is iterable %}
+            <a href="{{ path(data.value[1], data.value[2]) }}">
+                {{ data.value[0] }}
+            </a>
+        {% else %}
+            <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
+                {{ data.value }}
+            </a>
+        {% endif %}
+    </td>
+{% endblock link_cell %}
