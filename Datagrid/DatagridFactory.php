@@ -24,8 +24,8 @@ class DatagridFactory
     /**
      * Create
      *
-     * @param  GridInterface $grid
-     * @param  object        $data
+     * @param GridInterface $grid
+     * @param object        $data
      *
      * @return Datagrid
      */
@@ -44,8 +44,8 @@ class DatagridFactory
     /**
      * Handle options
      *
-     * @param  GridInterface $grid
-     * @param  Datagrid      $datagrid
+     * @param GridInterface $grid
+     * @param Datagrid      $datagrid
      *
      * @return void
      */
@@ -62,7 +62,7 @@ class DatagridFactory
     /**
      * Configure options
      *
-     * @param  OptionsResolverInterface $resolver
+     * @param OptionsResolverInterface $resolver
      *
      * @return void
      */

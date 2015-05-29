@@ -147,8 +147,8 @@ class CrudController extends Controller
     /**
      * Batch delete action
      *
-     * @param  Request $request
-     * @param  string  $action
+     * @param Request $request
+     * @param string  $slug
      *
      * @return Response
      */
@@ -174,5 +174,71 @@ class CrudController extends Controller
         return $this->redirect($this->generateUrl('opifer.crud.index', [
             'slug' => $slug
         ]));
+    }
+
+    /**
+     * @param Object $entity
+     * @param string $slug
+     *
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     *
+     * @throws \PHPExcel_Exception
+     */
+    public function exportAction($entity, $slug)
+    {
+        $serializer = $this->get('serializer');
+        $datagrid = $this->get('opifer.crud.datagrid_factory')->create(new CrudGrid($slug), $entity);
+
+        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $phpExcelObject->setActiveSheetIndex(0);
+
+        // Set the column headers
+        $c = 'A';
+        foreach ($columns = $datagrid->getColumns() as $column) {
+            $phpExcelObject->getActiveSheet()->setCellValue($c.'1', $column->getLabel());
+
+            $c++;
+        }
+
+        // Add the rows
+        $r = 2;
+        while ($datagrid->getPaginator()->hasNextPage()) {
+            $datagrid->getPaginator()->getNextPage();
+
+            foreach ($datagrid->getRows() as $row) {
+                $c = 'A';
+                foreach ($row->getCells() as $cel) {
+                    $data = $cel->getValue();
+
+                    if (is_array($data)) {
+                        $data = implode(',', $data);
+                    } else if (is_object($data)) {
+                        $data = $serializer->serialize($data, 'json');
+                    }
+
+                    $phpExcelObject->getActiveSheet()->setCellValue($c.$r, $data);
+
+                    $c++;
+                }
+
+                $r++;
+            }
+        }
+
+        $phpExcelObject->getActiveSheet()->setTitle('Datagrid export');
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=datagrid-export.xls');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+
+        return $response;
     }
 }
