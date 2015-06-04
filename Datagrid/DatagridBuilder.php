@@ -105,9 +105,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * Adds a where clause
-     *
-     * @param string $where
+     * {@inheritDoc}
      */
     public function where($where)
     {
@@ -117,10 +115,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * Set parameter
-     *
-     * @param string $parameter
-     * @param mixed  $value
+     * {@inheritDoc}
      */
     public function setParameter($parameter, $value)
     {
@@ -130,9 +125,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * Build the actual datagrid
-     *
-     * @return \Opifer\CrudBundle\Datagrid\Datagrid
+     * {@inheritDoc}
      */
     public function build()
     {
