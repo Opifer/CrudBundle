@@ -75,4 +75,4 @@ services:
 
     opifer.crud.export_manager:
         class: Opifer\CrudBundle\Manager\ExportManager
-        arguments: [@serializer, @phpexcel]
+        arguments: [@opifer.crud.datagrid_builder, @phpexcel]

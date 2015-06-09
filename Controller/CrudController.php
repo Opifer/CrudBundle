@@ -186,9 +186,8 @@ class CrudController extends Controller
      */
     public function exportAction($entity, $slug)
     {
-        $datagrid = $this->get('opifer.crud.datagrid_factory')->create(new CrudGrid($slug), $entity);
         $exportManager = $this->get('opifer.crud.export_manager');
 
-        return $exportManager->exportGrid($datagrid);
+        return $exportManager->exportGrid(new CrudGrid($slug), $entity);
     }
 }
