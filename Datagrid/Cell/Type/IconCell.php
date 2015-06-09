@@ -25,6 +25,14 @@ class IconCell extends AbstractCell
     /**
      * {@inheritDoc}
      */
+    public function getExportData($row, Column $column, array $attributes)
+    {
+        return parent::getData($row, $column, $attributes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getView()
     {
         return 'icon';

@@ -40,6 +40,7 @@ pagination:
 
 view:
     create: maak eigen view
+    export: export view naar Excel
     null_value: alle
 
 edit: Aanpassen

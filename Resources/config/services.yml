@@ -72,3 +72,7 @@ services:
     opifer.crud.relation_manager:
         class: Opifer\CrudBundle\Manager\RelationManager
         arguments: [@doctrine.orm.entity_manager, @opifer.crud.entity_helper]
+
+    opifer.crud.export_manager:
+        class: Opifer\CrudBundle\Manager\ExportManager
+        arguments: [@serializer, @phpexcel]

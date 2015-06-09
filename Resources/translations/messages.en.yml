@@ -40,4 +40,5 @@ pagination:
 
 view:
     create: create custom view
+    export: export view to Excel
     null_value: all
