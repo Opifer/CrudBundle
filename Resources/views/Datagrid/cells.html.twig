@@ -8,7 +8,11 @@
         {% else %}
             <i class="{{ data.value }}"></i>
         {% endif %}#}
-        <i class="{{ data.value }}"></i>
+        {% if data.value|length %}
+            <i class="{{ data.value }}"></i>
+        {% else %}
+            -
+        {% endif %}
     </td>
 {% endblock icon_cell %}
 
@@ -100,14 +104,18 @@
 #}
 {% block link_cell -%}
     <td>
-        {% if data.value is iterable %}
-            <a href="{{ path(data.value[1], data.value[2]) }}">
-                {{ data.value[0] }}
-            </a>
+        {% if data.value|length %}
+            {% if data.value is iterable %}
+                <a href="{{ path(data.value[1], data.value[2]) }}">
+                    {{ data.value[0] }}
+                </a>
+            {% else %}
+                <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
+                    {{ data.value }}
+                </a>
+            {% endif %}
         {% else %}
-            <a href="{{ path('opifer.crud.edit', {'slug': slug, 'id': row.id}) }}">
-                {{ data.value }}
-            </a>
+            -
         {% endif %}
     </td>
 {% endblock link_cell %}
