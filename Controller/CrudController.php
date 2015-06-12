@@ -181,8 +181,6 @@ class CrudController extends Controller
      * @param string $slug
      *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
-     *
-     * @throws \PHPExcel_Exception
      */
     public function exportAction($entity, $slug)
     {

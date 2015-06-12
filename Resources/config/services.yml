@@ -75,4 +75,11 @@ services:
 
     opifer.crud.export_manager:
         class: Opifer\CrudBundle\Manager\ExportManager
-        arguments: [@opifer.crud.datagrid_builder, @phpexcel]
+        arguments: [@opifer.crud.datagrid_builder]
+        calls:
+            - [setExportStrategy, [@opifer.crud.export.excel]]
+
+    # Export
+    opifer.crud.export.excel:
+        class: Opifer\CrudBundle\Export\ExcelExport
+        arguments: [@phpexcel]

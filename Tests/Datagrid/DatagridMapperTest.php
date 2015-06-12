@@ -76,6 +76,7 @@ class DatagridMapperTest extends \PHPUnit_Framework_TestCase
         $cell = new Cell();
         $cell->setProperty('name');
         $cell->setValue('some random name');
+        $cell->setExportValue('some random name');
         $cell->setType('text');
         $cell->setView('text');
         $cell->setAttributes([]);
