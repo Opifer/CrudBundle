@@ -2,8 +2,6 @@
 
 namespace Opifer\CrudBundle\Datagrid;
 
-use Opifer\CrudBundle\Datagrid\Cell\Type\CellTypeInterface;
-
 interface DatagridBuilderInterface
 {
     /**
@@ -21,6 +19,8 @@ interface DatagridBuilderInterface
      * @param string $child
      * @param mixed  $cell     string|CellTypeInterface 
      * @param array  $options
+     *
+     * @return $this
      */
     public function addColumn($property, $cell, array $options = []);
 
@@ -28,6 +28,8 @@ interface DatagridBuilderInterface
      * Adds a where clause
      *
      * @param string $where
+     *
+     * @return $this
      */
     public function where($where);
 
@@ -36,6 +38,8 @@ interface DatagridBuilderInterface
      *
      * @param string $parameter
      * @param mixed  $value
+     *
+     * @return $this
      */
     public function setParameter($parameter, $value);
 

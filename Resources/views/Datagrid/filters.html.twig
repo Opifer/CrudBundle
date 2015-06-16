@@ -31,6 +31,9 @@
                 <a href="#" class="btn btn-default" id="btn-createview" data-toggle="collapse" data-target="#filter-panel">
                     {{ 'view.create'|trans|capitalize }}
                 </a>
+                <a href="{{ path('opifer.crud.export', {'slug': slug}) }}" class="btn btn-default" id="btn-exportview">
+                    {{ 'view.export'|trans|capitalize }}
+                </a>
             </div>
         </div>
 

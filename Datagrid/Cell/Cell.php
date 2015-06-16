@@ -21,6 +21,9 @@ class Cell
     /** @var string */
     protected $value;
 
+    /** @var string */
+    protected $exportValue;
+
     /** @var Array */
     protected $attributes;
 
@@ -28,6 +31,8 @@ class Cell
      * Set property
      *
      * @param string $property
+     *
+     * @return $this
      */
     public function setProperty($property)
     {
@@ -50,6 +55,8 @@ class Cell
      * Set type
      *
      * @param string $type
+     *
+     * @return $this
      */
     public function setType($type)
     {
@@ -72,6 +79,8 @@ class Cell
      * Set view
      *
      * @param string $view
+     *
+     * @return $this
      */
     public function setView($view)
     {
@@ -94,6 +103,8 @@ class Cell
      * Set value
      *
      * @param string $value
+     *
+     * @return $this
      */
     public function setValue($value)
     {
@@ -113,9 +124,35 @@ class Cell
     }
 
     /**
+     * Set exportValue
+     *
+     * @param string $exportValue
+     *
+     * @return string
+     */
+    public function setExportValue($exportValue)
+    {
+        $this->exportValue = $exportValue;
+
+        return $this;
+    }
+
+    /**
+     * Get exportValue
+     *
+     * @return string
+     */
+    public function getExportValue()
+    {
+        return $this->exportValue;
+    }
+
+    /**
      * Set attributes
      *
-     * @param \Closure $attributes
+     * @param array $attributes
+     *
+     * @return $this
      */
     public function setAttributes(array $attributes = [])
     {

@@ -48,6 +48,10 @@ class CrudRouter extends AbstractRouter implements RouterInterface
             '_controller' => 'OpiferCrudBundle:Crud:delete'
         ]);
 
+        $routes['opifer.crud.export'] = new Route($prefix.'/{slug}/export', [
+            '_controller' => 'OpiferCrudBundle:Crud:export'
+        ]);
+
         foreach ($routes as $key => $route) {
             $this->routeCollection->add($key, $route);
         }

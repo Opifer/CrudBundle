@@ -11,8 +11,8 @@ class CellFactory
     /**
      * Create a cell
      *
-     * @param  Column $column
-     * @param  object $row
+     * @param Column $column
+     * @param object $row
      *
      * @return Cell
      */
@@ -22,6 +22,7 @@ class CellFactory
 
         $cell = new Cell();
         $cell->setValue($cellType->getData($row, $column, $column->getCellAttributes()));
+        $cell->setExportValue($cellType->getExportData($row, $column, $column->getCellAttributes()));
         $cell->setAttributes($column->getCellAttributes());
         $cell->setType($cellType->getName());
         $cell->setView($cellType->getView());

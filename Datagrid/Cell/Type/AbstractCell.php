@@ -20,6 +20,14 @@ abstract class AbstractCell implements CellTypeInterface
     /**
      * {@inheritDoc}
      */
+    public function getExportData($row, Column $column, array $attributes)
+    {
+        return $this->getData($row, $column, $attributes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getView()
     {
         return 'text';

@@ -147,8 +147,8 @@ class CrudController extends Controller
     /**
      * Batch delete action
      *
-     * @param  Request $request
-     * @param  string  $action
+     * @param Request $request
+     * @param string  $slug
      *
      * @return Response
      */
@@ -174,5 +174,18 @@ class CrudController extends Controller
         return $this->redirect($this->generateUrl('opifer.crud.index', [
             'slug' => $slug
         ]));
+    }
+
+    /**
+     * @param Object $entity
+     * @param string $slug
+     *
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function exportAction($entity, $slug)
+    {
+        $exportManager = $this->get('opifer.crud.export_manager');
+
+        return $exportManager->exportGrid(new CrudGrid($slug), $entity);
     }
 }
