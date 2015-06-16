@@ -25,6 +25,7 @@ public function registerBundles()
         new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
         new Genemu\Bundle\FormBundle\GenemuFormBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle(),
+        new Liuggio\ExcelBundle\LiuggioExcelBundle(),
         new Opifer\CrudBundle\OpiferCrudBundle(),
         new Opifer\RulesEngineBundle\OpiferRulesEngineBundle(),
         new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
