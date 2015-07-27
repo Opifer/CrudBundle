@@ -20,8 +20,7 @@
         
         "gedmo/doctrine-extensions": "~2.3",
         "genemu/form-bundle": "~2.2",
-        "jms/serializer": "~0.16",
-        "jms/serializer-bundle": "~0.13",
+        "jms/serializer-bundle": "~1.0",
         "pagerfanta/pagerfanta": "~1.0.3",
         "willdurand/js-translation-bundle": "2.2.1",
         "liuggio/excelbundle": "^2.0",
