@@ -2,8 +2,6 @@
 
 namespace Opifer\CrudBundle\Form\Type;
 
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -95,8 +93,8 @@ class CrudType extends AbstractType
                 ]);
             } elseif ($relation['targetEntity'] == $this->valuesetClass) {
                 $builder->add($relation['fieldName'], 'opifer_valueset');
-            }else {
-                $builder->add($relation['fieldName'], new Select2Type('entity'), [
+            } else {
+                $builder->add($relation['fieldName'], 'entity', [
                     'class'       => $relation['targetEntity'],
                     'property'    => 'name',
                     'empty_value' => '(empty)',

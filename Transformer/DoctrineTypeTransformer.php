@@ -26,9 +26,11 @@ class DoctrineTypeTransformer
             case 'float':
                 return 'number';
             case 'date':
+                return 'date';
             case 'datetime':
+                return 'datetime';
             case 'time':
-                return 'genemu_jquerydate';
+                return 'time';
             case 'array':
             case 'simple_array':
             case 'json_array':

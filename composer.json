@@ -19,12 +19,10 @@
         "sensio/framework-extra-bundle": "~3.0",
         
         "gedmo/doctrine-extensions": "~2.3",
-        "genemu/form-bundle": "~2.2",
         "jms/serializer-bundle": "~1.0",
         "pagerfanta/pagerfanta": "~1.0.3",
         "willdurand/js-translation-bundle": "2.2.1",
         "liuggio/excelbundle": "^2.0",
-
         "opifer/rulesengine-bundle": "@dev",
         "opifer/rulesengine": "@dev"
     },
