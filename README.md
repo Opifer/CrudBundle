@@ -1,3 +1,5 @@
+*Note: This bundle is not maintained anymore. Have a look at https://github.com/Abhoryo/APYDataGridBundle instead.*
+
 [![Build Status](https://travis-ci.org/Opifer/CrudBundle.svg)](https://travis-ci.org/Opifer/CrudBundle)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b5bbfc11-5e4f-4547-9c08-23e9c46d9929/mini.png)](https://insight.sensiolabs.com/projects/b5bbfc11-5e4f-4547-9c08-23e9c46d9929)
 
