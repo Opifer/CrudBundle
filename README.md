@@ -25,7 +25,6 @@ public function registerBundles()
     $bundles = array(
         ...
         new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
-        new Genemu\Bundle\FormBundle\GenemuFormBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle(),
         new Liuggio\ExcelBundle\LiuggioExcelBundle(),
         new Opifer\CrudBundle\OpiferCrudBundle(),
